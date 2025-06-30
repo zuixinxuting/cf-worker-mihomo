@@ -1,6 +1,14 @@
 var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __name = (target, value) => {
+  if (target && typeof target === "object" || typeof target === "function") {
+    return __defProp(target, "name", { value, configurable: true });
+  }
+  return target;
+};
 var __export = (target, all) => {
+  if (!target || (typeof target !== "object" && typeof target !== "function")) {
+    return;
+  }
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
