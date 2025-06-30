@@ -101,7 +101,7 @@ export async function Rule_Data(rule) {
 }
 
 // 获取伪装页面
-export async function getFakePage(image, button_url, button_text, configdata) {
+export async function getFakePage(image, button_url, button_text, configdata, subapi) {
     return `
 <!DOCTYPE html>
 <html>
@@ -584,8 +584,9 @@ export async function getFakePage(image, button_url, button_text, configdata) {
 
 
         <div class="input-group">
-            <div style="display: flex; align-items: center;">
-                <label for="result">订阅地址</label>
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <span>转换后端：${subapi}</span>
+                <label for="result">订阅地址：</label>
             </div>
             <input type="text" id="result" readonly onclick="copyToClipboard()">
             <label id="qrcode" style="margin: 15px 10px -15px 10px;"></label>
