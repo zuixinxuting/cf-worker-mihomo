@@ -1,13 +1,16 @@
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 import YAML from 'yaml';
 export const backimg = 'https://t.alcy.cc/ycy';
-export const subapi = 'https://url.v1.mk';
+export const subapi = 'https://sub-stort-nodejs.pages.dev';
 export const mihomo_top = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/Config/Mihomo_lite.yaml';
+export const singbox_1_11 = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox_1.11.X.json';
+export const singbox_1_12 = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.json';
+export const singbox_1_12_alpha = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.alpha.json';
 export const beiantext = base64DecodeUtf8('6JCMSUNQ5aSHMjAyNTAwMDHlj7c=');
 export const beiandizi = atob('aHR0cHM6Ly90Lm1lL01hcmlzYV9rcmlzdGk=');
 export function base64DecodeUtf8(base64) {
     const binary = atob(base64);
-    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
     return new TextDecoder('utf-8').decode(bytes);
 }
 // 订阅链接
@@ -17,7 +20,7 @@ export function buildApiUrl(rawUrl, BASE_API, ua) {
         url: rawUrl,
         emoji: 'true',
         list: 'true',
-        new_name: 'true'
+        new_name: 'true',
     });
     return `${BASE_API}/sub?${params}`;
 }
@@ -31,14 +34,19 @@ export async function fetchResponse(url, userAgent) {
         response = await fetch(url, {
             method: 'GET',
             headers: {
-                'User-Agent': userAgent
-            }
+                'User-Agent': userAgent,
+            },
         });
     } catch {
-        return true
+        return true;
     }
     // 直接使用 Object.fromEntries 转换 headers
     const headersObj = Object.fromEntries(response.headers.entries());
+    // 替换非法 Content-Disposition 字段Add commentMore actions
+    const sanitizedCD = sanitizeContentDisposition(response.headers);
+    if (sanitizedCD) {
+        headersObj['content-disposition'] = sanitizedCD;
+    }
     // 获取响应体的文本内容
     const textData = await response.text();
 
@@ -46,7 +54,6 @@ export async function fetchResponse(url, userAgent) {
     try {
         jsonData = YAML.parse(textData, { maxAliasCount: -1, merge: true });
     } catch (e) {
-
         try {
             jsonData = JSON.parse(textData);
         } catch (yamlError) {
@@ -57,8 +64,8 @@ export async function fetchResponse(url, userAgent) {
     return {
         status: response.status,
         headers: headersObj,
-        data: jsonData
-    }
+        data: jsonData,
+    };
 }
 // 将订阅链接和代理地址分离
 export function splitUrlsAndProxies(urls) {
@@ -101,7 +108,7 @@ export async function Rule_Data(rule) {
 }
 
 // 获取伪装页面
-export async function getFakePage(image, button_url, button_text, configdata, subapi) {
+export async function getFakePage(e) {
     return `
 <!DOCTYPE html>
 <html>
@@ -110,7 +117,7 @@ export async function getFakePage(image, button_url, button_text, configdata, su
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20id='Partition-Auto--Streamline-Carbon'%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%20height='16'%20width='16'%3E%3Cdesc%3EPartition%20Auto%20Streamline%20Icon%3A%20https%3A//streamlinehq.com%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Cpath%20d='M13%209.5c-1.1028%200%20-2%200.8972%20-2%202%200%200.3418%200.0941%200.6587%200.24585%200.94045C10.30775%2013.12675%209.17285%2013.5%208%2013.5%204.9673%2013.5%202.5%2011.0327%202.5%208H1.5c0%203.584%202.9159%206.5%206.5%206.5%201.42275%200%202.79615%20-0.468%203.92165%20-1.3208C12.2334%2013.38015%2012.6023%2013.5%2013%2013.5c1.1028%200%202%20-0.8972%202%20-2s-0.8972%20-2%20-2%20-2Zm0%203c-0.5514%200%20-1%20-0.44875%20-1%20-1s0.4486%20-1%201%20-1%201%200.44875%201%201%20-0.4486%201%20-1%201Z'%20fill='%23000000'%20stroke-width='0.5'/%3E%3Cpath%20d='M8%201.5c-1.42275%200%20-2.79615%200.468%20-3.92165%201.3208C3.7666%202.61985%203.3977%202.5%203%202.5%201.8972%202.5%201%203.3972%201%204.5s0.8972%202%202%202%202%20-0.8972%202%20-2c0%20-0.3418%20-0.0941%20-0.6587%20-0.24585%20-0.94045C5.69225%202.87325%206.82715%202.5%208%202.5c3.0327%200%205.5%202.4673%205.5%205.5h1c0%20-3.584%20-2.9159%20-6.5%20-6.5%20-6.5ZM3%205.5c-0.5514%200%20-1%20-0.44875%20-1%20-1s0.4486%20-1%201%20-1%201%200.44875%201%201%20-0.4486%201%20-1%201Z'%20fill='%23000000'%20stroke-width='0.5'/%3E%3Cpath%20id='_Transparent_Rectangle_'%20d='M0%200h16v16H0Z'%20fill='none'%20stroke-width='0.5'/%3E%3C/svg%3E">
-    <title>mihomo/singbox汇聚（订阅转换）工具</title>
+    <title>mihomo/singbox汇聚(订阅转换)工具</title>
     <style>
         :root {
             --primary-color: #4361ee;
@@ -126,7 +133,7 @@ export async function getFakePage(image, button_url, button_text, configdata, su
         }
 
         body {
-            background-image: url(${image});
+            background-image: url(${e.IMG});
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -464,18 +471,7 @@ export async function getFakePage(image, button_url, button_text, configdata, su
             background-color: rgba(67, 97, 238, 0.2);
             font-weight: bold;
         }
-        
-        // .template-url {
-        //     width: 100%;
-        //     padding: 12px;
-        //     border: 2px solid rgba(0, 0, 0, 0.15);
-        //     border-radius: 10px;
-        //     font-size: 1rem;
-        //     background-color: #f8f9fa;
-        //     color: #666;
-        //     cursor: not-allowed;
-        //     margin-top: 10px;
-        // }
+
         /* Add new styles for the toggle switch */
         .config-toggle {
             display: flex;
@@ -516,8 +512,75 @@ export async function getFakePage(image, button_url, button_text, configdata, su
         .singbox-mode .mihomo-options {
             display: none;
         }
+
+        /* 感叹号 */
+        .tip-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: #4a60ea;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tip-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tip-panel {
+            display: none;
+            position: absolute;
+            top: 24px;
+            left: 0;
+            min-width: 260px;
+            max-width: 320px;
+            max-height: 50vh; /* 限制最大高度，防止超出屏幕 */
+            background: white;
+            color: #333;
+            font-size: 14px;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            white-space: normal;
+            line-height: 1.6;
+            overflow-y: auto; /* 增加滚动条支持 */
+            overflow-x: hidden;
+            word-break: break-word;
+        }
+
+        .tip-panel ul {
+            margin: 8px 0;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        .tip-panel li {
+            margin-bottom: 6px;
+        }
+
+        .tip-panel strong, .tip-panel b {
+            font-weight: bold;
+            color: #4a60ea;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .tip-wrapper.active .tip-panel {
+            display: block;
+        }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@keeex/qrcodejs-kx@1.0.2/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
 </head>
 
 <body>
@@ -535,7 +598,7 @@ export async function getFakePage(image, button_url, button_text, configdata, su
     </a>
     <div class="container">
         <div class="logo-title">
-            <h1>mihomo/singbox汇聚（订阅转换）工具</h1>
+            <h1>mihomo/singbox汇聚(订阅转换)工具</h1>
         </div>
         <div class="config-toggle">
             <div class="toggle-option active" data-mode="mihomo">Clash (mihomo)</div>
@@ -543,14 +606,20 @@ export async function getFakePage(image, button_url, button_text, configdata, su
         </div>
         <div class="mihomo-options">
             <div class="template-selector">
-                <div class="template-toggle collapsed">选择配置模板（未选择）</div>
+                <div class="template-toggle collapsed">选择配置模板(未选择)</div>
                 <div class="template-options">
                     <!-- 模板选项将通过JavaScript填充 -->
                 </div>
             </div>
 
             <div class="input-group">
-                <label for="link">订阅链接</label>
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                    <label for="link" style="margin: 0;">订阅链接</label>
+                    <div class="tip-wrapper">
+                        <span class="tip-icon" data-mode="mihomo">!</span>
+                        <div class="tip-panel"></div>
+                    </div>
+                </div>
                 <div id="link-container">
                     <div class="link-row">
                         <input type="text" class="link-input"/>
@@ -564,13 +633,19 @@ export async function getFakePage(image, button_url, button_text, configdata, su
 
         <div class="singbox-options">
             <div class="template-selector">
-                <div class="template-toggle collapsed">选择配置模板（未选择）</div>
+                <div class="template-toggle collapsed">选择配置模板(未选择)</div>
                 <div class="template-options">
                     <!-- 模板选项将通过JavaScript填充 -->
                 </div>
             </div>
             <div class="input-group">
-                <label for="link">订阅链接</label>
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                    <label for="link" style="margin: 0;">订阅链接</label>
+                    <div class="tip-wrapper">
+                        <span class="tip-icon" data-mode="singbox">!</span>
+                        <div class="tip-panel"></div>
+                    </div>
+                </div>
                 <div id="link-container-singbox">
                     <div class="link-row">
                         <input type="text" class="link-input"/>
@@ -585,14 +660,13 @@ export async function getFakePage(image, button_url, button_text, configdata, su
 
         <div class="input-group">
             <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                <span>转换后端：${subapi}</span>
                 <label for="result">订阅地址：</label>
             </div>
             <input type="text" id="result" readonly onclick="copyToClipboard()">
             <label id="qrcode" style="margin: 15px 10px -15px 10px;"></label>
         </div>
         <div class="beian-info" style="text-align: center; font-size: 13px;">
-            <a href='${button_url}'>${button_text}</a>
+            <a href='${e.beianurl}'>${e.beian}</a>
         </div>
     </div>
 
@@ -630,8 +704,8 @@ export async function getFakePage(image, button_url, button_text, configdata, su
         // 动态设置输入框的placeholder，根据当前模式
         function setPlaceholderForMode(input, mode = 'mihomo') {
             input.placeholder = mode === 'singbox' 
-                ? '请输入singbox订阅地址url，支持单节点' 
-                : '请输入clash订阅地址url，支持单节点';
+                ? '请输入singbox订阅地址url，支持各种订阅或单节点链接' 
+                : '请输入clash订阅地址url，支持各种订阅或单节点链接';
         }
 
         // 初始化所有输入框的placeholder
@@ -674,6 +748,80 @@ export async function getFakePage(image, button_url, button_text, configdata, su
         document.addEventListener('DOMContentLoaded', function () {
             const toggleOptions = document.querySelectorAll('.toggle-option');
             const container = document.querySelector('.container');
+            const tipModal = document.getElementById('tipModal');
+            const tipContent = document.getElementById('tipContent');
+
+            const tipTexts = {
+                mihomo: \`
+## mihomo 使用提示：
+
+- 支持各种订阅或单节点链接，自动合并生成配置
+- 使用 sub-store 后端转换
+- 可选模板生成 Clash (mihomo) 链接
+- 可复制或扫码导入
+- 去广告过滤
+- 防止 DNS 泄漏(安全DNS/DoH)
+- 屏蔽 WebRTC 泄漏(防止真实IP暴露)
+- 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
+
+## 配置信息
+
+**userAgent** ${e.userAgent}
+
+**转换后端** ${e.sub}
+
+**默认** ${e.Mihomo_default}
+                \`,
+                singbox: \`
+## singbox 使用提示：
+
+- 支持各种订阅或单节点链接，自动合并生成配置
+- 使用 sub-store 后端转换
+- 适用于 sing-box 客户端
+- 支持 1.11.x
+- 支持 1.12.x
+- 支持扫码或链接复制导入
+- 防止 DNS 泄漏(安全DNS/DoH)
+
+## 配置信息
+
+**userAgent** ${e.userAgent}
+
+**转换后端** ${e.sub}
+
+**1.11** ${e.singbox_1_11}
+
+**1.12** ${e.singbox_1_12}
+
+**1.12_alpha** ${e.singbox_1_12_alpha}
+                \`
+            };
+            // 弹窗提示
+            document.querySelectorAll('.tip-icon').forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    e.stopPropagation(); // 防止触发全局点击关闭
+
+                    // 关闭所有已展开
+                    document.querySelectorAll('.tip-wrapper').forEach(w => w.classList.remove('active'));
+
+                    const wrapper = icon.closest('.tip-wrapper');
+                    wrapper.classList.toggle('active');
+
+                    const panel = wrapper.querySelector('.tip-panel');
+                    const mode = icon.dataset.mode;
+
+                    // 使用 marked 渲染 Markdown 为 HTML
+                    const rawMarkdown = tipTexts[mode] || '暂无提示内容';
+                    panel.innerHTML = DOMPurify.sanitize(marked.parse(rawMarkdown));
+
+                });
+            });
+
+
+            // 点击页面其他地方关闭提示
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.tip-wrapper').forEach(w => w.classList.remove('active'));
+            });
 
             // 设置默认模式为mihomo
             const defaultMode = 'mihomo';
@@ -696,7 +844,6 @@ export async function getFakePage(image, button_url, button_text, configdata, su
                    initializePlaceholders(newMode);
                 });
             });
-
             // 初始化模板选择器
             initTemplateSelector('mihomo');
             initTemplateSelector('singbox');
@@ -706,7 +853,7 @@ export async function getFakePage(image, button_url, button_text, configdata, su
             const selectorClass = mode === 'singbox' ? '.singbox-options .template-selector' : '.mihomo-options .template-selector';
             const templateToggle = document.querySelector(\`\${selectorClass} .template-toggle\`);
             const optionsContainer = document.querySelector(\`\${selectorClass} .template-options\`);
-            const configs = ${configdata}
+            const configs = ${e.configs}
             // 生成所有模板选项
             configs[mode].forEach(group => {
                 // 添加分组标签
@@ -753,8 +900,8 @@ export async function getFakePage(image, button_url, button_text, configdata, su
                 firstOption.classList.add('selected');
                 const groupLabel = firstOption.dataset.group;
                 const optionLabel = firstOption.textContent;
-                templateToggle.textContent = \`请选择配置模板（默认-\${groupLabel}）\`;
-                // templateToggle.textContent = \`请选择配置模板（\${groupLabel}-\${firstOption.textContent}）\`;
+                templateToggle.textContent = \`请选择配置模板(默认-\${groupLabel})\`;
+                // templateToggle.textContent = \`请选择配置模板(\${groupLabel}-\${firstOption.textContent})\`;
             }
 
             // 点击切换按钮展开/折叠选项
@@ -789,16 +936,12 @@ export async function getFakePage(image, button_url, button_text, configdata, su
             }
 
             const allLinks = [];
-            if (templateLink) {
-                allLinks.push(\`template=\${encodeURIComponent(templateLink)}\`);
-            }
-
             subscriptionLinks.forEach(link => {
-                allLinks.push(\`url=\${encodeURIComponent(link)}\`);
+                allLinks.push(encodeURIComponent(link));
             });
 
             const origin = window.location.origin;
-            const urlLink = \`\${origin}/?\${allLinks.join('&')}\`;
+            const urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&mihomo=true\`;
             updateResult(urlLink);
         }
         // 生成singbox链接
@@ -817,16 +960,12 @@ export async function getFakePage(image, button_url, button_text, configdata, su
             }
 
             const allLinks = [];
-            if (templateLink) {
-                allLinks.push(\`template=\${encodeURIComponent(templateLink)}\`);
-            }
-
             subscriptionLinks.forEach(link => {
-                allLinks.push(\`url=\${encodeURIComponent(link)}\`);
+                allLinks.push(encodeURIComponent(link));
             });
 
             const origin = window.location.origin;
-            const urlLink = \`\${origin}/?\${allLinks.join('&')}&singbox=true\`;
+            const urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&singbox=true\`;
             updateResult(urlLink);
         }
         // 更新结果和二维码
@@ -856,149 +995,163 @@ export function configs() {
     const data = {
         mihomo: [
             {
-                label: "通用",
+                label: '通用',
                 options: [
                     {
-                        label: "默认（精简版）（仅国内外分流）[秋风_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default.yaml"
+                        label: '默认(精简版) (仅国内外分流) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default.yaml',
                     },
                     {
-                        label: "默认（精简版）（仅国内外分流）[Dustinwin_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_Ads_Dustinwin.yaml"
+                        label: '默认(精简版) (仅国内外分流) (无去广告) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_NoAds.yaml',
                     },
                     {
-                        label: "默认（精简版）（无去广告）",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_NoAds.yaml"
+                        label: '默认(mihomo官方版) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_official.yaml',
                     },
                     {
-                        label: "默认（全分组）[秋风_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_full.yaml"
+                        label: '默认(mihomo官方版) (无去广告) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_official_NoAds.yaml',
                     },
                     {
-                        label: "默认（全分组）[Dustinwin_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_full_Ads_Dustinwin.yaml"
+                        label: '默认(ACL4SSR_Online_Full) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_ACL4SSR_Online_Full.yaml',
                     },
                     {
-                        label: "默认（全分组）（无去广告）",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_full_NoAds.yaml"
-                    }
-                ]
+                        label: '默认(ACL4SSR_Online_Full) (无去广告Mihomo_ACL4SSR_Online_Full_NoAds.yaml) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_ACL4SSR_Online_Full_NoAds.yaml',
+                    },
+                    {
+                        label: '默认(全分组) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_full.yaml',
+                    },
+                    {
+                        label: '默认(全分组) (无去广告) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default_full_NoAds.yaml',
+                    },
+                ],
             },
             {
-                label: "Mihomo-Party-ACL4SSR",
+                label: 'Mihomo-Party-ACL4SSR',
                 options: [
                     {
-                        label: "ACL4SSR_Online_Full 全包重度用户使用（与Github同步）",
-                        value: "https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full.yaml"
+                        label: 'ACL4SSR_Online_Full 全包重度用户使用(与Github同步)',
+                        value: 'https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full.yaml',
                     },
                     {
-                        label: "ACL4SSR_Online_Full_AdblockPlus 全包重度用户使用更多去广告（与Github同步）",
-                        value: "https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full_AdblockPlus.yaml"
+                        label: 'ACL4SSR_Online_Full_AdblockPlus 全包重度用户使用更多去广告(与Github同步)',
+                        value: 'https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full_AdblockPlus.yaml',
                     },
                     {
-                        label: "ACL4SSR_Online_Full_Tiktok 全包重度用户使用抖音全量（与Github同步）",
-                        value: "https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full_Tiktok.yaml"
+                        label: 'ACL4SSR_Online_Full_Tiktok 全包重度用户使用抖音全量(与Github同步)',
+                        value: 'https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full_Tiktok.yaml',
                     },
                     {
-                        label: "ACL4SSR_Online_Full_WithIcon 全包重度用户使用（与Github同步）（无图标）",
-                        value: "https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full_WithIcon.yaml"
+                        label: 'ACL4SSR_Online_Full_WithIcon 全包重度用户使用(与Github同步)(无图标)',
+                        value: 'https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Full_WithIcon.yaml',
                     },
                     {
-                        label: "ACL4SSR_Online_Mini_MultiMode 专业版自动测速、故障转移、负载均衡（与Github同步）",
-                        value: "https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Mini_MultiMode.yaml"
+                        label: 'ACL4SSR_Online_Mini_MultiMode 专业版自动测速、故障转移、负载均衡(与Github同步)',
+                        value: 'https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/ACL4SSR_Online_Mini_MultiMode.yaml',
                     },
                     {
-                        label: "极简分流规则",
-                        value: "https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/极简分流规则.yaml"
-                    }
-                ]
+                        label: '极简分流规则',
+                        value: 'https://raw.githubusercontent.com/zhuqq2020/Mihomo-Party-ACL4SSR/main/极简分流规则.yaml',
+                    },
+                ],
             },
             {
-                label: "网络收集",
+                label: '网络收集',
                 options: [
                     {
-                        label: "布丁狗的订阅转换 (与Github同步)",
-                        value: "https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/%E5%B8%83%E4%B8%81%E7%8B%97%E7%9A%84%E8%AE%A2%E9%98%85%E8%BD%AC%E6%8D%A2.yaml"
+                        label: '布丁狗的订阅转换 (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/%E5%B8%83%E4%B8%81%E7%8B%97%E7%9A%84%E8%AE%A2%E9%98%85%E8%BD%AC%E6%8D%A2.yaml',
                     },
-                    {
-                        label: "6D 自用模板 ",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_6D_自用模板.yaml"
-                    },
-                    {
-                        label: "ACL4SSR_Online_Full 全分组版 (与Github同步)",
-                        value: "https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/ACL4SSR_Online_Full.yaml"
-                    },
-                    {
-                        label: "ACL4SSR_Online_Full_WithIcon 全分组版 (与Github同步) (无图标)",
-                        value: "https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/ACL4SSR_Online_Full_WithIcon.yaml"
-                    },
-                ]
+                ],
             },
             {
-                label: "Lanlan13-14",
+                label: 'Lanlan13-14',
                 options: [
                     {
-                        label: "configfull 全分组版 (与Github同步)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull.yaml"
+                        label: 'configfull 全分组版 (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull.yaml',
                     },
                     {
-                        label: "configfull_NoAd 全分组版 (与Github同步) (无去广告)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd.yaml"
+                        label: 'configfull_NoAd 全分组版 (与Github同步) (无去广告)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd.yaml',
                     },
                     {
-                        label: "configfull_NoAd_Stash 全分组版 (与Github同步) (无去广告) (Stash)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_Stash.yaml"
+                        label: 'configfull_NoAd_Stash 全分组版 (与Github同步) (无去广告) (Stash)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_Stash.yaml',
                     },
                     {
-                        label: "configfull_NoAd_Stash_lite 全分组版 (与Github同步) (无去广告) (精简版) (Stash)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_Stash_lite.yaml"
+                        label: 'configfull_NoAd_Stash_lite 全分组版 (与Github同步) (无去广告) (精简版) (Stash)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_Stash_lite.yaml',
                     },
                     {
-                        label: "configfull_NoAd_lite 全分组版 (与Github同步) (无去广告) (精简版)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_lite.yaml"
+                        label: 'configfull_NoAd_lite 全分组版 (与Github同步) (无去广告) (精简版)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_lite.yaml',
                     },
                     {
-                        label: "configfull_Stash 全分组版 (与Github同步) (Stash)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_Stash.yaml"
+                        label: 'configfull_Stash 全分组版 (与Github同步) (Stash)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_Stash.yaml',
                     },
                     {
-                        label: "configfull_Stash_lite 全分组版 (与Github同步) (精简版) (Stash)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_Stash_lite.yaml"
+                        label: 'configfull_Stash_lite 全分组版 (与Github同步) (精简版) (Stash)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_Stash_lite.yaml',
                     },
                     {
-                        label: "configfull_lite 全分组版 (与Github同步) (精简版)",
-                        value: "https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_lite.yaml"
+                        label: 'configfull_lite 全分组版 (与Github同步) (精简版)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_lite.yaml',
                     },
-                ]
+                ],
             },
         ],
         singbox: [
             {
-                label: "通用",
+                label: '通用',
                 options: [
                     {
-                        label: "默认（精简版）[秋风_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default.yaml"
+                        label: '默认(精简版) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default.yaml',
                     },
                     {
-                        label: "默认（mini版）[geo_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default_mini.yaml"
+                        label: '默认(mini版) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default_mini.yaml',
                     },
                     {
-                        label: "默认（mini版）[DustinWin_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default_mini_Ads_DustinWin.yaml"
+                        label: '默认(全分组) (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default_full.yaml',
                     },
                     {
-                        label: "默认（全分组）[秋风_ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default_full.yaml"
+                        label: 'DustinWin 全分组版[ads] (与Github同步) ',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_DustinWin_full.yaml',
                     },
-                    {
-                        label: "DustinWin 全分组版[ads]",
-                        value: "https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_DustinWin_full.yaml"
-                    }
-                ]
-            }
-        ]
-    }
-    return JSON.stringify(data)
+                ],
+            },
+        ],
+    };
+    return JSON.stringify(data);
+}
+
+export function sanitizeContentDisposition(headers) {
+    const contentDisposition = headers.get('Content-Disposition') || headers.get('content-disposition');
+
+    if (!contentDisposition) return null;
+
+    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+
+    if (!filenameMatch) return null;
+
+    const originalFilename = filenameMatch[1];
+
+    // 检查是否含中文(或非 ASCII)
+    const isNonAscii = /[^\x00-\x7F]/.test(originalFilename);
+    if (!isNonAscii) return contentDisposition; // 不含中文，保持原样
+
+    // 使用 fallback ASCII 名 + filename*=UTF-8''xxx 形式替换
+    const fallback = 'download.json';
+    const encoded = encodeURIComponent(originalFilename);
+
+    return `attachment; filename="${fallback}"; filename*=UTF-8''${encoded}`;
 }

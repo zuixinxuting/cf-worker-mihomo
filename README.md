@@ -15,10 +15,24 @@ Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 
   - 自定义分流规则
   - Singbox 自动节点过滤
   - 支持单节点地址
+- **支持多种格式**
+  - mihomo/clash/singbox 配置文件（不进行节点转换，防止丢参数）
+  - 支持各种订阅链接或单节点链接
+  - 使用 sub-store 后端转换
+- **singbox**
+  - 支持 1.11.x 、1.12.x 版本
+  - 自适应版本，生成对应版本的配置
+  - iOS版本 无弹窗
+  - 谷歌版本 无弹窗
+  - GitHub版本 无弹窗
+  - 启用ip路由
+- **mihomo**
+  - 启用ip路由
+  - 强制启用 `udp` 路由
 
 ## 🖥 Web 控制台
 访问在线配置生成器：
-👉 [mihomo.haxtop.ggff.net](https://mihomo.haxtop.ggff.net)
+👉 [sub.ikar.eu.org](https://sub.ikar.eu.org)
 
 > 💡 使用建议：关闭所有覆写功能（不是关闭功能，是关闭覆写）以确保配置正常生效。
 
@@ -70,37 +84,31 @@ npm run deploy
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Kwisma/cf-worker-mihomo)
 
 配置选项：
-- **构建命令**：`npm run build:workers`
+- **构建命令**：`npm run build`
 - **部署命令**：`npx wrangler deploy --keep-vars`
 
 #### 方法二：手动部署
 1. 部署 CF Worker：
    - 在 CF Worker 控制台中创建一个新的 Worker。
    - 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
-   - 将 [worker.js](./worker.js) 的内容粘贴到 Worker 编辑器中。
+   - 将 [_worker.js](./dist/_worker.js) 的内容粘贴到 Worker 编辑器中。
    - 保存部署
 2. 给 workers绑定 自定义域： 
    - 在 workers控制台的 `触发器`选项卡，下方点击 `添加自定义域`。
-   - 填入你已转入 CF 域名解析服务的次级域名，例如:`mihomo.haxtop.ggff.net`后 点击`添加自定义域`，等待证书生效即可。
-3. 使用方法：
-   ```
-   https://your-domain.com?url=订阅链接1,订阅链接2
-   ```
+   - 填入你已转入 CF 域名解析服务的次级域名，例如:`sub.ikar.eu.org`后 点击`添加自定义域`，等待证书生效即可。
 
 ### 3. Cloudflare Pages 部署
 
-~~#### 方法一：Git 仓库部署~~
-~~1. 进入 [Cloudflare Pages](https://dash.cloudflare.com/?to=/:account/pages)~~
-~~2. 点击 **创建项目** → 选择你的 Git 提供商（GitHub/GitLab）~~
-~~3. 选择仓库 → 开始设置~~
-~~4. 配置选项：~~
-   ~~- **构建命令**：`npm run build:workers`~~
-   ~~- **输出目录**：`dist`~~
-~~5. 点击 **保存并部署**~~
+#### 方法一：Git 仓库部署
+1. 进入 [Cloudflare Pages](https://dash.cloudflare.com/?to=/:account/pages)
+2. 点击 **创建项目** → **导入现有 Git 存储库** → 选择仓库 → 开始设置
+3. 点击 **保存并部署**（首次部署会失败是正常现象） → **继续处理项目** → 继续
+4. 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
+5. 重试部署
 
 #### 方法二：手动上传
 
-1. 下载项目中的  [_worker.js](./_worker.js) 文件压缩成 zip 
+1. 下载项目中的  [_worker.js](./dist/_worker.js) 文件压缩成 zip 
 2. 在 Pages 控制台选择 **直接上传**
 3. 选择压缩好的 `zip` 文件
 4. 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
@@ -117,11 +125,13 @@ npm run deploy
 | 参数名       | 说明               | 示例值                                                          |
 |--------------|--------------------|---------------------------------------------------------------|
 | `IMG`        | 背景图 URL         | `https://t.alcy.cc/ycy`                                        |
-| `SUB`        | 转换后端地址        | `https://url.v1.mk`                                            |
-| `MIHOMO`     | 配置模板           | `https://raw.githubusercontent.com/.../Mihomo_lite.yaml`       |
+| `SUB`        | 转换后端地址        | [https://sub-stort-nodejs.pages.dev](https://github.com/Kwisma/Sub-Store-node)                                           |
+| `MIHOMO`     | mihomo配置模板           | `https://raw.githubusercontent.com/.../Mihomo_lite.yaml`       |
 | `BEIAN`      | 备案信息           | `萌ICP备20250001号`                                             |
 | `BEIANURL`   | 备案跳转链接        | `https://t.me/Marisa_kristi`                                   |
-
+| `SINGBOX_1_11` | signbox配置模板 | `https://raw.githubusercontent.com/.../singbox_1.11.X.json`|
+| `SINGBOX_1_12` | signbox配置模板 | `https://raw.githubusercontent.com/.../singbox_1.12.X.json`|
+| `SINGBOX_1_12_ALPHA` | signbox配置模板 | `https://raw.githubusercontent.com/.../singbox_1.12.X.alpha.json`|
 ---
 
 ## 🤝 参与贡献

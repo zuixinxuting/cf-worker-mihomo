@@ -6,8 +6,8 @@ name: Node.js workers
 on:
   workflow_dispatch:
   push:
-    branches:
-    - src/*
+    paths:
+      - 'src/**'
 permissions:
   contents: write
 jobs:
@@ -22,12 +22,15 @@ jobs:
         run: npm install --save-dev
       - name: build
         run: |
-          npm run build:workers
-          cp ./dist/index.js worker.js
-          cp ./dist/index.js _worker.js
+          npm run build
+      - name: cp worker.js
+        run: |
+          cp ./dist/_worker.js _worker.js
+      # - name: Apply Patch
+      #   run: git apply .github/patch/replace-helpers.patch
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add worker.js _worker.js
+          git add .
           git commit -m "Automated update" || echo "No changes to commit"
           git push

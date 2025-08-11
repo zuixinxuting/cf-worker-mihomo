@@ -14,11 +14,7 @@
             "external_ui_download_url": "https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
             "external_ui_download_detour": "🎯 全球直连",
             "access_control_allow_origin": [
-                "http://127.0.0.1",
-                "http://localhost",
-                "https://yacd.metacubex.one",
-                "https://d.metacubex.one",
-                "https://board.zash.run.place"
+                "*"
             ]
         },
         "cache_file": {
@@ -71,8 +67,8 @@
             },
             {
                 "rule_set": [
-                    "geosite-cn",
-                    "geosite-private"
+                    "cn_domain",
+                    "private_domain"
                 ],
                 "server": "DIRECT-DNS"
             },
@@ -120,6 +116,23 @@
             "listen_port": 20120
         }
     ],
+    "outbounds": [
+        {
+            "tag": "🎯 全局直连",
+            "type": "direct"
+        },
+        {
+            "tag": "🚫 拒绝连接",
+            "type": "socks",
+            "server": "127.0.0.1",
+            "server_port": 1024,
+            "version": "5",
+            "username": "sekai",
+            "password": "admin",
+            "network": "udp",
+            "udp_over_tcp": false
+        }
+    ],
     "route": {
         "auto_detect_interface": true,
         "final": "🚀 节点选择",
@@ -127,24 +140,20 @@
             {
                 "action": "sniff"
             },
-            { 
-                "action": "resolve"
-            },
-            { 
-                "type": "logical", 
-                "mode": "or", 
+            {
+                "type": "logical",
+                "mode": "or",
                 "rules": [
-                  { "port": [53] },
-                  { "protocol": "dns" }
-                ], 
+                    {
+                        "port": [
+                            53
+                        ]
+                    },
+                    {
+                        "protocol": "dns"
+                    }
+                ],
                 "action": "hijack-dns"
-            },
-            { 
-                "action": "route-options", 
-                "udp_disable_domain_unmapping": true, 
-                "udp_connect": true, 
-                "udp_timeout": "5m",
-                "disable_cache": true
             },
             {
                 "ip_is_private": true,
@@ -157,24 +166,30 @@
             {
                 "clash_mode": "global",
                 "outbound": "🚀 节点选择"
+            },
+            {
+                "action": "route-options",
+                "udp_disable_domain_unmapping": true,
+                "udp_connect": true,
+                "udp_timeout": "5m",
+                "disable_cache": true
             }
         ],
         "rule_set": [
             {
-                "tag": "geosite-private",
+                "tag": "private_domain",
                 "type": "remote",
                 "url": "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
                 "format": "binary",
                 "download_detour": "🎯 全球直连"
             },
             {
-                "tag": "geosite-cn",
+                "tag": "cn_domain",
                 "type": "remote",
                 "url": "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
                 "format": "binary",
                 "download_detour": "🎯 全球直连"
             }
         ]
-    },
-    "outbounds": []
+    }
 }

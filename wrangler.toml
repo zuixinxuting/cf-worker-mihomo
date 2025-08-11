@@ -1,13 +1,5 @@
+keep_vars = true
 name = "cf-worker-mihomo"
-main = "src/index.js"
+main = "dist/_worker.js"
 compatibility_date = "2025-04-16"
 compatibility_flags = ["nodejs_compat"]
-[observability]
-enabled = true
-# 环境变量
-# [vars]
-# SUB = ""
-# IMG = ""
-# BEIANURL = ""
-# MIHOMO = ""
-# BEIAN = ""
