@@ -34,7 +34,12 @@ Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 
 访问在线配置生成器：
 👉 [sub.ikar.eu.org](https://sub.ikar.eu.org)
 
-> 💡 使用建议：关闭所有覆写功能（不是关闭功能，是关闭覆写）以确保配置正常生效。
+> 💡 使用建议：关闭所有覆写功能（不是关闭功能，是关闭覆写）以确保配置正常生效, 软件推荐使用 [clashmi](https://github.com/KaringX/clashmi/releases) （全网唯一一个接近与裸核的软件）
+
+- api 参数：&udp=true&ep=true&ea=true
+- udp: mihomo是否启用udp，默认开启
+- ep： android 分应用代理，排除 CN 软件(不包括任何浏览器), 默认关闭
+- ea：liux 排除路由 CN IPCIDR，默认关闭
 
 ---
 
@@ -102,9 +107,10 @@ npm run deploy
 #### 方法一：Git 仓库部署
 1. 进入 [Cloudflare Pages](https://dash.cloudflare.com/?to=/:account/pages)
 2. 点击 **创建项目** → **导入现有 Git 存储库** → 选择仓库 → 开始设置
-3. 点击 **保存并部署**（首次部署会失败是正常现象） → **继续处理项目** → 继续
-4. 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
-5. 重试部署
+3. 设置目录为 `dist`
+4. 点击 **保存并部署**（首次部署会失败是正常现象） → **继续处理项目** → 继续
+5. 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
+6. 重试部署
 
 #### 方法二：手动上传
 

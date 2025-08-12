@@ -4,16 +4,20 @@ export async function getmihomo_config(e) {
         throw new Error('不支持的客户端');
     }
     e.urls = utils.splitUrlsAndProxies(e.urls);
-    const [Mihomo_Top_Data, Mihomo_Rule_Data, Mihomo_Proxies_Data] = await Promise.all([
+    const [Mihomo_Top_Data, Mihomo_Rule_Data, Mihomo_Proxies_Data, Exclude_Package, Exclude_Address] = await Promise.all([
         utils.Top_Data(e.Mihomo_default),
         utils.Rule_Data(e.rule),
         getMihomo_Proxies_Data(e),
+        e.exclude_package ? utils.fetchpackExtract() : null,
+        e.exclude_address ? utils.fetchipExtract() : null,
     ]);
     if (!Mihomo_Proxies_Data?.data?.proxies || Mihomo_Proxies_Data?.data?.proxies?.length === 0) throw new Error('节点为空');
+    if (Exclude_Package) Mihomo_Rule_Data.data['exclude-package'] = Exclude_Package;
+    if (Exclude_Address) Mihomo_Rule_Data.data['route-exclude-address'] = Exclude_Address;
     Mihomo_Rule_Data.data.proxies = [...(Mihomo_Rule_Data?.data?.proxies || []), ...Mihomo_Proxies_Data?.data?.proxies];
     Mihomo_Rule_Data.data['proxy-groups'] = getMihomo_Proxies_Grouping(Mihomo_Proxies_Data.data, Mihomo_Rule_Data.data);
-    Mihomo_Top_Data.data['proxy-providers'] = Mihomo_Proxies_Data?.data?.providers;
-    applyTemplate(Mihomo_Top_Data.data, Mihomo_Rule_Data.data);
+    Mihomo_Rule_Data.data['proxy-providers'] = Mihomo_Proxies_Data?.data?.providers;
+    applyTemplate(Mihomo_Top_Data.data, Mihomo_Rule_Data.data, e);
     return {
         status: Mihomo_Proxies_Data.status,
         headers: Mihomo_Proxies_Data.headers,
@@ -105,7 +109,17 @@ export async function getMihomo_Proxies_Data(e) {
  * @param {Object} target - 目标配置对象（基础配置）
  * @param {Object} template - 模板配置对象
  */
-export function applyTemplate(top, rule) {
+export function applyTemplate(top, rule, e) {
+    if (top.tun) {
+        if (e.exclude_address && rule['route-exclude-address']) {
+            top.tun['route-address'] = ['0.0.0.0/1', '128.0.0.0/1', '::/1', '8000::/1'];
+            top.tun['route-exclude-address'] = rule['route-exclude-address'] || [];
+        }
+        if (e.exclude_package && rule['exclude-package']) {
+            top.tun['exclude-package'] = rule['exclude-package'] || [];
+        }
+    }
+    top['proxy-providers'] = rule['proxy-providers'] || {};
     top.proxies = rule.proxies || [];
     top['proxy-groups'] = rule['proxy-groups'] || [];
     top.rules = rule.rules || [];

@@ -1,5 +1,6 @@
 import { getmihomo_config } from './mihomo.js';
 import { getsingbox_config } from './singbox.js';
+import { getFakePage } from './html.js';
 import * as utils from './utils.js';
 export default {
     async fetch(request, env) {
@@ -12,6 +13,8 @@ export default {
             singbox: url.searchParams.get('singbox') === 'true',
             mihomo: url.searchParams.get('mihomo') === 'true',
             udp: url.searchParams.get('udp') !== 'false',
+            exclude_package: url.searchParams.get('ep') === 'true',
+            exclude_address: url.searchParams.get('ea') === 'true',
             IMG: env.IMG || utils.backimg,
             sub: env.SUB || utils.subapi,
             Mihomo_default: env.MIHOMO || utils.mihomo_top,
@@ -28,7 +31,7 @@ export default {
         }
 
         if (e.urls.length === 0 || e.urls[0] === '') {
-            return new Response(await utils.getFakePage(e), {
+            return new Response(await getFakePage(e), {
                 status: 200,
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',

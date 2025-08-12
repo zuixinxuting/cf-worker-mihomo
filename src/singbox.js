@@ -2,20 +2,17 @@ import * as utils from './utils.js';
 export async function getsingbox_config(e) {
     const top = Verbose(e);
     e.urls = utils.splitUrlsAndProxies(e.urls);
-    const [Singbox_Top_Data, Singbox_Rule_Data, Singbox_Outbounds_Data] = await Promise.all([
+    const [Singbox_Top_Data, Singbox_Rule_Data, Singbox_Outbounds_Data, Exclude_Package, Exclude_Address] = await Promise.all([
         utils.Top_Data(top),
         utils.Rule_Data(e.rule),
         getSingbox_Outbounds_Data(e),
+        e.exclude_package ? utils.fetchpackExtract() : null,
+        e.exclude_address ? utils.fetchipExtract() : null,
     ]);
 
-    if (
-        !Singbox_Outbounds_Data?.data?.outbounds ||
-        Singbox_Outbounds_Data?.data?.outbounds?.length === 0 ||
-        (typeof Singbox_Outbounds_Data?.data?.outbounds === 'object' &&
-            !Array.isArray(Singbox_Outbounds_Data?.data?.outbounds) &&
-            Object.keys(Singbox_Outbounds_Data?.data?.outbounds).length === 0)
-    )
+    if (!Singbox_Outbounds_Data?.data?.outbounds || Singbox_Outbounds_Data?.data?.outbounds?.length === 0)
         throw new Error(`节点为空，请使用有效订阅`);
+
     Singbox_Outbounds_Data.data.outbounds = outboundArrs(Singbox_Outbounds_Data.data);
     const ApiUrlname = [];
     Singbox_Outbounds_Data.data.outbounds.forEach((res) => {
@@ -25,9 +22,9 @@ export async function getsingbox_config(e) {
     Singbox_Rule_Data.data.outbounds = loadAndSetOutbounds(Singbox_Rule_Data.data.outbounds, ApiUrlname);
     // 合并 outbounds
     Singbox_Rule_Data.data.outbounds.push(...Singbox_Outbounds_Data.data.outbounds);
-    // 应用模板
-    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data);
-
+    if (e.exclude_package) addExcludePackage(Singbox_Top_Data.data, Exclude_Package);
+    if (e.exclude_address) addExcludeAddress(Singbox_Top_Data.data, Exclude_Address);
+    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data, e);
     return {
         status: Singbox_Outbounds_Data.status,
         headers: Singbox_Outbounds_Data.headers,
@@ -226,4 +223,27 @@ export function applyTemplate(top, rule) {
     top.route.final = rule?.route?.final || top.route.final;
     top.route.rules = [...(Array.isArray(top.route.rules) ? top.route.rules : []), ...(Array.isArray(rule?.route?.rules) ? rule.route.rules : [])];
     top.route.rule_set = Array.from(mergedMap.values());
+}
+
+export function addExcludePackage(singboxTopData, newPackages) {
+    for (const inbound of singboxTopData.inbounds) {
+        if (inbound.type === 'tun') {
+            if (!Array.isArray(inbound['exclude-package'])) {
+                inbound['exclude-package'] = [];
+            }
+            inbound['exclude-package'] = Array.from(new Set([...(inbound['exclude-package'] || []), ...newPackages]));
+        }
+    }
+}
+
+export function addExcludeAddress(singboxTopData, newddress) {
+    for (const inbound of singboxTopData.inbounds) {
+        if (inbound.type === 'tun') {
+            inbound['route_address'] = ['0.0.0.0/1', '128.0.0.0/1', '::/1', '8000::/1'];
+            if (!Array.isArray(inbound['route_exclude_address'])) {
+                inbound['route_exclude_address'] = [];
+            }
+            inbound['route_exclude_address'] = Array.from(new Set([...(inbound['route_exclude_address'] || []), ...newddress]));
+        }
+    }
 }
