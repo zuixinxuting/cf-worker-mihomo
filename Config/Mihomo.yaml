@@ -169,9 +169,16 @@ experimental:
 
 # 本地 DNS 解析配置
 hosts:
-  ntp.ntsc.ac.cn: 
-    - 114.118.7.161
-    - 114.118.7.163
+  dns.alidns.com:
+    - 223.5.5.5
+    - 223.6.6.6
+    - 2400:3200::1
+    - 2400:3200:baba::1
+  dns.google:
+    - 8.8.4.4
+    - 8.8.8.8
+    - 2001:4860:4860::8844
+    - 2001:4860:4860::8888
 
 # 缓存
 profile:
@@ -224,7 +231,7 @@ tun:
   strict-route: true # 启用 auto-route 时执行严格的路由规则
   gso: true # 通用分段卸载 (GSO)，提高网络性能
   gso-max-size: 65536 # 设置 GSO 最大分段大小为 65536 字节
-  udp-timeout: 300 # 设置 UDP 超时时间为 300 秒，优化 NAT 映射
+  udp-timeout: 30 # 设置 UDP 超时时间为 300 秒，优化 NAT 映射
 #  iproute2-table-index: 2022 # 使用指定的路由表索引 (iproute2)
 #  iproute2-rule-index: 9000 # 设置路由规则的索引 (iproute2)
   endpoint-independent-nat: false # 启用独立于端点的 NAT，性能可能会略有下降，所以不建议在不需要的时候开启
@@ -272,7 +279,6 @@ dns:
       - "quic://dns.ipv4dns.com#ecs=114.114.114.114/24&ecs-override=true" # 清新云 DNS over DOQ
       - "quic://2025.dns1.top#ecs=114.114.114.114/24&ecs-override=true" # 关圣 DNS over DOQ
       - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
-      - system
   nameserver:
     - "quic://dns.adguard-dns.com#ecs=1.1.1.1/24&ecs-override=true" # AdGuard DNS over DOQ
     - "https://cloudflare-dns.com/dns-query#h3=true&ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
@@ -281,7 +287,6 @@ dns:
     - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器
     - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
-    - system
   direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 proxy-groups:
