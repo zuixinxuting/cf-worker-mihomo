@@ -80,6 +80,9 @@ export async function getSingbox_Outbounds_Data(e) {
     if (e.urls.length === 1) {
         res = await utils.fetchResponse(e.urls[0], e.userAgent);
         if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
+            res.data.outbounds.forEach((p) => {
+                if (e.udp) p.udp_fragment = true;
+            });
             return {
                 status: res.status,
                 headers: res.headers,
@@ -88,11 +91,16 @@ export async function getSingbox_Outbounds_Data(e) {
         } else {
             const apiurl = utils.buildApiUrl(e.urls[0], e.sub, 'singbox');
             res = await utils.fetchResponse(apiurl, e.userAgent);
-            return {
-                status: res.status,
-                headers: res.headers,
-                data: res.data,
-            };
+            if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
+                res.data.outbounds.forEach((p) => {
+                    if (e.udp) p.udp_fragment = true;
+                });
+                return {
+                    status: res.status,
+                    headers: res.headers,
+                    data: res.data,
+                };
+            }
         }
     } else {
         const outbounds_list = [];
@@ -103,6 +111,7 @@ export async function getSingbox_Outbounds_Data(e) {
             if (res?.data && Array.isArray(res?.data?.outbounds)) {
                 res.data.outbounds.forEach((p) => {
                     p.tag = `${p.tag} [${i + 1}]`;
+                    if (e.udp) p.udp_fragment = true;
                 });
                 hesList.push({
                     status: res.status,
@@ -115,6 +124,7 @@ export async function getSingbox_Outbounds_Data(e) {
                 if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds)) {
                     res.data.outbounds.forEach((p) => {
                         p.tag = `${p.tag} [${i + 1}]`;
+                        if (e.udp) p.udp_fragment = true;
                     });
                     hesList.push({
                         status: res.status,

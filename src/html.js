@@ -467,6 +467,26 @@ export async function getFakePage(e) {
             display: block;
         }
 
+        .protocol-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .protocol-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .protocol-checkbox input {
+            width: auto;
+            margin: 0;
+        }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@keeex/qrcodejs-kx@1.0.2/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -516,6 +536,18 @@ export async function getFakePage(e) {
                         <div class="add-btn" onclick="addLinkInput(this)">➕</div>
                     </div>
                 </div>
+                <label>附加参数选项</label>
+                <div class="protocol-options">
+                    <label class="protocol-checkbox">
+                        <input type="checkbox" name="protocol" value="udp" checked> UDP
+                    </label>
+                    <label class="protocol-checkbox">
+                        <input type="checkbox" name="protocol" value="ep" checked> 分应用代理
+                    </label>
+                    <label class="protocol-checkbox">
+                        <input type="checkbox" name="protocol" value="ea"> 分IPCIDR代理
+                    </label>
+                </div>
             </div>
 
             <button onclick="generateLink()">生成mihomo配置</button>
@@ -541,6 +573,18 @@ export async function getFakePage(e) {
                         <input type="text" class="link-input"/>
                         <div class="add-btn" onclick="addLinkInput(this, 'singbox')">➕</div>
                     </div>
+                </div>
+                <label>附加参数选项</label>
+                <div class="protocol-options">
+                    <label class="protocol-checkbox">
+                        <input type="checkbox" name="protocol" value="udp" checked> UDP
+                    </label>
+                    <label class="protocol-checkbox">
+                        <input type="checkbox" name="protocol" value="ep" checked> 分应用代理
+                    </label>
+                    <label class="protocol-checkbox">
+                        <input type="checkbox" name="protocol" value="ea"> 分IPCIDR代理
+                    </label>
                 </div>
             </div>
 
@@ -652,6 +696,7 @@ export async function getFakePage(e) {
 - 去广告过滤
 - 防止 DNS 泄漏(安全DNS/DoH)
 - 屏蔽 WebRTC 泄漏(防止真实IP暴露)
+- 内置 分应代理 和 IPCIDR
 - 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
 
 ## 配置信息
@@ -672,6 +717,7 @@ export async function getFakePage(e) {
 - 支持 1.12.x
 - 支持扫码或链接复制导入
 - 防止 DNS 泄漏(安全DNS/DoH)
+- 内置 分应代理 和 IPCIDR
 
 ## 配置信息
 
@@ -791,7 +837,6 @@ export async function getFakePage(e) {
                 const groupLabel = firstOption.dataset.group;
                 const optionLabel = firstOption.textContent;
                 templateToggle.textContent = \`请选择配置模板(默认-\${groupLabel})\`;
-                // templateToggle.textContent = \`请选择配置模板(\${groupLabel}-\${firstOption.textContent})\`;
             }
 
             // 点击切换按钮展开/折叠选项
@@ -813,6 +858,11 @@ export async function getFakePage(e) {
         function generateLink() {
             const inputs = document.querySelectorAll('.mihomo-options .link-input');
             const selectedOption = document.querySelector('.template-option.selected');
+            const protocolParams = {};
+            document.querySelectorAll('.protocol-options input[type="checkbox"]').forEach(checkbox => {
+                protocolParams[checkbox.value] = checkbox.checked;
+            });
+
 
             const subscriptionLinks = Array.from(inputs)
                 .map(input => input.value.trim())
@@ -831,13 +881,22 @@ export async function getFakePage(e) {
             });
 
             const origin = window.location.origin;
-            const urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&mihomo=true\`;
+            let urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&mihomo=true\`;
+            for (const [protocol, enabled] of Object.entries(protocolParams)) {
+                if (enabled) {
+                    urlLink += \`&\${protocol}=true\`;
+                }
+            }
             updateResult(urlLink);
         }
         // 生成singbox链接
         function generateSingboxLink() {
             const inputs = document.querySelectorAll('.singbox-options .link-input');
             const selectedOption = document.querySelector('.singbox-options .template-option.selected');
+            const protocolParams = {};
+            document.querySelectorAll('.protocol-options input[type="checkbox"]').forEach(checkbox => {
+                protocolParams[checkbox.value] = checkbox.checked;
+            });
             const subscriptionLinks = Array.from(inputs)
                 .map(input => input.value.trim())
                 .filter(val => val !== '');
@@ -855,7 +914,12 @@ export async function getFakePage(e) {
             });
 
             const origin = window.location.origin;
-            const urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&singbox=true\`;
+            let urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&singbox=true\`;
+            for (const [protocol, enabled] of Object.entries(protocolParams)) {
+                if (enabled) {
+                    urlLink += \`&\${protocol}=true\`;
+                }
+            }
             updateResult(urlLink);
         }
         // 更新结果和二维码

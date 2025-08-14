@@ -12,7 +12,7 @@ export default {
             rule: url.searchParams.get('template'),
             singbox: url.searchParams.get('singbox') === 'true',
             mihomo: url.searchParams.get('mihomo') === 'true',
-            udp: url.searchParams.get('udp') !== 'false',
+            udp: url.searchParams.get('udp') === 'true',
             exclude_package: url.searchParams.get('ep') === 'true',
             exclude_address: url.searchParams.get('ea') === 'true',
             IMG: env.IMG || utils.backimg,

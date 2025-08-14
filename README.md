@@ -25,10 +25,6 @@ Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 
   - iOS版本 无弹窗
   - 谷歌版本 无弹窗
   - GitHub版本 无弹窗
-  - 启用ip路由
-- **mihomo**
-  - 启用ip路由
-  - 强制启用 `udp` 路由
 
 ## 🖥 Web 控制台
 访问在线配置生成器：
@@ -37,7 +33,7 @@ Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 
 > 💡 使用建议：关闭所有覆写功能（不是关闭功能，是关闭覆写）以确保配置正常生效, 软件推荐使用 [clashmi](https://github.com/KaringX/clashmi/releases) （全网唯一一个接近与裸核的软件）
 
 - api 参数：&udp=true&ep=true&ea=true
-- udp: mihomo是否启用udp，默认开启
+- udp: mihomo/singbox 是否启用udp，默认关闭
 - ep： android 分应用代理，排除 CN 软件(不包括任何浏览器), 默认关闭
 - ea：liux 排除路由 CN IPCIDR，默认关闭
 
@@ -130,14 +126,14 @@ npm run deploy
 ## ⚙️ 配置参数
 | 参数名       | 说明               | 示例值                                                          |
 |--------------|--------------------|---------------------------------------------------------------|
-| `IMG`        | 背景图 URL         | `https://t.alcy.cc/ycy`                                        |
-| `SUB`        | 转换后端地址        | [https://sub-stort-nodejs.pages.dev](https://github.com/Kwisma/Sub-Store-node)                                           |
-| `MIHOMO`     | mihomo配置模板           | `https://raw.githubusercontent.com/.../Mihomo_lite.yaml`       |
-| `BEIAN`      | 备案信息           | `萌ICP备20250001号`                                             |
-| `BEIANURL`   | 备案跳转链接        | `https://t.me/Marisa_kristi`                                   |
-| `SINGBOX_1_11` | signbox配置模板 | `https://raw.githubusercontent.com/.../singbox_1.11.X.json`|
-| `SINGBOX_1_12` | signbox配置模板 | `https://raw.githubusercontent.com/.../singbox_1.12.X.json`|
-| `SINGBOX_1_12_ALPHA` | signbox配置模板 | `https://raw.githubusercontent.com/.../singbox_1.12.X.alpha.json`|
+| `IMG`        | 背景图 URL         | `https://t.alcy.cc/ycy`                                       |
+| `SUB`        | 转换后端地址        | [Sub-Store-node](https://github.com/Kwisma/Sub-Store-node)    |                                    |
+| `MIHOMO`     | mihomo配置模板(非规则模板)           | [Mihomo](./Config/Mihomo_lite.yaml)          |
+| `BEIAN`      | 备案信息           | `萌ICP备20250001号`                                            |
+| `BEIANURL`   | 备案跳转链接        | `https://t.me/Marisa_kristi`                                  |
+| `SINGBOX_1_11` | signbox配置模板 | [singbox1.11](./Config/singbox_1.11.X.json)                     |
+| `SINGBOX_1_12` | signbox配置模板 | [singbox1.12](./Config/singbox-1.12.X.json)                     |
+| `SINGBOX_1_12_ALPHA` | signbox配置模板 | [singbox1.12-alpha](./Config/singbox-1.12.X.alpha.json)   |
 ---
 
 ## 🤝 参与贡献
