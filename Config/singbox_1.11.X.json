@@ -32,8 +32,7 @@
         "servers": [
             {
                 "tag": "local",
-                "address": "local",
-                "detour": "🎯 全球直连"
+                "address": "local"
             },
             {
                 "tag": "DIRECT-DNS",
@@ -101,6 +100,7 @@
             "strict_route": true,
             "endpoint_independent_nat": false,
             "stack": "gvisor",
+            "udp_timeout": "5m",
             "platform": {
                 "http_proxy": {
                     "enabled": true,

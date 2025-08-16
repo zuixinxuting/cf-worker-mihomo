@@ -151,18 +151,10 @@ tun:
   strict-route: true # 启用 auto-route 时执行严格的路由规则
   gso: true # 通用分段卸载 (GSO)，提高网络性能
   gso-max-size: 65536 # 设置 GSO 最大分段大小为 65536 字节
-  udp-timeout: 30 # 设置 UDP 超时时间为 300 秒，优化 NAT 映射
+  udp-timeout: 300 # 设置 UDP 超时时间为 300 秒，优化 NAT 映射
   # iproute2-table-index: 2022 # 使用指定的路由表索引 (iproute2)
   # iproute2-rule-index: 9000 # 设置路由规则的索引 (iproute2)
   endpoint-independent-nat: false # 启用独立于端点的 NAT，性能可能会略有下降，所以不建议在不需要的时候开启
-  route-address: # 启用 auto-route时路由自定义路由网段而不是默认路由。
-    - 0.0.0.0/1
-    - 128.0.0.0/1
-    - ::/1
-    - 8000::/1
-  route-exclude-address: # 启用 auto-route 时排除自定义网段
-    - 192.168.0.0/16
-    - fc00::/7
 
 # DNS 配置：控制 DNS 查询行为，支持增强模式和假 IP 功能
 # 查询 DNS 是否支持 H3 指令:
@@ -178,8 +170,7 @@ dns:
   listen: 0.0.0.0:1053 # 本地 DNS 监听端口，默认是 1053 端口
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
   default-nameserver:
-    - quic://223.5.5.5 # 阿里 DNS 解析 DNS 域名
-    - quic://223.6.6.6 # 阿里 DNS 解析 DNS 域名
+    - system
   enhanced-mode: fake-ip # 启用增强模式 redir-host or fake-ip
   fake-ip-range: 198.18.0.1/16 # fake-ip 池设置
   fake-ip-filter-mode: blacklist
@@ -197,7 +188,7 @@ dns:
     - dns.ipv4dns.com
   nameserver-policy:
     "+.jp":
-      - "https://public.dns.iij.jp/dns-query#h3=true&ecs=1.1.1.1/24&ecs-override=true" # IIJ （日本） DNS over H3
+      - "https://public.dns.iij.jp/dns-query#ecs=1.1.1.1/24&ecs-override=true" # IIJ （日本） DNS over H3
     "+.hk":
       - "quic://dns.nextdns.io#ecs=1.1.1.1/24&ecs-override=true" # NextDNS（香港） DNS over DOQ
     "+.eu":
@@ -206,15 +197,15 @@ dns:
       # - "quic://dns.18bit.cn#ecs=114.114.114.114/24&ecs-override=true" # 18bit DNS over DOQ
       # - "quic://dns.ipv4dns.com#ecs=114.114.114.114/24&ecs-override=true" # 清新云 DNS over DOQ
       # - "quic://2025.dns1.top#ecs=114.114.114.114/24&ecs-override=true" # 关圣 DNS over DOQ
-      - "https://dns.alidns.com/dns-query#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
+      - "quic://dns.alidns.com/dns-query#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
   nameserver:
     # - "quic://dns.adguard-dns.com#ecs=1.1.1.1/24&ecs-override=true" # AdGuard DNS over DOQ
-    # - "https://cloudflare-dns.com/dns-query#h3=true&ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
+    # - "https://cloudflare-dns.com/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
     - "https://dns.google/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Google DNS over H3
   proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名
-    - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
+    - system
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器
-    - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
+    - system
   direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 rule-providers:
