@@ -16,13 +16,13 @@ export default async function handler(req, res) {
         exclude_address: url.searchParams.get('ea') === 'true',
         IMG: process.env.IMG || utils.backimg,
         sub: process.env.SUB || utils.subapi,
-        Mihomo_default: process.env.MIHOMO || utils.mihomo_top,
+        Mihomo_default: process.env.MIHOMOTOP || utils.mihomo_top,
         singbox_1_11: process.env.SINGBOX_1_11 || utils.singbox_1_11,
         singbox_1_12: process.env.SINGBOX_1_12 || utils.singbox_1_12,
         singbox_1_12_alpha: process.env.SINGBOX_1_12_ALPHA || utils.singbox_1_12_alpha,
         beian: process.env.BEIAN || utils.beiantext,
         beianurl: process.env.BEIANURL || utils.beiandizi,
-        configs: utils.configs(),
+        configs: utils.configs(process.env.MIHOMO, process.env.SINGBOX),
     };
     if (e.urls.length === 1 && e.urls[0].includes(',')) {
         e.urls = e.urls[0].split(',').map((u) => u.trim());

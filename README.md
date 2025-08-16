@@ -2,138 +2,127 @@
 
 ![Mihomo Logo](./icon/icon.png)
 
-Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 Clash/singbox 配置文件，并提供强大的分流与防护功能。
+# 🚀 Mihomo (Clash Meta) 订阅汇聚工具
 
-## 🌟 核心特性
-- **智能分流**：全面的规则分流机制
-- **隐私保护**：
-  - DNS 广告过滤（Adblock）
-  - 防止 DNS/WebRTC 泄漏
+Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 Clash/singbox 配置文件，提供强大的分流与隐私防护功能，助您畅享安全无忧的网络体验。
+
+## ✨ 核心特性
+
+### 🔍 智能分流
+- 全面的规则分流机制
+- 支持自定义规则集
+- 智能路由优化
+
+### 🔒 隐私保护
+- **DNS广告过滤**：内置Adblock功能
+- **防泄漏保护**：
+  - 防止DNS/WebRTC泄漏
   - 安全DNS/DoH支持
-- **多订阅汇聚**：
-  - 多订阅整合，统一入口
-  - 自定义分流规则
-  - Singbox 自动节点过滤
-  - 支持单节点地址
-- **支持多种格式**
-  - mihomo/clash/singbox 配置文件（不进行节点转换，防止丢参数）
-  - 支持各种订阅链接或单节点链接
-  - 使用 sub-store 后端转换
-- **singbox**
-  - 支持 1.11.x 、1.12.x 版本
-  - 自适应版本，生成对应版本的配置
-  - iOS版本 无弹窗
-  - 谷歌版本 无弹窗
-  - GitHub版本 无弹窗
+- **数据加密**：确保传输安全
 
-## 🖥 Web 控制台
-访问在线配置生成器：
-👉 [sub.ikar.eu.org](https://sub.ikar.eu.org)
+### 🌐 订阅管理
+- 多订阅汇聚整合
+- 支持单节点地址
+- Singbox自动节点过滤
+- 自定义分流规则
 
-> 💡 使用建议：关闭所有覆写功能（不是关闭功能，是关闭覆写）以确保配置正常生效, 软件推荐使用 [clashmi](https://github.com/KaringX/clashmi/releases) （全网唯一一个接近与裸核的软件）
+### 📦 多格式支持
+- 原生支持mihomo/clash/singbox配置文件
+- 保留所有节点参数（无转换丢失）
+- 兼容各种订阅链接格式
+- 集成sub-store后端转换
 
-- api 参数：&udp=true&ep=true&ea=true
-- udp: mihomo/singbox 是否启用udp，默认关闭
-- ep： android 分应用代理，排除 CN 软件(不包括任何浏览器), 默认关闭
-- ea：liux 排除路由 CN IPCIDR，默认关闭
+### ⚡ Singbox专属优化
+- 完美支持1.11.x/1.12.x版本
+- 自动适配版本生成配置
+- 全平台无弹窗体验：
+  - iOS版本
+  - 谷歌版本
+  - GitHub版本
 
+## 🖥 在线控制台
+
+[![访问在线配置生成器](https://img.shields.io/badge/访问在线配置生成器-sub.ikar.eu.org-blue?style=for-the-badge)](https://sub.ikar.eu.org)
+
+### 💡 使用建议
+1. 关闭所有覆写功能（非关闭功能本身）
+2. 推荐使用 [clashmi](https://github.com/KaringX/clashmi/releases)（轻量高效的客户端）
 ---
 
-## 🚀 部署指南
+## 🛠 部署指南
 
-### 1. Vercel 部署
+### 1️⃣ Vercel 部署
 
 #### 准备工作
-- 注册 [Vercel 账号](https://vercel.com/signup)
-- 安装 [Node.js](https://nodejs.org/) (v16+)
-- 安装 [Git](https://git-scm.com/)
+- [Vercel账号](https://vercel.com/signup)
+- [Node.js](https://nodejs.org/) v16+
+- [Git](https://git-scm.com/)
 
 #### 方法一：一键部署
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/Kwisma/cf-worker-mihomo)
 
 1. 点击上方按钮
-2. 登录 Vercel 账号
-3. 选择项目名称和存储位置（建议保持默认）
+2. 登录Vercel账号
+3. 配置项目信息
 4. 点击 **Deploy** 开始部署
-5. 等待约 1-3 分钟完成部署
+5. 等待1-3分钟完成
 
-#### 方法二：命令行部署
+#### 方法二：CLI部署
 ```bash
-# 克隆项目
 git clone https://github.com/Kwisma/cf-worker-mihomo.git
 cd cf-worker-mihomo
-```
-```bash
-# 安装依赖
 npm install
-```
-```bash
-# 构建项目
 npm run build
-```
-```bash
-# 部署到 Vercel
 npm run deploy
 ```
-> 首次部署需按提示登录 Vercel 账号
+> 首次部署需按提示登录Vercel账号
 
 ---
 
-### 2. Cloudflare Workers 部署
+### 2️⃣ Cloudflare Workers 部署
 
 #### 方法一：一键部署
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Kwisma/cf-worker-mihomo)
 
-配置选项：
-- **构建命令**：`npm run build`
-- **部署命令**：`npx wrangler deploy --keep-vars`
+**配置参数**：
+- 构建命令：`npm run build`
+- 部署命令：`npx wrangler deploy --keep-vars`
 
 #### 方法二：手动部署
-1. 部署 CF Worker：
-   - 在 CF Worker 控制台中创建一个新的 Worker。
-   - 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
-   - 将 [_worker.js](./dist/_worker.js) 的内容粘贴到 Worker 编辑器中。
-   - 保存部署
-2. 给 workers绑定 自定义域： 
-   - 在 workers控制台的 `触发器`选项卡，下方点击 `添加自定义域`。
-   - 填入你已转入 CF 域名解析服务的次级域名，例如:`sub.ikar.eu.org`后 点击`添加自定义域`，等待证书生效即可。
-
-### 3. Cloudflare Pages 部署
-
-#### 方法一：Git 仓库部署
-1. 进入 [Cloudflare Pages](https://dash.cloudflare.com/?to=/:account/pages)
-2. 点击 **创建项目** → **导入现有 Git 存储库** → 选择仓库 → 开始设置
-3. 设置目录为 `dist`
-4. 点击 **保存并部署**（首次部署会失败是正常现象） → **继续处理项目** → 继续
-5. 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
-6. 重试部署
-
-#### 方法二：手动上传
-
-1. 下载项目中的  [_worker.js](./dist/_worker.js) 文件压缩成 zip 
-2. 在 Pages 控制台选择 **直接上传**
-3. 选择压缩好的 `zip` 文件
-4. 设置 > 运行时 > 兼容性标志 设置为 `nodejs_compat`
-5. 再次部署
-
-#### 自定义域名
-1. 进入 Pages 项目 → **自定义域**
-2. 输入你的域名（需已在 Cloudflare 托管）
-3. 系统会自动配置 DNS 和 SSL
+1. 创建新Worker
+2. 复制[_worker.js](./dist/_worker.js)内容
+3. 保存部署
+4. 绑定自定义域名（如`sub.ikar.eu.org`）
 
 ---
+
+### 3️⃣ Cloudflare Pages 部署
+
+#### Git仓库部署
+1. 进入[Cloudflare Pages](https://dash.cloudflare.com/?to=/:account/pages)
+2. 导入Git仓库
+3. 设置构建目录为`dist`
+4. 保存并部署
+
+#### 手动上传
+1. 下载[_worker.js](./dist/_worker.js)并压缩为ZIP
+2. 在Pages控制台选择直接上传
+3. 选择ZIP文件部署
+4. 绑定自定义域名（如`sub.ikar.eu.org`）
 
 ## ⚙️ 配置参数
 | 参数名       | 说明               | 示例值                                                          |
 |--------------|--------------------|---------------------------------------------------------------|
 | `IMG`        | 背景图 URL         | `https://t.alcy.cc/ycy`                                       |
-| `SUB`        | 转换后端地址        | [Sub-Store-node](https://github.com/Kwisma/Sub-Store-node)    |                                    |
-| `MIHOMO`     | mihomo配置模板(非规则模板)           | [Mihomo](./Config/Mihomo_lite.yaml)          |
+| `SUB`        | 转换后端地址        | [Sub-Store-node](https://github.com/Kwisma/Sub-Store-node)    |
 | `BEIAN`      | 备案信息           | `萌ICP备20250001号`                                            |
-| `BEIANURL`   | 备案跳转链接        | `https://t.me/Marisa_kristi`                                  |
-| `SINGBOX_1_11` | signbox配置模板 | [singbox1.11](./Config/singbox_1.11.X.json)                     |
-| `SINGBOX_1_12` | signbox配置模板 | [singbox1.12](./Config/singbox-1.12.X.json)                     |
-| `SINGBOX_1_12_ALPHA` | signbox配置模板 | [singbox1.12-alpha](./Config/singbox-1.12.X.alpha.json)   |
+| `BEIANURL`   | 备案跳转链接       | `https://t.me/Marisa_kristi`                                  |
+| `MIHOMO`     | mihomo规则模板     | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default.yaml` |
+| `SINGBOX`     | singbox规则模板   | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default.yaml` |
+| `MIHOMOYOP`    | mihomo配置模板  | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/Config/Mihomo_lite.yaml` |
+| `SINGBOX_1_11` | signbox配置模板 | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox_1.11.X.json` |
+| `SINGBOX_1_12` | signbox配置模板 | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.json` |
+| `SINGBOX_1_12_ALPHA` | signbox配置模板 | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.alpha.json` |
 ---
 
 ## 🤝 参与贡献

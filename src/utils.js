@@ -107,7 +107,7 @@ export async function Rule_Data(rule) {
     return await fetchResponse(rule);
 }
 
-export function configs() {
+export function configs(mihomo = '', singbox = '') {
     const data = {
         mihomo: [
             {
@@ -247,6 +247,18 @@ export function configs() {
             },
         ],
     };
+    if (mihomo) {
+        data.mihomo[0].options.unshift({
+            label: '自定义规则',
+            value: mihomo,
+        });
+    }
+    if (singbox) {
+        data.singbox[0].options.unshift({
+            label: '自定义规则',
+            value: singbox,
+        });
+    }
     return JSON.stringify(data);
 }
 

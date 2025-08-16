@@ -539,13 +539,13 @@ export async function getFakePage(e) {
                 <label>附加参数选项</label>
                 <div class="protocol-options">
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="udp" checked> UDP
+                        <input type="checkbox" name="protocol" value="udp" checked>启用 UDP
                     </label>
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="ep" checked> 分应用代理
+                        <input type="checkbox" name="protocol" value="ep"> 启用分应用代理
                     </label>
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="ea"> 分IPCIDR代理
+                        <input type="checkbox" name="protocol" value="ea"> 启用分IPCIDR代理
                     </label>
                 </div>
             </div>
@@ -577,13 +577,13 @@ export async function getFakePage(e) {
                 <label>附加参数选项</label>
                 <div class="protocol-options">
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="udp" checked> UDP
+                        <input type="checkbox" name="protocol" value="udp" checked>启用 UDP
                     </label>
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="ep" checked> 分应用代理
+                        <input type="checkbox" name="protocol" value="ep"> 启用分应用代理
                     </label>
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="ea"> 分IPCIDR代理
+                        <input type="checkbox" name="protocol" value="ea"> 启用分IPCIDR代理
                     </label>
                 </div>
             </div>
@@ -704,8 +704,6 @@ export async function getFakePage(e) {
 **userAgent** ${e.userAgent}
 
 **转换后端** ${e.sub}
-
-**默认** ${e.Mihomo_default}
                 \`,
                 singbox: \`
 ## singbox 使用提示：
@@ -724,12 +722,6 @@ export async function getFakePage(e) {
 **userAgent** ${e.userAgent}
 
 **转换后端** ${e.sub}
-
-**1.11** ${e.singbox_1_11}
-
-**1.12** ${e.singbox_1_12}
-
-**1.12_alpha** ${e.singbox_1_12_alpha}
                 \`
             };
             // 弹窗提示

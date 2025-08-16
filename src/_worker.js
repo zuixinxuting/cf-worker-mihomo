@@ -17,13 +17,13 @@ export default {
             exclude_address: url.searchParams.get('ea') === 'true',
             IMG: env.IMG || utils.backimg,
             sub: env.SUB || utils.subapi,
-            Mihomo_default: env.MIHOMO || utils.mihomo_top,
+            Mihomo_default: env.MIHOMOTOP || utils.mihomo_top,
             singbox_1_11: env.SINGBOX_1_11 || utils.singbox_1_11,
             singbox_1_12: env.SINGBOX_1_12 || utils.singbox_1_12,
             singbox_1_12_alpha: env.SINGBOX_1_12_ALPHA || utils.singbox_1_12_alpha,
             beian: env.BEIAN || utils.beiantext,
             beianurl: env.BEIANURL || utils.beiandizi,
-            configs: utils.configs()
+            configs: utils.configs(env.MIHOMO, env.SINGBOX)
         }
 
         if (e.urls.length === 1 && e.urls[0].includes(',')) {
