@@ -388,9 +388,6 @@ rules:
 
 sub-rules:
   SUB-RULES:
-    # 本地直连
-    - RULE-SET,private_domain,🎯全球直连
-    - RULE-SET,private_ip,🎯全球直连,no-resolve
     # 域名
     - RULE-SET,appstore_domain,AppStore # App Store 应用商店
     - RULE-SET,applemail_domain,Apple邮箱 # Apple Mail 邮件服务
@@ -542,7 +539,7 @@ sub-rules:
     - RULE-SET,youtube_ip,YouTube,no-resolve
     - RULE-SET,globalmedia_ip,国际媒体,no-resolve
     - RULE-SET,cloudflare_ip,Cloudflare,no-resolve
-    - RULE-SET,cn_ip,🎯全球直连
+    - OR,((RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   # ------------------------------------------------------------
@@ -1229,16 +1226,6 @@ rule-providers:
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/mihoyo.mrs"
     path: ./ruleset/Mihoyo_Domain.mrs
 
-  private_domain:
-    <<: *domain_mrs
-    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
-    path: ./ruleset/Private_Domain.mrs
-
-  private_ip:
-    <<: *ipcidr_mrs
-    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
-    path: ./ruleset/Private_IP.mrs
-
   kugou_domain:
     <<: *domain_mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/kugou.mrs"
@@ -1320,6 +1307,16 @@ rule-providers:
     <<: *ipcidr_mrs
     url: "https://cdn.jsdmirror.com/gh/Kwisma/clash-rules@release/cncidr.mrs"
     path: ./ruleset/CN_IP.mrs
+
+  private_domain:
+    <<: *domain_mrs
+    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
+    path: ./ruleset/Private_Domain.mrs
+
+  private_ip:
+    <<: *ipcidr_mrs
+    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    path: ./ruleset/Private_IP.mrs
 
   4gtv_domain:
     <<: *domain_mrs

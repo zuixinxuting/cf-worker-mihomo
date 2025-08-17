@@ -577,7 +577,7 @@ export async function getFakePage(e) {
                 <label>附加参数选项</label>
                 <div class="protocol-options">
                     <label class="protocol-checkbox">
-                        <input type="checkbox" name="protocol" value="udp" checked>启用 UDP
+                        <input type="checkbox" name="protocol" value="udp">启用 UDP 分片
                     </label>
                     <label class="protocol-checkbox">
                         <input type="checkbox" name="protocol" value="ep"> 启用分应用代理

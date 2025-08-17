@@ -276,11 +276,7 @@ rules:
 
 sub-rules:
   SUB-RULES:
-    - RULE-SET,private_domain,🎯全球直连
-
     - RULE-SET,googlefcm_domain,📢 谷歌FCM
-    - RULE-SET,google_cn_domain,🎯 全球直连
-    - RULE-SET,steam_cn_domain,🎯 全球直连
     - RULE-SET,bing_domain,Ⓜ️ 微软Bing
     - RULE-SET,onedrive_domain,Ⓜ️ 微软云盘
     - RULE-SET,microsoft_domain,Ⓜ️ 微软服务
@@ -303,10 +299,13 @@ sub-rules:
     - RULE-SET,media_cn_domain,🌏 国内媒体
     - RULE-SET,media_domain,🌍 国外媒体
     - RULE-SET,gfw_domain,🚀 节点选择
-
-    - RULE-SET,cn_ip,🎯全球直连
+    - OR,((RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve),(RULE-SET,google_cn_domain),(RULE-SET,steam_cn_domain)),🎯全球直连
 
 rule-providers:
+  cn_domain:
+    <<: *domain_mrs
+    url: "https://cdn.jsdmirror.com/gh/Kwisma/clash-rules@release/direct.mrs"
+    path: ./ruleset/CN_Domain.mrs
   cn_ip:
     <<: *ipcidr_mrs
     url: "https://cdn.jsdmirror.com/gh/Kwisma/clash-rules@release/cncidr.mrs"
@@ -315,6 +314,10 @@ rule-providers:
     <<: *domain_mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
     path: ./ruleset/Private_Domain.mrs
+  private_ip:
+    <<: *ipcidr_mrs
+    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    path: ./ruleset/Private_IP.mrs
 
   googlefcm_domain:
     <<: *domain_mrs

@@ -159,8 +159,8 @@ keep-alive-interval: 15 # Keep-Alive 间隔时间 (单位: 秒)
 
 # 实验性功能配置
 experimental:
-  quic-go-disable-gso: true # 禁用 QUIC 协议中的 GSO (Generic Segmentation Offload) 功能
-  quic-go-disable-ecn: true #禁用ECN
+  quic-go-disable-gso: false # 禁用 QUIC 协议中的 GSO (Generic Segmentation Offload) 功能
+  quic-go-disable-ecn: false #禁用ECN
   dialer-ip4p-convert: false # 启用IP4P地址转换
 
 # 本地 DNS 解析配置
@@ -192,8 +192,8 @@ ntp:
 # sniffer 配置：用于检测和处理不同协议的流量
 sniffer:
   enable: true # 是否启用 sniffer 侦测功能，默认关闭
-  force-dns-mapping: true # 对 redir-host 类型识别的流量进行强制嗅探
-  parse-pure-ip: true # 对所有未获取到域名的流量进行强制嗅探
+  force-dns-mapping: false # 对 redir-host 类型识别的流量进行强制嗅探
+  parse-pure-ip: false # 对所有未获取到域名的流量进行强制嗅探
   override-destination: false # 是否使用嗅探结果作为实际访问，默认为 true
   sniff:
     HTTP:
@@ -245,8 +245,9 @@ dns:
   respect-rules: false # dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用, 与遵守 nameserver-policy 冲突 
   listen: 0.0.0.0:1053 # 本地 DNS 监听端口，默认是 1053 端口
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
-  default-nameserver:
-    - system
+  default-nameserver: # 不推荐使用 system 
+    - 223.5.5.5
+    - 8.8.8.8
   enhanced-mode: fake-ip # 启用增强模式 redir-host or fake-ip
   fake-ip-range: 198.18.0.1/16 # fake-ip 池设置
   fake-ip-filter-mode: blacklist
@@ -273,15 +274,14 @@ dns:
       - "quic://dns.18bit.cn#ecs=114.114.114.114/24&ecs-override=true" # 18bit DNS over DOQ
       - "quic://dns.ipv4dns.com#ecs=114.114.114.114/24&ecs-override=true" # 清新云 DNS over DOQ
       - "quic://2025.dns1.top#ecs=114.114.114.114/24&ecs-override=true" # 关圣 DNS over DOQ
-      - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
-  nameserver:
+      # - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
+  nameserver: # Google dns在 api 面板中无法 DNS 查询，已删除
     - "quic://dns.adguard-dns.com#ecs=1.1.1.1/24&ecs-override=true" # AdGuard DNS over DOQ
-    - "https://cloudflare-dns.com/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
-    - "https://dns.google/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Google DNS over H3
-  proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名
-    - system
-  direct-nameserver: #  用于直连出口域名解析的 DNS 服务器
-    - system
+    # - "https://cloudflare-dns.com/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
+  proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名，不能使用 system，不能设置 ecs
+    - "quic://dns.alidns.com" # 阿里 DNS over DOQ
+  direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
+    - "quic://dns.alidns.com" # 阿里 DNS over DOQ
   direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 proxy-groups:
@@ -507,18 +507,8 @@ rules:
 sub-rules:
   SUB-RULES:
     - RULE-SET,advertising-ads_domain,🪧广告拦截
-    - RULE-SET,blockhttpdns_domain,🔎HttpDNS
-    - RULE-SET,blockhttpdns_ip,🔎HttpDNS,no-resolve
-    - DOMAIN-KEYWORD,httpdns,🔎HttpDNS
-    - RULE-SET,stun_domain,💧泄漏拦截
-    - DST-PORT,3478,💧泄漏拦截 # 标准 STUN/TURN 默认端口（UDP/TCP），多数服务使用
-    - AND,(NETWORK,TCP),(DST-PORT,5349),💧泄漏拦截 # TURN over TLS 的默认端口（TCP），用于加密传输
-    - AND,(NETWORK,UDP),(DST-PORT,5350),💧泄漏拦截 # NAT-PMP 通知端口（UDP），用于通知公网 IP 变化
-    - AND,(NETWORK,UDP),(DST-PORT,5351),💧泄漏拦截 # NAT-PMP 请求端口（UDP），用于发起端口映射请求
-    - AND,(NETWORK,UDP),(DST-PORT,19302),💧泄漏拦截 # Google 公共 STUN 服务端口（UDP），常用于 WebRTC 默认配置
-    - DOMAIN-KEYWORD,stun,💧泄漏拦截
-    - RULE-SET,private_domain,🎯全球直连
-    - RULE-SET,private_ip,🎯全球直连,no-resolve
+    - OR,((RULE-SET,blockhttpdns_domain),(RULE-SET,blockhttpdns_ip,no-resolve)),🔎HttpDNS
+    - OR,((AND,((NETWORK,TCP),(DST-PORT,5349))),(AND,((NETWORK,UDP),(DST-PORT,5350))),(AND,((NETWORK,UDP),(DST-PORT,5351))),(AND,((NETWORK,UDP),(DST-PORT,19302))),(RULE-SET,stun_domain),(DST-PORT,3478)),💧泄漏拦截
     - RULE-SET,appstore_domain,AppStore # App Store 应用商店
     - RULE-SET,applemail_domain,Apple邮箱 # Apple Mail 邮件服务
     - RULE-SET,applemusic_domain,Apple音乐 # Apple Music 音乐流媒体
@@ -635,8 +625,6 @@ sub-rules:
     - RULE-SET,bytedance_domain,字节跳动 # 字节跳动，包含抖音、今日头条等
     - RULE-SET,tencent_domain,腾讯 # 腾讯相关服务，包括 QQ、腾讯云等
     - RULE-SET,alibaba_domain,阿里巴巴 # 阿里巴巴，涵盖云计算、电商等
-    - RULE-SET,cn_domain,⚪绕过连接
-    - RULE-SET,fakeip_filter_domain,⚪绕过连接
     # 国内服务
     - RULE-SET,netease_ip,网易,no-resolve
     - RULE-SET,iqiyi_ip,爱奇艺,no-resolve
@@ -646,7 +634,6 @@ sub-rules:
     - RULE-SET,alibaba_ip,阿里巴巴,no-resolve
     - RULE-SET,bilibili_ip,哔哩哔哩,no-resolve
     - RULE-SET,chinamedia_ip,中国媒体,no-resolve
-    - RULE-SET,cn_ip,🎯全球直连
     # 国际服务
     - RULE-SET,apple_ip,Apple,no-resolve
     - RULE-SET,spotify_ip,Spotify,no-resolve
@@ -672,6 +659,7 @@ sub-rules:
     - RULE-SET,youtube_ip,YouTube,no-resolve
     - RULE-SET,globalmedia_ip,国际媒体,no-resolve
     - RULE-SET,cloudflare_ip,Cloudflare,no-resolve
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   # ------------------------------------------------------------

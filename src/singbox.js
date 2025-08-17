@@ -238,10 +238,10 @@ export function applyTemplate(top, rule) {
 export function addExcludePackage(singboxTopData, newPackages) {
     for (const inbound of singboxTopData.inbounds) {
         if (inbound.type === 'tun') {
-            if (!Array.isArray(inbound['exclude-package'])) {
-                inbound['exclude-package'] = [];
+            if (!Array.isArray(inbound['exclude_package'])) {
+                inbound['exclude_package'] = [];
             }
-            inbound['exclude-package'] = Array.from(new Set([...(inbound['exclude-package'] || []), ...newPackages]));
+            inbound['exclude_package'] = Array.from(new Set([...(inbound['exclude_package'] || []), ...newPackages]));
         }
     }
 }

@@ -264,18 +264,9 @@ rules:
 sub-rules:
   SUB-RULES:
     - RULE-SET,ads_domain,🪧广告拦截
-    - RULE-SET,blockhttpdns_domain,🔎HttpDNS
-    - RULE-SET,blockhttpdns_ip,🔎HttpDNS,no-resolve #仅匹配ip，不解析域名
-    - DOMAIN-KEYWORD,httpdns,🔎HttpDNS
-    - RULE-SET,stun_domain,💧泄漏拦截
-    - DST-PORT,3478,💧泄漏拦截
-    - AND,(NETWORK,TCP),(DST-PORT,5349),💧泄漏拦截
-    - AND,(NETWORK,UDP),(DST-PORT,5350),💧泄漏拦截
-    - AND,(NETWORK,UDP),(DST-PORT,5351),💧泄漏拦截
-    - AND,(NETWORK,UDP),(DST-PORT,19302),💧泄漏拦截
-    - DOMAIN-KEYWORD,stun,💧泄漏拦截
-    - RULE-SET,private_domain,🎯全球直连
-    - RULE-SET,cn_ip,🎯全球直连
+    - OR,((RULE-SET,blockhttpdns_domain),(RULE-SET,blockhttpdns_ip,no-resolve)),🔎HttpDNS
+    - OR,((AND,((NETWORK,TCP),(DST-PORT,5349))),(AND,((NETWORK,UDP),(DST-PORT,5350))),(AND,((NETWORK,UDP),(DST-PORT,5351))),(AND,((NETWORK,UDP),(DST-PORT,19302))),(RULE-SET,stun_domain),(DST-PORT,3478)),💧泄漏拦截
+    - OR,((RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   ads_domain:
@@ -294,6 +285,10 @@ rule-providers:
     <<: *domain_mrs
     url: "https://cdn.jsdmirror.com/gh/Kwisma/rules@main/rules/mihomo/STUN/STUN_Domain.mrs"
     path: ./ruleset/STUN_Domain.mrs
+  cn_domain:
+    <<: *domain_mrs
+    url: "https://cdn.jsdmirror.com/gh/Kwisma/clash-rules@release/direct.mrs"
+    path: ./ruleset/CN_Domain.mrs
   cn_ip:
     <<: *ipcidr_mrs
     url: "https://cdn.jsdmirror.com/gh/Kwisma/clash-rules@release/cncidr.mrs"
@@ -302,3 +297,7 @@ rule-providers:
     <<: *domain_mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
     path: ./ruleset/Private_Domain.mrs
+  private_ip:
+    <<: *ipcidr_mrs
+    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    path: ./ruleset/Private_IP.mrs

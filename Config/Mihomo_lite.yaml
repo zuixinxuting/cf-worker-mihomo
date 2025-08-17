@@ -83,8 +83,8 @@ keep-alive-interval: 15 # Keep-Alive 间隔时间 (单位: 秒)
 
 # 实验性功能配置
 experimental:
-  quic-go-disable-gso: true # 禁用 QUIC 协议中的 GSO (Generic Segmentation Offload) 功能
-  quic-go-disable-ecn: true #禁用ECN
+  quic-go-disable-gso: false # 禁用 QUIC 协议中的 GSO (Generic Segmentation Offload) 功能
+  quic-go-disable-ecn: false #禁用ECN
   dialer-ip4p-convert: false # 启用IP4P地址转换
 
 # 本地 DNS 解析配置
@@ -116,8 +116,8 @@ ntp:
 # sniffer 配置：用于检测和处理不同协议的流量
 sniffer:
   enable: true # 是否启用 sniffer 侦测功能，默认关闭
-  force-dns-mapping: true # 对 redir-host 类型识别的流量进行强制嗅探
-  parse-pure-ip: true # 对所有未获取到域名的流量进行强制嗅探
+  force-dns-mapping: false # 对 redir-host 类型识别的流量进行强制嗅探
+  parse-pure-ip: false # 对所有未获取到域名的流量进行强制嗅探
   override-destination: false # 是否使用嗅探结果作为实际访问，默认为 true
   sniff:
     HTTP:
@@ -169,8 +169,9 @@ dns:
   respect-rules: false # dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用, 与遵守 nameserver-policy 冲突 
   listen: 0.0.0.0:1053 # 本地 DNS 监听端口，默认是 1053 端口
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
-  default-nameserver:
-    - system
+  default-nameserver: # 不推荐使用 system 
+    - 223.5.5.5
+    - 8.8.8.8
   enhanced-mode: fake-ip # 启用增强模式 redir-host or fake-ip
   fake-ip-range: 198.18.0.1/16 # fake-ip 池设置
   fake-ip-filter-mode: blacklist
@@ -198,14 +199,13 @@ dns:
       # - "quic://dns.ipv4dns.com#ecs=114.114.114.114/24&ecs-override=true" # 清新云 DNS over DOQ
       # - "quic://2025.dns1.top#ecs=114.114.114.114/24&ecs-override=true" # 关圣 DNS over DOQ
       - "quic://dns.alidns.com/dns-query#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
-  nameserver:
+  nameserver: # Google dns在 api 面板中无法 DNS 查询，已删除
     # - "quic://dns.adguard-dns.com#ecs=1.1.1.1/24&ecs-override=true" # AdGuard DNS over DOQ
-    # - "https://cloudflare-dns.com/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
-    - "https://dns.google/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Google DNS over H3
-  proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名
-    - system
-  direct-nameserver: #  用于直连出口域名解析的 DNS 服务器
-    - system
+    - "https://cloudflare-dns.com/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
+  proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名，不能使用 system，不能设置 ecs
+    - "quic://dns.alidns.com" # 阿里 DNS over DOQ
+  direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
+    - "quic://dns.alidns.com" # 阿里 DNS over DOQ
   direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 rule-providers:

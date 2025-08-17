@@ -72,7 +72,7 @@
                 "tag": "PROXY-DNS",
                 "detour": "🚀 节点选择",
                 "server_port": 443,
-                "server": "dns.google",
+                "server": "cloudflare-dns.com",
                 "domain_resolver": "local"
             },
             {

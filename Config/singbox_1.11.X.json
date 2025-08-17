@@ -43,7 +43,7 @@
             {
                 "tag": "PROXY-DNS",
                 "address_resolver": "local",
-                "address": "https://dns.google/dns-query",
+                "address": "https://cloudflare-dns.com/dns-query",
                 "detour": "🚀 节点选择"
             },
             {
