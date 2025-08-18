@@ -324,7 +324,7 @@ export async function fetchpackExtract() {
  * @returns {Promise<Object>} - 返回配置数据对象
  */
 export async function fetchipExtract() {
-    const urls = ['https://raw.githubusercontent.com/Kwisma/ASN-List/refs/heads/main/country/CN/CN_IP.json'];
+    const urls = ['https://raw.githubusercontent.com/Kwisma/clash-rules/release/cncidr.yaml'];
     const ipcidrs = [];
 
     for (const url of urls) {
@@ -337,13 +337,11 @@ export async function fetchipExtract() {
             console.error(`❌ 请求失败: ${url} - ${res.status} ${res.statusText}`);
             continue;
         }
-        const data = await res.json();
-        if (Array.isArray(data.rules)) {
-            for (const rule of data.rules) {
-                if (Array.isArray(rule.ip_cidr)) {
-                    ipcidrs.push(...rule.ip_cidr);
-                }
-            }
+        const data = await res.text();
+        const jsondata = YAML.parse(data, { maxAliasCount: -1, merge: true });
+        
+        if (Array.isArray(jsondata.payload)) {
+            ipcidrs.push(...jsondata.payload);
         }
     }
     return ipcidrs;
