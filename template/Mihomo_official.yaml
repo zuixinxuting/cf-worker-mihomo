@@ -11,9 +11,9 @@ proxy-groups:
   - { name: 🚫拒绝连接, type: select, hidden: true, proxies: [REJECT] }
   - { name: 🚫静默拒绝, type: select, hidden: true, proxies: [REJECT-DROP] }
   - { name: ⚪绕过连接, type: select, hidden: true, proxies: [PASS] }
-  - { name: 🪧广告拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
-  - { name: 🔎HttpDNS, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
-  - { name: 💧泄漏拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 🪧广告拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
+  - { name: 🔎HttpDNS, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
+  - { name: 💧泄漏拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
   - { name: 🎯全球直连, type: select, proxies: [🎯全局直连, 🚀全球代理, 🟢手动选择, ♻️自动选择] }
   - { name: ♻️自动选择, <<: *u, tolerance: 1, type: url-test }
   - { name: ⚡️均衡负载, <<: *u, strategy: round-robin, type: load-balance }
@@ -296,7 +296,7 @@ sub-rules:
     - RULE-SET,netflix_ip,NETFLIX,no-resolve
     - RULE-SET,telegram_ip,Telegram,no-resolve
     - RULE-SET,twitter_ip,Twitter,no-resolve
-    - OR,((RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   ads_domain:

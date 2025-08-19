@@ -18,11 +18,11 @@ proxy-groups:
 
   - { name: ⚪绕过连接, type: select, hidden: true, proxies: [PASS] }
 
-  - { name: 🪧广告拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 🪧广告拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
 
-  - { name: 🔎HttpDNS, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 🔎HttpDNS, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
 
-  - { name: 💧泄漏拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 💧泄漏拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
 
   - { name: 🎯全球直连, type: select, proxies: [🎯全局直连, 🚀全球代理, 🟢手动选择, ♻️自动选择] }
 
@@ -549,7 +549,7 @@ sub-rules:
     - RULE-SET,youtube_ip,YouTube,no-resolve
     - RULE-SET,globalmedia_ip,国际媒体,no-resolve
     - RULE-SET,cloudflare_ip,Cloudflare,no-resolve
-    - OR,((RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   # ------------------------------------------------------------

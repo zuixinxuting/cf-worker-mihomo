@@ -247,7 +247,7 @@ dns:
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
   default-nameserver: # 不推荐使用 system 
     - 223.5.5.5
-    - 8.8.8.8
+    - 223.6.6.6
   enhanced-mode: fake-ip # 启用增强模式 redir-host or fake-ip
   fake-ip-range: 198.18.0.1/16 # fake-ip 池设置
   fake-ip-filter-mode: blacklist
@@ -297,11 +297,11 @@ proxy-groups:
 
   - { name: ⚪绕过连接, type: select, hidden: true, proxies: [PASS] }
 
-  - { name: 🪧广告拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 🪧广告拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
 
-  - { name: 🔎HttpDNS, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 🔎HttpDNS, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
 
-  - { name: 💧泄漏拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 💧泄漏拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
 
   - { name: 🎯全球直连, type: select, proxies: [🎯全局直连, 🚀全球代理] }
 

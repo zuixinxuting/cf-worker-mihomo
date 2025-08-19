@@ -106,7 +106,7 @@ route:
     - { rule_set: [ google_ip ], outbound: Google }
     - { rule_set: [ cloudflare_ip ], outbound: Cloudflare }
     - { action: resolve }
-    - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
+    - { type: logical, mode: or, rules: [ { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # senshinya 规则集
     - { tag: stun_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/STUN/STUN.srs, format: binary, download_detour: 🎯 全球直连 }

@@ -37,7 +37,7 @@ route:
     - { rule_set: [ youtube_domain ], outbound: youtube }
     - { rule_set: [ telegram_ip ], outbound: telegram }
     - { action: resolve }
-    - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
+    - { type: logical, mode: or, rules: [ { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # DustinWin 规则集
     - { tag: apple_cn_domain, type: remote, url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/apple-cn.srs, format: binary, download_detour: 🎯 全球直连 }

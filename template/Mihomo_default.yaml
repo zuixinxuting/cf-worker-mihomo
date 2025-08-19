@@ -9,9 +9,9 @@ proxy-groups:
   - { name: 🚫拒绝连接, type: select, hidden: true, proxies: [REJECT] }
   - { name: 🚫静默拒绝, type: select, hidden: true, proxies: [REJECT-DROP] }
   - { name: ⚪绕过连接, type: select, hidden: true, proxies: [PASS] }
-  - { name: 🪧广告拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
-  - { name: 🔎HttpDNS, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
-  - { name: 💧泄漏拦截, type: select, proxies: [🚫静默拒绝, 🚫拒绝连接, ⚪绕过连接] }
+  - { name: 🪧广告拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
+  - { name: 🔎HttpDNS, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
+  - { name: 💧泄漏拦截, type: select, proxies: [🚫拒绝连接, 🚫静默拒绝, ⚪绕过连接] }
   - { name: 🎯全球直连, type: select, proxies: [🎯全局直连, 🚀全球代理, 🟢手动选择, ♻️自动选择] }
   - { name: ♻️自动选择, <<: *u, tolerance: 1, type: url-test }
   - { name: ⚡️均衡负载, <<: *u, strategy: round-robin, type: load-balance }
@@ -266,7 +266,7 @@ sub-rules:
     - RULE-SET,ads_domain,🪧广告拦截
     - OR,((RULE-SET,blockhttpdns_domain),(RULE-SET,blockhttpdns_ip,no-resolve)),🔎HttpDNS
     - OR,((AND,((NETWORK,TCP),(DST-PORT,5349))),(AND,((NETWORK,UDP),(DST-PORT,5350))),(AND,((NETWORK,UDP),(DST-PORT,5351))),(AND,((NETWORK,UDP),(DST-PORT,19302))),(RULE-SET,stun_domain),(DST-PORT,3478)),💧泄漏拦截
-    - OR,((RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   ads_domain:

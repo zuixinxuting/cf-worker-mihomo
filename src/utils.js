@@ -339,7 +339,7 @@ export async function fetchipExtract() {
         }
         const data = await res.text();
         const jsondata = YAML.parse(data, { maxAliasCount: -1, merge: true });
-        
+
         if (Array.isArray(jsondata.payload)) {
             ipcidrs.push(...jsondata.payload);
         }

@@ -29,7 +29,7 @@ route:
     - { rule_set: [ apple_domain, apple_ip ], outbound: 🍎 Apple }
     - { rule_set: [ google_domain, google_ip ], outbound: 🔍 Google }
     - { action: resolve }
-    - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
+    - { type: logical, mode: or, rules: [ { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # MetaCubeX 规则集
     - { tag: ads_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.srs, download_detour: 🎯 全球直连 }
