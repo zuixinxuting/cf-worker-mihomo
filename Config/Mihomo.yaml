@@ -222,7 +222,7 @@ tun:
   dns-hijack:
     - any:53 # 劫持所有 53 端口的 DNS 请求
     - tcp://any:53
-  device: utun0 # 指定 TUN 设备名称，默认为 utun
+  device: mihomo # 指定 TUN 设备名称，默认为 utun
   mtu: 1500 # 设置最大传输单元 (MTU)，提高网络吞吐量
   strict-route: true # 启用 auto-route 时执行严格的路由规则
   gso: true # 通用分段卸载 (GSO)，提高网络性能
@@ -265,19 +265,19 @@ dns:
     - dns.ipv4dns.com
   nameserver-policy:
     "+.jp":
-      - "https://public.dns.iij.jp/dns-query#ecs=1.1.1.1/24&ecs-override=true" # IIJ （日本） DNS over H3
+      - "https://public.dns.iij.jp/dns-query" # IIJ （日本） DNS over H3
     "+.hk":
-      - "quic://dns.nextdns.io#ecs=1.1.1.1/24&ecs-override=true" # NextDNS（香港） DNS over DOQ
+      - "quic://dns.nextdns.io" # NextDNS（香港） DNS over DOQ
     "+.eu":
-      - "quic://dns0.eu#ecs=1.1.1.1/24&ecs-override=true" # 公共（欧洲） DNS over DOQ
+      - "quic://dns0.eu" # 公共（欧洲） DNS over DOQ
     "RULE-SET:private_domain,cn_domain":
-      - "quic://dns.18bit.cn#ecs=114.114.114.114/24&ecs-override=true" # 18bit DNS over DOQ
-      - "quic://dns.ipv4dns.com#ecs=114.114.114.114/24&ecs-override=true" # 清新云 DNS over DOQ
-      - "quic://2025.dns1.top#ecs=114.114.114.114/24&ecs-override=true" # 关圣 DNS over DOQ
-      # - "quic://dns.alidns.com#ecs=114.114.114.114/24&ecs-override=true" # 阿里 DNS over DOQ
+      - "quic://dns.18bit.cn" # 18bit DNS over DOQ
+      - "quic://dns.ipv4dns.com" # 清新云 DNS over DOQ
+      - "quic://2025.dns1.top" # 关圣 DNS over DOQ
+      # - "quic://dns.alidns.com" # 阿里 DNS over DOQ
   nameserver: # Google dns在 api 面板中无法 DNS 查询，已删除
-    - "quic://dns.adguard-dns.com#ecs=1.1.1.1/24&ecs-override=true" # AdGuard DNS over DOQ
-    # - "https://cloudflare-dns.com/dns-query#ecs=1.1.1.1/24&ecs-override=true" # Cloudflare DNS over H3
+    - "quic://dns.adguard-dns.com" # AdGuard DNS over DOQ
+    # - "https://cloudflare-dns.com/dns-query" # Cloudflare DNS over H3
   proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名，不能使用 system，不能设置 ecs
     - "quic://dns.alidns.com" # 阿里 DNS over DOQ
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
@@ -659,7 +659,7 @@ sub-rules:
     - RULE-SET,youtube_ip,YouTube,no-resolve
     - RULE-SET,globalmedia_ip,国际媒体,no-resolve
     - RULE-SET,cloudflare_ip,Cloudflare,no-resolve
-    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
 
 rule-providers:
   # ------------------------------------------------------------
