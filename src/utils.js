@@ -197,24 +197,8 @@ export function configs(mihomo = '', singbox = '') {
                         value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd.yaml',
                     },
                     {
-                        label: 'configfull_NoAd_Stash 全分组版 (与Github同步) (无去广告) (Stash)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_Stash.yaml',
-                    },
-                    {
-                        label: 'configfull_NoAd_Stash_lite 全分组版 (与Github同步) (无去广告) (精简版) (Stash)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_Stash_lite.yaml',
-                    },
-                    {
                         label: 'configfull_NoAd_lite 全分组版 (与Github同步) (无去广告) (精简版)',
                         value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_lite.yaml',
-                    },
-                    {
-                        label: 'configfull_Stash 全分组版 (与Github同步) (Stash)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_Stash.yaml',
-                    },
-                    {
-                        label: 'configfull_Stash_lite 全分组版 (与Github同步) (精简版) (Stash)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_Stash_lite.yaml',
                     },
                     {
                         label: 'configfull_lite 全分组版 (与Github同步) (精简版)',
