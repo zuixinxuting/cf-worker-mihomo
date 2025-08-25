@@ -197,7 +197,7 @@ route:
     - { tag: ehgallery_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/EHGallery/EHGallery.srs, download_detour: 🎯 全球直连 }
     - { tag: tiktok_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/TikTok/TikTok.srs, format: binary, download_detour: 🎯 全球直连 }
     # MetaCubeX 规则集
-    - { tag: ads_domain, type: remote, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: ads_domain, type: remote, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.json, format: source, download_detour: 🎯 全球直连 }
     - { tag: private_ip, type: remote, url: https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: private_domain, type: remote, url: https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: cn_domain, type: remote, url: https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs, format: binary, download_detour: 🎯 全球直连 }

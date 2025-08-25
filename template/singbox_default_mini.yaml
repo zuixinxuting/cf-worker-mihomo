@@ -32,7 +32,7 @@ route:
     - { type: logical, mode: or, rules: [ { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ] }, { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # MetaCubeX 规则集
-    - { tag: ads_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.srs, download_detour: 🎯 全球直连 }
+    - { tag: ads_domain, type: remote, format: source, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.json, download_detour: 🎯 全球直连 }
     - { tag: ai_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ai-!cn.srs, download_detour: 🎯 全球直连 }
     - { tag: youtube_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/youtube.srs, download_detour: 🎯 全球直连 }
     - { tag: google_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/google.srs, download_detour: 🎯 全球直连 }

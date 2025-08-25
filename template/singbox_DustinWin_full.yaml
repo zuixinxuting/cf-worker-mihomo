@@ -42,7 +42,7 @@ route:
     # DustinWin 规则集
     - { tag: apple_cn_domain, type: remote, url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/apple-cn.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: appletv_domain, type: remote, url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/appletv.srs, format: binary, download_detour: 🎯 全球直连 }
-    - { tag: ads_domain, type: remote, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: ads_domain, type: remote, url: https://cdn.jsdmirror.com/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.json, format: source, download_detour: 🎯 全球直连 }
     - { tag: bilibili_domain, type: remote, url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/bilibili.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: cn_domain, type: remote, url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: cn_ip, type: remote, url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs, format: binary, download_detour: 🎯 全球直连 }
