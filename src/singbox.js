@@ -59,13 +59,14 @@ export async function getsingbox_config(e) {
 export function Verbose(e) {
     let top,
         matched = false;
-    const alphaMatch = e.userAgent.match(/1\.12\.0\-alpha\.(\d{1,2})\b/);
-    const betaMatch = e.userAgent.match(/1\.12\.0\-beta\.(\d{1,2})\b/);
+    const v112alphaMatch = e.userAgent.match(/1\.12\.0\-alpha\.(\d{1,2})\b/);
+    const v112betaMatch = e.userAgent.match(/1\.12\.0\-beta\.(\d{1,2})\b/);
     const v111Match = e.userAgent.match(/1\.11\.(\d+)/);
     const v112Match = e.userAgent.match(/1\.12\.(\d+)/);
+    const v113Match = e.userAgent.match(/1\.13\.(\d+)/);
     if (!/singbox|sing-box|sfa/i.test(e.userAgent)) throw new Error('不支持的客户端');
     // 匹配 1.12 alpha 版本
-    if (alphaMatch && !matched) {
+    if (v112alphaMatch && !matched) {
         const num = parseInt(alphaMatch[1], 10);
         if (num >= 0 && num <= 23) {
             top = e.singbox_1_12_alpha;
@@ -73,7 +74,7 @@ export function Verbose(e) {
         }
     }
     // 匹配 1.11 中的 1.12 beta 版本
-    if (betaMatch && !matched) {
+    if (v112betaMatch && !matched) {
         const num = parseInt(betaMatch[1], 10);
         if (num >= 0 && num <= 9) {
             top = e.singbox_1_11;
@@ -87,6 +88,11 @@ export function Verbose(e) {
     }
     // 匹配 1.12.x 版本
     if (v112Match && !matched) {
+        top = e.singbox_1_12;
+        matched = true;
+    }
+    // 匹配 1.13.x 版本
+    if (v113Match && !matched) {
         top = e.singbox_1_12;
         matched = true;
     }
