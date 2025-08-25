@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         rule: url.searchParams.get('template'),
         singbox: url.searchParams.get('singbox') === 'true',
         mihomo: url.searchParams.get('mihomo') === 'true',
+        v2ray: url.searchParams.get('v2ray') === 'true',
         udp: url.searchParams.get('udp') === 'true',
         exclude_package: url.searchParams.get('ep') === 'true',
         exclude_address: url.searchParams.get('ea') === 'true',
@@ -24,6 +25,7 @@ export default async function handler(req, res) {
         beian: process.env.BEIAN || utils.beiantext,
         beianurl: process.env.BEIANURL || utils.beiandizi,
         configs: utils.configs(process.env.MIHOMO, process.env.SINGBOX),
+        modes: utils.modes(process.env.SUB || utils.subapi, req.headers['user-agent'])
     };
     if (e.urls.length === 1 && e.urls[0].includes(',')) {
         e.urls = e.urls[0].split(',').map((u) => u.trim());
@@ -41,8 +43,10 @@ export default async function handler(req, res) {
         let result;
         if (e.singbox) {
             result = await getsingbox_config(e);
-        } else {
+        } else if (e.mihomo) {
             result = await getmihomo_config(e);
+        } else if (e.v2ray) {
+            res = await getv2ray_config(e);
         }
 
         const rawHeaders = result.headers;

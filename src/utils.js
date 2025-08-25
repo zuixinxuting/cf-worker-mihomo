@@ -8,10 +8,17 @@ export const singbox_1_12 = 'https://raw.githubusercontent.com/Kwisma/cf-worker-
 export const singbox_1_12_alpha = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.alpha.json';
 export const beiantext = base64DecodeUtf8('6JCMSUNQ5aSHMjAyNTAwMDHlj7c=');
 export const beiandizi = atob('aHR0cHM6Ly90Lm1lL01hcmlzYV9rcmlzdGk=');
-export function base64DecodeUtf8(base64) {
-    const binary = atob(base64);
+// 实现base64解码UTF-8字符串的函数
+export function base64DecodeUtf8(str) {
+    const binary = atob(str);
     const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
     return new TextDecoder('utf-8').decode(bytes);
+}
+// 实现base64编码UTF-8字符串的函数
+export function base64EncodeUtf8(str) {
+    const bytes = new TextEncoder('utf-8').encode(str);
+    const binary = String.fromCharCode.apply(null, bytes);
+    return btoa(binary);
 }
 // 订阅链接
 export function buildApiUrl(rawUrl, BASE_API, ua) {
@@ -244,6 +251,78 @@ export function configs(mihomo = '', singbox = '') {
         });
     }
     return JSON.stringify(data);
+}
+export function modes(sub, userAgent) {
+    const modes = {
+        mihomo: {
+            name: 'Clash (mihomo)',
+            placeholder: '请输入clash订阅地址url，支持各种订阅或单节点链接',
+            tipText: `
+## mihomo 使用提示：
+
+- 支持各种订阅或单节点链接，自动合并生成配置
+- 使用 sub-store 后端转换
+- 适用于 mihomo 客户端
+- 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
+- 防止 DNS 泄漏(安全DNS/DoH)
+- 屏蔽 WebRTC 泄漏(防止真实IP暴露)
+- 内置 分应代理 和 IPCIDR
+- 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
+
+## 配置信息
+
+**userAgent** ${userAgent}
+
+**转换后端** ${sub}
+                `,
+            protocolOptions: [
+                { value: 'udp', label: '启用 UDP', checked: true },
+                { value: 'ep', label: '启用分应用代理(仅Android)' },
+                { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' }
+            ]
+        },
+        singbox: {
+            name: 'Singbox',
+            placeholder: '请输入singbox订阅地址url，支持各种订阅或单节点链接',
+            tipText: `
+## singbox 使用提示：
+
+- 支持各种订阅或单节点链接，自动合并生成配置
+- 使用 sub-store 后端转换
+- 适用于 sing-box 客户端
+- 支持 1.11.x
+- 支持 1.12.x
+- 支持 1.13.x
+- 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
+- 防止 DNS 泄漏(安全DNS/DoH)
+- 屏蔽 WebRTC 泄漏(防止真实IP暴露)
+- 内置 分应代理 和 IPCIDR
+- 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
+
+## 配置信息
+
+**userAgent** ${userAgent}
+
+**转换后端** ${sub}
+                `,
+            protocolOptions: [
+                { value: 'udp', label: '启用 UDP 分片' },
+                { value: 'ep', label: '启用分应用代理(仅Android)' },
+                { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
+                { value: 'tailscale', label: '启用 tailscale' }
+            ]
+        },
+        v2ray: {
+            name: 'V2Ray',
+            placeholder: '请输入V2Ray订阅地址url，支持各种订阅或单节点链接',
+            tipText: `
+**转换后端** ${sub}
+                `,
+            protocolOptions: [],
+            noTemplate: true // 添加此标志表示不需要 protocolOptions 和 模板
+        }
+    };
+    return JSON.stringify(modes);
 }
 
 export function sanitizeContentDisposition(headers) {

@@ -447,66 +447,7 @@ export async function getFakePage(e) {
 
     <script>
         // 配置模式定义
-        const MODES = {
-            mihomo: {
-                name: 'Clash (mihomo)',
-                placeholder: '请输入clash订阅地址url，支持各种订阅或单节点链接',
-                tipText: \`
-## mihomo 使用提示：
-
-- 支持各种订阅或单节点链接，自动合并生成配置
-- 使用 sub-store 后端转换
-- 适用于 mihomo 客户端
-- 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
-- 防止 DNS 泄漏(安全DNS/DoH)
-- 屏蔽 WebRTC 泄漏(防止真实IP暴露)
-- 内置 分应代理 和 IPCIDR
-- 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
-
-## 配置信息
-
-**userAgent** ${e.userAgent}
-
-**转换后端** ${e.sub}
-                \`,
-                protocolOptions: [
-                    { value: 'udp', label: '启用 UDP', checked: true },
-                    { value: 'ep', label: '启用分应用代理(仅Android)' },
-                    { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' }
-                ]
-            },
-            singbox: {
-                name: 'Singbox',
-                placeholder: '请输入singbox订阅地址url，支持各种订阅或单节点链接',
-                tipText: \`
-## singbox 使用提示：
-
-- 支持各种订阅或单节点链接，自动合并生成配置
-- 使用 sub-store 后端转换
-- 适用于 sing-box 客户端
-- 支持 1.11.x
-- 支持 1.12.x
-- 支持 1.13.x
-- 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
-- 防止 DNS 泄漏(安全DNS/DoH)
-- 屏蔽 WebRTC 泄漏(防止真实IP暴露)
-- 内置 分应代理 和 IPCIDR
-- 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
-
-## 配置信息
-
-**userAgent** ${e.userAgent}
-
-**转换后端** ${e.sub}
-                \`,
-                protocolOptions: [
-                    { value: 'udp', label: '启用 UDP 分片' },
-                    { value: 'ep', label: '启用分应用代理(仅Android)' },
-                    { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
-                    { value: 'tailscale', label: '启用 tailscale' }
-                ]
-            }
-        };
+        const MODES = ${e.modes};
 
         // 当前激活的模式
         let activeMode = 'mihomo';
@@ -553,14 +494,15 @@ export async function getFakePage(e) {
                 container.className = 'mode-options';
                 
                 // 模板选择器
-                const templateSelector = document.createElement('div');
-                templateSelector.className = 'template-selector';
-                templateSelector.innerHTML = \`
-                    <div class="template-toggle collapsed">选择配置模板(未选择)</div>
-                    <div class="template-options"></div>
-                \`;
-                container.appendChild(templateSelector);
-                
+                if (!modeConfig.noTemplate) {
+                    const templateSelector = document.createElement('div');
+                    templateSelector.className = 'template-selector';
+                    templateSelector.innerHTML = \`
+                        <div class="template-toggle collapsed">选择配置模板(未选择)</div>
+                        <div class="template-options"></div>
+                    \`;
+                    container.appendChild(templateSelector);
+                }
                 // 输入组
                 const inputGroup = document.createElement('div');
                 inputGroup.className = 'input-group';
@@ -587,24 +529,26 @@ export async function getFakePage(e) {
                 inputGroup.appendChild(linkContainer);
                 
                 // 协议选项
-                const protocolLabel = document.createElement('label');
-                protocolLabel.textContent = '附加参数选项';
-                inputGroup.appendChild(protocolLabel);
-                
-                const protocolOptions = document.createElement('div');
-                protocolOptions.className = 'protocol-options';
-                
-                modeConfig.protocolOptions.forEach(option => {
-                    const label = document.createElement('label');
-                    label.className = 'protocol-checkbox';
-                    label.innerHTML = \`
-                        <input type="checkbox" name="protocol" value="\${option.value}" \${option.checked ? 'checked' : ''}>
-                        \${option.label}
-                    \`;
-                    protocolOptions.appendChild(label);
-                });
-                
-                inputGroup.appendChild(protocolOptions);
+                if (!modeConfig.noTemplate) {
+                    const protocolLabel = document.createElement('label');
+                    protocolLabel.textContent = '附加参数选项';
+                    inputGroup.appendChild(protocolLabel);
+                    
+                    const protocolOptions = document.createElement('div');
+                    protocolOptions.className = 'protocol-options';
+                    
+                    modeConfig.protocolOptions.forEach(option => {
+                        const label = document.createElement('label');
+                        label.className = 'protocol-checkbox';
+                        label.innerHTML = \`
+                            <input type="checkbox" name="protocol" value="\${option.value}" \${option.checked ? 'checked' : ''}>
+                            \${option.label}
+                        \`;
+                        protocolOptions.appendChild(label);
+                    });
+                    
+                    inputGroup.appendChild(protocolOptions);
+                }
                 container.appendChild(inputGroup);
                 
                 // 生成按钮
@@ -628,6 +572,14 @@ export async function getFakePage(e) {
             document.querySelectorAll('.mode-options').forEach(container => {
                 container.classList.toggle('active', container.id === \`\${modeId}-container\`);
             });
+            
+            // 更新页面标题和顶部文字
+            const modeName = MODES[modeId].name || '';
+            document.title = modeName ? \`\${modeName}配置转换工具\` : '配置转换工具';
+            const h1Element = document.querySelector('h1');
+            if (h1Element) {
+                h1Element.textContent = modeName ? \`\${modeName}配置转换工具\` : '配置转换工具';
+            }
             
             activeMode = modeId;
         }
@@ -665,7 +617,7 @@ export async function getFakePage(e) {
             const configs = ${e.configs};
             
             for (const modeId of Object.keys(MODES)) {
-                if (configs[modeId]) {
+                if (!MODES[modeId].noTemplate && configs[modeId]) {
                     initTemplateSelector(modeId, configs[modeId]);
                 }
             }
@@ -769,7 +721,13 @@ export async function getFakePage(e) {
         // 生成配置
         function generateConfig(modeId) {
             const inputs = document.querySelectorAll(\`#\${modeId}-container .link-input\`);
-            const selectedOption = document.querySelector(\`#\${modeId}-container .template-option.selected\`);
+            let templateLink = '';
+            
+            // 只有非v2ray模式才获取选中的模板
+            if (!MODES[modeId].noTemplate) {
+                const selectedOption = document.querySelector(\`#\${modeId}-container .template-option.selected\`);
+                templateLink = selectedOption ? selectedOption.dataset.value : '';
+            }
             const protocolParams = {};
             
             document.querySelectorAll(\`#\${modeId}-container .protocol-options input[type="checkbox"]\`).forEach(checkbox => {
@@ -779,8 +737,6 @@ export async function getFakePage(e) {
             const subscriptionLinks = Array.from(inputs)
                 .map(input => input.value.trim())
                 .filter(val => val !== '');
-            
-            const templateLink = selectedOption ? selectedOption.dataset.value : '';
             
             if (subscriptionLinks.length === 0 && templateLink) {
                 alert('请输入至少一个订阅链接');
