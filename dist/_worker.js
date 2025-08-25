@@ -672,13 +672,13 @@ ${t.comment}`:t.comment}this.doc.range[2]=t.offset;break}default:this.errors.pus
                 
                 // \u6A21\u677F\u9009\u62E9\u5668
                 if (!modeConfig.noTemplate) {
-                  const templateSelector = document.createElement('div');
-                  templateSelector.className = 'template-selector';
-                  templateSelector.innerHTML = \`
-                      <div class="template-toggle collapsed">\u9009\u62E9\u914D\u7F6E\u6A21\u677F(\u672A\u9009\u62E9)</div>
-                      <div class="template-options"></div>
-                  \`;
-                  container.appendChild(templateSelector);
+                    const templateSelector = document.createElement('div');
+                    templateSelector.className = 'template-selector';
+                    templateSelector.innerHTML = \`
+                        <div class="template-toggle collapsed">\u9009\u62E9\u914D\u7F6E\u6A21\u677F(\u672A\u9009\u62E9)</div>
+                        <div class="template-options"></div>
+                    \`;
+                    container.appendChild(templateSelector);
                 }
                 // \u8F93\u5165\u7EC4
                 const inputGroup = document.createElement('div');
