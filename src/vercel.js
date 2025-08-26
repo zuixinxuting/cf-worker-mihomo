@@ -1,5 +1,6 @@
 import { getmihomo_config } from './mihomo.js';
 import { getsingbox_config } from './singbox.js';
+import { getv2ray_config } from './v2ray.js';
 import { getFakePage } from './page.js';
 import * as utils from './utils.js';
 export default async function handler(req, res) {
