@@ -743,20 +743,28 @@ export async function getFakePage(e) {
                 return;
             }
             
-            const allLinks = [];
-            subscriptionLinks.forEach(link => {
-                allLinks.push(encodeURIComponent(link));
-            });
-            
+            const allLinks = subscriptionLinks.map(link => encodeURIComponent(link));
             const origin = window.location.origin;
-            let urlLink = \`\${origin}/?template=\${encodeURIComponent(templateLink)}&url=\${allLinks.join(',')}&\${modeId}=true\`;
-            
+
+            const params = [];
+
+            if (templateLink) {
+                params.push(\`template=\${encodeURIComponent(templateLink)}\`);
+            }
+            if (allLinks.length > 0) {
+                params.push(\`url=\${allLinks.join(',')}\`);
+            }
+            if (modeId) {
+                params.push(\`\${modeId}=true\`);
+            }
+
             for (const [protocol, enabled] of Object.entries(protocolParams)) {
                 if (enabled) {
-                    urlLink += \`&\${protocol}=true\`;
+                    params.push(\`\${protocol}=true\`);
                 }
             }
-            
+
+            const urlLink = \`\${origin}/?\${params.join('&')}\`;
             updateResult(urlLink);
         }
 

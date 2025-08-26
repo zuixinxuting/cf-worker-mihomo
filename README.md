@@ -42,7 +42,9 @@ Mihomo（Clash Meta）是一款高效的订阅汇聚工具，支持快速生成 
 
 ## 🖥 在线控制台
 
-[![访问在线配置生成器](https://img.shields.io/badge/访问在线配置生成器-sub.ikar.eu.org-blue?style=for-the-badge)](https://sub.ikar.eu.org)
+[![访问在线配置生成器](https://img.shields.io/badge/访问在线配置生成器-基于vercel-blue?style=for-the-badge)](https://sub.ikar.eu.org)
+
+[![访问在线配置生成器](https://img.shields.io/badge/访问在线配置生成器-基于cloudflare_workers-blue?style=for-the-badge)](https://substore.haxtop.ggff.net)
 
 ### 💡 使用建议
 1. 关闭所有覆写功能（非关闭功能本身）
@@ -119,10 +121,6 @@ npm run deploy
 | `BEIANURL`   | 备案跳转链接       | `https://t.me/Marisa_kristi`                                  |
 | `MIHOMO`     | mihomo规则模板     | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default.yaml` |
 | `SINGBOX`     | singbox规则模板   | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default.yaml` |
-| `MIHOMOYOP`    | mihomo配置模板  | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/Config/Mihomo_lite.yaml` |
-| `SINGBOX_1_11` | signbox配置模板 | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox_1.11.X.json` |
-| `SINGBOX_1_12` | signbox配置模板 | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.json` |
-| `SINGBOX_1_12_ALPHA` | signbox配置模板 | `https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.alpha.json` |
 ---
 
 ## 🤝 参与贡献

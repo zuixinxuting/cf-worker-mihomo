@@ -1,12 +1,12 @@
 import * as utils from './utils.js';
 export async function getv2ray_config(e) {
-    const data = []
+    const data = [];
     const hesList = [];
     for (const index of e.urls) {
         const apiurl = utils.buildApiUrl(index, e.sub, 'v2ray');
         const res = await utils.fetchResponse(apiurl, e.userAgent);
         if (res.data !== undefined && res.data !== null && res.data !== '') {
-            data.push(res.data)
+            data.push(res.data);
             hesList.push({
                 status: res.status,
                 headers: res.headers,

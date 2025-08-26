@@ -137,19 +137,23 @@ export function getMihomo_Proxies_Grouping(proxies, groups) {
     const deletedGroups = []; // 用于记录已删除的组名
     const updatedGroups = groups['proxy-groups'].filter((group) => {
         let matchFound = false;
-
         // 确保 filter 存在并且是一个字符串
         let filter = group.filter;
-        if (typeof filter === 'string' && filter.startsWith('(?i)')) {
-            filter = filter.slice(4); // 去掉 (?i) 部分
-        }
-
-        // 如果 filter 不存在或不是字符串，直接跳过该组
         if (typeof filter !== 'string') {
             return true; // 保留没有 filter 的组
         }
 
-        const regex = new RegExp(filter, 'i'); // 将 'i' 标志作为第二个参数传递
+        // 移除所有 (?i)，但保留后续内容
+        const hasIgnoreCase = /\(\?i\)/i.test(filter);
+        const cleanedFilter = filter.replace(/\(\?i\)/gi, '');
+
+        let regex;
+        try {
+            regex = new RegExp(cleanedFilter, hasIgnoreCase ? 'i' : '');
+        } catch (e) {
+            console.warn(`无效的正则表达式: ${filter}`, e);
+            return true; // 遇到错误时保留该组
+        }
 
         // 遍历每个代理，检查是否与当前组的正则匹配
         for (let proxy of proxies.proxies) {
@@ -160,7 +164,7 @@ export function getMihomo_Proxies_Grouping(proxies, groups) {
         }
 
         // 如果没有匹配，记录删除的组并返回 false (删除该组)
-        if (!matchFound) {
+        if (!matchFound && (!group.proxies || group.proxies.length === 0)) {
             deletedGroups.push(group.name);
             return false;
         }

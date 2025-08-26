@@ -197,57 +197,94 @@ export function outboundArrs(data) {
 }
 // 策略组处理
 export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
-    Outbounds.forEach((res) => {
-        // 从完整 outbound 名称开始匹配
-        let matchedOutbounds;
+    // 处理每个 outbound 的过滤器
+    const processOutboundFilters = (outbound) => {
+        let matchedOutbounds = [];
         let hasValidAction = false;
-        res.filter?.forEach((ac) => {
-            // 转换为 RegExp 对象
-            const keywordReg = new RegExp(ac.keywords) || '';
-            if (ac.action === 'include') {
-                // 只保留匹配的
-                matchedOutbounds = ApiUrlname.filter((name) => keywordReg.test(name));
-                hasValidAction = true;
-            } else if (ac.action === 'exclude') {
-                // 移除匹配的
-                matchedOutbounds = ApiUrlname.filter((name) => !keywordReg.test(name));
-                hasValidAction = true;
-            } else if (ac.action === 'all') {
-                // 全部保留
-                matchedOutbounds = ApiUrlname;
-                hasValidAction = true;
+
+        outbound.filter?.forEach((filter) => {
+            if (filter.action !== 'all' && !filter.keywords) return;
+
+            let currentMatched = [];
+
+            // 处理正则表达式模式
+            const { pattern, ignoreCase } = parseRegexPattern(filter.keywords);
+            const regex = new RegExp(pattern, ignoreCase ? 'i' : '');
+
+            // 根据不同的 action 类型处理匹配
+            currentMatched = applyFilterAction(ApiUrlname, regex, filter.action);
+            hasValidAction = true;
+
+            if (currentMatched.length > 0) {
+                matchedOutbounds = [...matchedOutbounds, ...currentMatched];
             }
         });
-        if (hasValidAction) {
-            // 写入去重后的 outbounds
-            res.outbounds = [...res.outbounds, ...new Set(matchedOutbounds)];
-        } else if (res.outbounds !== null) {
-            // 没有有效操作，但原始 outbounds 存在，保留原值
-            matchedOutbounds = res.outbounds;
+
+        return { matchedOutbounds: [...new Set(matchedOutbounds)], hasValidAction };
+    };
+
+    // 解析正则表达式模式
+    const parseRegexPattern = (keywords) => {
+        const ignoreCase = /\(\?i\)/i.test(keywords);
+        const pattern = keywords.replace(/\(\?i\)/gi, '');
+        return { pattern, ignoreCase };
+    };
+
+    // 应用过滤器操作
+    const applyFilterAction = (items, regex, action) => {
+        switch (action) {
+            case 'include':
+                return items.filter((name) => regex.test(name));
+            case 'exclude':
+                return items.filter((name) => !regex.test(name));
+            case 'all':
+                return items;
+            default:
+                return [];
+        }
+    };
+
+    // 更新 outbounds 数组
+    const updateOutboundsArray = (outbound, matchedOutbounds, hasValidAction) => {
+        if (matchedOutbounds.length > 0) {
+            outbound.outbounds = outbound.outbounds ? [...new Set([...outbound.outbounds, ...matchedOutbounds])] : matchedOutbounds;
+        } else if (!hasValidAction && outbound.outbounds && outbound.outbounds.length > 0) {
+            // 保留原有的 outbounds
         } else {
-            // 无有效操作，且原始 outbounds 不存在，删除该字段（不写入）
-            delete res.outbounds;
+            delete outbound.outbounds;
         }
+
         // 删除 filter 字段
-        delete res.filter;
-        return res;
-    });
-    // 找出被删除的策略组 tags（即 outbounds 为空的 selector）
-    const removedTags = Outbounds.filter((item) => Array.isArray(item.outbounds) && item.outbounds.length === 0).map((item) => item.tag);
-    // 过滤掉引用了已删除 tag 的其他 outbounds 项
-    const cleanedOutbounds = Outbounds.map((item) => {
-        if (Array.isArray(item.outbounds)) {
-            item.outbounds = item.outbounds.filter((tag) => !removedTags.includes(tag));
-        }
-        return item;
+        delete outbound.filter;
+        return outbound;
+    };
+
+    // 过滤掉 outbounds 数组为空或不存在的策略组
+    const cleanRemovedTags = (outbounds) => {
+        const removedTags = outbounds
+            .filter((item) => !item.outbounds || (Array.isArray(item.outbounds) && item.outbounds.length === 0))
+            .map((item) => item.tag)
+            .filter((tag) => tag !== undefined);
+
+        const cleanedOutbounds = outbounds.map((item) => {
+            if (item.outbounds && Array.isArray(item.outbounds)) {
+                item.outbounds = item.outbounds.filter((tag) => !removedTags.includes(tag));
+            }
+            return item;
+        });
+        return cleanedOutbounds.filter((item) => {
+            return item.outbounds && Array.isArray(item.outbounds) && item.outbounds.length > 0;
+        });
+    };
+
+    const processedOutbounds = Outbounds.map((outbound) => {
+        const { matchedOutbounds, hasValidAction } = processOutboundFilters(outbound);
+        return updateOutboundsArray(outbound, matchedOutbounds, hasValidAction);
     });
 
-    // 再次过滤掉 outbounds 数组为空的策略组
-    const filteredOutbounds = cleanedOutbounds.filter((item) => {
-        return !(Array.isArray(item.outbounds) && item.outbounds.length === 0);
-    });
-    return filteredOutbounds;
+    return cleanRemovedTags(processedOutbounds);
 }
+
 export function applyTemplate(top, rule) {
     const existingSet = Array.isArray(top.route.rule_set) ? top.route.rule_set : [];
     const newSet = Array.isArray(rule.route.rule_set) ? rule.route.rule_set : [];

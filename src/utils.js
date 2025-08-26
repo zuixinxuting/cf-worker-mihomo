@@ -278,8 +278,8 @@ export function modes(sub, userAgent) {
             protocolOptions: [
                 { value: 'udp', label: '启用 UDP', checked: true },
                 { value: 'ep', label: '启用分应用代理(仅Android)' },
-                { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' }
-            ]
+                { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
+            ],
         },
         singbox: {
             name: 'Singbox',
@@ -309,8 +309,8 @@ export function modes(sub, userAgent) {
                 { value: 'udp', label: '启用 UDP 分片' },
                 { value: 'ep', label: '启用分应用代理(仅Android)' },
                 { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
-                { value: 'tailscale', label: '启用 tailscale' }
-            ]
+                { value: 'tailscale', label: '启用 tailscale' },
+            ],
         },
         v2ray: {
             name: 'V2Ray',
@@ -319,8 +319,8 @@ export function modes(sub, userAgent) {
 **转换后端** ${sub}
                 `,
             protocolOptions: [],
-            noTemplate: true // 添加此标志表示不需要 protocolOptions 和 模板
-        }
+            noTemplate: true, // 添加此标志表示不需要 protocolOptions 和 模板
+        },
     };
     return JSON.stringify(modes);
 }

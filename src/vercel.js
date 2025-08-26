@@ -25,7 +25,7 @@ export default async function handler(req, res) {
         beian: process.env.BEIAN || utils.beiantext,
         beianurl: process.env.BEIANURL || utils.beiandizi,
         configs: utils.configs(process.env.MIHOMO, process.env.SINGBOX),
-        modes: utils.modes(process.env.SUB || utils.subapi, req.headers['user-agent'])
+        modes: utils.modes(process.env.SUB || utils.subapi, req.headers['user-agent']),
     };
     if (e.urls.length === 1 && e.urls[0].includes(',')) {
         e.urls = e.urls[0].split(',').map((u) => u.trim());
