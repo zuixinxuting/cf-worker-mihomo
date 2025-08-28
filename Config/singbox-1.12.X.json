@@ -195,10 +195,7 @@
                 "outbound": "🚀 节点选择"
             },
             {
-                "action": "route-options",
-                "udp_disable_domain_unmapping": true,
-                "udp_connect": true,
-                "udp_timeout": "5m"
+                "action": "route-options"
             }
         ],
         "rule_set": [

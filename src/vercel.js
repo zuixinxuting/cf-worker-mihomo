@@ -14,6 +14,8 @@ export default async function handler(req, res) {
         mihomo: url.searchParams.get('mihomo') === 'true',
         v2ray: url.searchParams.get('v2ray') === 'true',
         udp: url.searchParams.get('udp') === 'true',
+        udp_fragment: url.searchParams.get('udp_frag') === 'true',
+        tls_fragment: url.searchParams.get('tls_frag') === 'true',
         exclude_package: url.searchParams.get('ep') === 'true',
         exclude_address: url.searchParams.get('ea') === 'true',
         tailscale: url.searchParams.get('tailscale') === 'true',

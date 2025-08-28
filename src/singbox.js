@@ -22,19 +22,19 @@ export async function getsingbox_config(e) {
     Singbox_Rule_Data.data.outbounds = loadAndSetOutbounds(Singbox_Rule_Data.data.outbounds, ApiUrlname);
     // 合并 outbounds
     Singbox_Rule_Data.data.outbounds.push(...Singbox_Outbounds_Data.data.outbounds);
+    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data);
+    // 添加排除包和排除地址配置
     if (e.exclude_package) addExcludePackage(Singbox_Top_Data.data, Exclude_Package);
     if (e.exclude_address) addExcludeAddress(Singbox_Top_Data.data, Exclude_Address);
-    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data);
+
+    // 添加 tailscale 相关配置
     if (e.tailscale) {
-        // 添加 tailscale 相关配置
         Singbox_Top_Data.data.dns.servers.push({
             type: 'tailscale',
             endpoint: 'ts-ep',
             accept_default_resolvers: true,
         });
-        if (!Singbox_Top_Data.data.endpoints) {
-            Singbox_Top_Data.data.endpoints = [];
-        }
+        Singbox_Top_Data.data.endpoints = Singbox_Top_Data.data.endpoints || [];
         Singbox_Top_Data.data.endpoints.push({
             type: 'tailscale',
             tag: 'ts-ep',
@@ -43,6 +43,25 @@ export async function getsingbox_config(e) {
             udp_timeout: '5m',
         });
     }
+
+    // 处理 route-options 规则
+    Singbox_Top_Data.data.route.rules = Singbox_Top_Data.data.route.rules.flatMap(p => {
+        if (p.action === "route-options") {
+            if (e.udp) {
+                p.udp_disable_domain_unmapping = true;
+                p.udp_connect = true;
+                p.udp_timeout = "5m";
+            }
+            if (e.tls_fragment) {
+                p.tls_record_fragment = true;
+                p.tls_fragment_fallback_delay = "5m";
+            }
+            // 如果既没有 udp 也没有 tls_fragment 参数，则过滤掉该规则
+            return e.udp || e.tls_fragment ? p : [];
+        }
+        return p;
+    });
+
     if (/ref1nd/i.test(e.userAgent)) {
         for (const item of Singbox_Top_Data.data.route.rules) {
             if (item.action === 'resolve') {
@@ -111,7 +130,7 @@ export async function getSingbox_Outbounds_Data(e) {
         res = await utils.fetchResponse(e.urls[0], e.userAgent);
         if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
             res.data.outbounds.forEach((p) => {
-                if (e.udp) p.udp_fragment = true;
+                if (e.udp_fragment) p.udp_fragment = true;
             });
             return {
                 status: res.status,
@@ -123,7 +142,7 @@ export async function getSingbox_Outbounds_Data(e) {
             res = await utils.fetchResponse(apiurl, e.userAgent);
             if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
                 res.data.outbounds.forEach((p) => {
-                    if (e.udp) p.udp_fragment = true;
+                    if (e.udp_fragment) p.udp_fragment = true;
                 });
                 return {
                     status: res.status,
@@ -141,7 +160,7 @@ export async function getSingbox_Outbounds_Data(e) {
             if (res?.data && Array.isArray(res?.data?.outbounds)) {
                 res.data.outbounds.forEach((p) => {
                     p.tag = `${p.tag} [${i + 1}]`;
-                    if (e.udp) p.udp_fragment = true;
+                    if (e.udp_fragment) p.udp_fragment = true;
                 });
                 hesList.push({
                     status: res.status,
@@ -154,7 +173,7 @@ export async function getSingbox_Outbounds_Data(e) {
                 if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds)) {
                     res.data.outbounds.forEach((p) => {
                         p.tag = `${p.tag} [${i + 1}]`;
-                        if (e.udp) p.udp_fragment = true;
+                        if (e.udp_fragment) p.udp_fragment = true;
                     });
                     hesList.push({
                         status: res.status,
@@ -201,7 +220,7 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
     const processOutboundFilters = (outbound) => {
         let matchedOutbounds = [];
         let hasValidAction = false;
-        
+
         outbound.filter?.forEach(filter => {
             if (filter.action !== 'all') {
                 // 检查 keywords 是否存在且有效
@@ -209,9 +228,9 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
                     return;
                 }
             }
-            
+
             let currentMatched = [];
-            
+
             if (filter.action === 'all') {
                 currentMatched = ApiUrlname;
                 hasValidAction = true;
@@ -219,31 +238,31 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
                 // 处理正则表达式模式
                 const { pattern, ignoreCase } = parseRegexPattern(filter.keywords);
                 const regex = new RegExp(pattern, ignoreCase ? 'i' : '');
-                
+
                 // 根据不同的 action 类型处理匹配
                 currentMatched = applyFilterAction(ApiUrlname, regex, filter.action);
                 hasValidAction = true;
             }
-            
+
             if (currentMatched.length > 0) {
                 matchedOutbounds = [...matchedOutbounds, ...currentMatched];
             }
         });
-        
+
         return { matchedOutbounds: [...new Set(matchedOutbounds)], hasValidAction };
     };
-    
+
     // 解析正则表达式模式
     const parseRegexPattern = (keywords) => {
         if (!keywords || typeof keywords !== 'string') {
             return { pattern: '^$', ignoreCase: false }; // 返回不匹配任何内容的模式
         }
-        
+
         const ignoreCase = /\(\?i\)/i.test(keywords);
         const pattern = keywords.replace(/\(\?i\)/gi, '');
         return { pattern, ignoreCase };
     };
-    
+
     // 应用过滤器操作
     const applyFilterAction = (items, regex, action) => {
         switch (action) {
@@ -255,11 +274,11 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
                 return [];
         }
     };
-    
+
     // 更新 outbounds 数组
     const updateOutboundsArray = (outbound, matchedOutbounds, hasValidAction) => {
         if (matchedOutbounds.length > 0) {
-            outbound.outbounds = outbound.outbounds 
+            outbound.outbounds = outbound.outbounds
                 ? [...new Set([...outbound.outbounds, ...matchedOutbounds])]
                 : matchedOutbounds;
         } else if (outbound.outbounds && outbound.outbounds.length > 0) {
@@ -267,12 +286,12 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
         } else {
             delete outbound.outbounds;
         }
-        
+
         // 删除 filter 字段
         delete outbound.filter;
         return outbound;
     };
-    
+
     // 清理被删除的 tags
     const cleanRemovedTags = (outbounds) => {
         // 找出所有 outbounds 为空的项（将被删除的 tags）
@@ -280,7 +299,7 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
             .filter(item => !item.outbounds || (Array.isArray(item.outbounds) && item.outbounds.length === 0))
             .map(item => item.tag)
             .filter(tag => tag !== undefined);
-        
+
         // 从所有 outbounds 数组中删除这些 tags
         const cleanedOutbounds = outbounds.map(item => {
             if (item.outbounds && Array.isArray(item.outbounds)) {
@@ -289,19 +308,19 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
             }
             return item;
         });
-        
+
         // 过滤掉 outbounds 数组为空或不存在的策略组
         return cleanedOutbounds.filter(item => {
             return item.outbounds && Array.isArray(item.outbounds) && item.outbounds.length > 0;
         });
     };
-    
+
     // 主处理流程
     const processedOutbounds = Outbounds.map(outbound => {
         const { matchedOutbounds, hasValidAction } = processOutboundFilters(outbound);
         return updateOutboundsArray(outbound, matchedOutbounds, hasValidAction);
     });
-    
+
     return cleanRemovedTags(processedOutbounds);
 }
 
