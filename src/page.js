@@ -8,12 +8,20 @@ export async function getFakePage(e) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20id='Partition-Auto--Streamline-Carbon'%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%20height='16'%20width='16'%3E%3Cdesc%3EPartition%20Auto%20Streamline%20Icon%3A%20https%3A//streamlinehq.com%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Cpath%20d='M13%209.5c-1.1028%200%20-2%200.8972%20-2%202%200%200.3418%200.0941%200.6587%200.24585%200.94045C10.30775%2013.12675%209.17285%2013.5%208%2013.5%204.9673%2013.5%202.5%2011.0327%202.5%208H1.5c0%203.584%202.9159%206.5%206.5%206.5%201.42275%200%202.79615%20-0.468%203.92165%20-1.3208C12.2334%2013.38015%2012.6023%2013.5%2013%2013.5c1.1028%200%202%20-0.8972%202%20-2s-0.8972%20-2%20-2%20-2Zm0%203c-0.5514%200%20-1%20-0.44875%20-1%20-1s0.4486%20-1%201%20-1%201%200.44875%201%201%20-0.4486%201%20-1%201Z'%20fill='%23000000'%20stroke-width='0.5'/%3E%3Cpath%20d='M8%201.5c-1.42275%200%20-2.79615%200.468%20-3.92165%201.3208C3.7666%202.61985%203.3977%202.5%203%202.5%201.8972%202.5%201%203.3972%201%204.5s0.8972%202%202%202%202%20-0.8972%202%20-2c0%20-0.3418%20-0.0941%20-0.6587%20-0.24585%20-0.94045C5.69225%202.87325%206.82715%202.5%208%202.5c3.0327%200%205.5%202.4673%205.5%205.5h1c0%20-3.584%20-2.9159%20-6.5%20-6.5%20-6.5ZM3%205.5c-0.5514%200%20-1%20-0.44875%20-1%20-1s0.4486%20-1%201%20-1%201%200.44875%201%201%20-0.4486%201%20-1%201Z'%20fill='%23000000'%20stroke-width='0.5'/%3E%3Cpath%20id='_Transparent_Rectangle_'%20d='M0%200h16v16H0Z'%20fill='none'%20stroke-width='0.5'/%3E%3C/svg%3E">
     <title>配置转换工具</title>
-    <style>
+        <style>
         :root {
             --primary-color: #4361ee;
-            --hover-color: #3b4fd3;
-            --bg-color: #f5f6fa;
+            --primary-light: #4895ef;
+            --primary-dark: #3f37c9;
+            --secondary-color: #4cc9f0;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
+            --text-primary: #2b2d42;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --success-color: #4cc9f0;
+            --error-color: #f72585;
+            --warning-color: #f9c74f;
         }
 
         * {
@@ -30,41 +38,48 @@ export async function getFakePage(e) {
             background-color: var(--bg-color);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 60px 0;
+            padding: 20px;
             align-items: center;
+            position: relative; 
         }
 
         .container {
             position: relative;
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             max-width: 600px;
-            margin: 0;
-            width: 90%;
-            height: 90%;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
+            width: 100%;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1;
+            margin-top: 40px;
         }
 
         .container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
         }
 
         h1 {
             text-align: center;
             color: var(--primary-color);
             margin-bottom: 2rem;
-            font-size: 1.8rem;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .input-group {
@@ -75,54 +90,62 @@ export async function getFakePage(e) {
             flex: 1;
             min-width: 0;
             margin-top: 0;
-            padding: 12px;
-            border: 2px solid rgba(0, 0, 0, 0.15);
-            border-radius: 10px;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+            background-color: white;
         }
 
         .link-row {
             display: flex;
             align-items: center;
             position: relative;
-            margin-bottom: 8px;
-            gap: 10px;
+            margin-bottom: 12px;
+            gap: 12px;
         }
 
         .add-btn {
             flex-shrink: 0;
-            width: 40px;
-            height: 40px;
-            background-color: #f8f9fa;
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            border: none;
+            font-size: 1.2rem;
         }
 
         .add-btn:hover {
-            background-color: #ddd;
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
         }
 
         label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #555;
+            color: var(--text-secondary);
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid rgba(0, 0, 0, 0.15);
-            border-radius: 10px;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+            background-color: white;
         }
 
         input:focus {
@@ -134,31 +157,67 @@ export async function getFakePage(e) {
 
         button {
             width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
         }
 
         button:hover {
-            background-color: var(--hover-color);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
         }
 
         #result {
             background-color: #f8f9fa;
             font-family: monospace;
             word-break: break-all;
+            padding: 14px 16px !important;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        #result:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .github-corner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1000; /* 确保 GitHub 角标始终在最上层 */
         }
 
         .github-corner svg {
@@ -170,6 +229,11 @@ export async function getFakePage(e) {
             border: 0;
             width: 80px;
             height: 80px;
+            transition: transform 0.3s ease;
+        }
+
+        .github-corner:hover svg {
+            transform: scale(1.1);
         }
 
         .github-corner:hover .octo-arm {
@@ -187,12 +251,18 @@ export async function getFakePage(e) {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .beian-info {
             text-align: center;
             font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
         }
 
         .beian-info a {
@@ -200,17 +270,27 @@ export async function getFakePage(e) {
             text-decoration: none;
             border-bottom: 1px dashed var(--primary-color);
             padding-bottom: 2px;
+            transition: all 0.3s ease;
         }
 
         .beian-info a:hover {
             border-bottom-style: solid;
+            color: var(--primary-dark);
         }
 
         #qrcode {
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        #qrcode.show {
+            display: flex; /* 有内容时显示 */
         }
         
         .template-selector {
@@ -219,25 +299,27 @@ export async function getFakePage(e) {
         }
         
         .template-toggle {
-            padding: 12px 15px;
-            background-color: rgba(67, 97, 238, 0.1);
-            font-weight: bold;
+            padding: 14px 16px;
+            background-color: rgba(67, 97, 238, 0.08);
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
         .template-toggle:hover {
-            background-color: rgba(67, 97, 238, 0.2);
+            background-color: rgba(67, 97, 238, 0.15);
+            border-color: rgba(67, 97, 238, 0.2);
         }
         
         .template-toggle:after {
             content: "▶";
             font-size: 12px;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
             margin-left: 8px;
         }
         
@@ -250,24 +332,40 @@ export async function getFakePage(e) {
             top: 100%;
             left: 0;
             width: 100%;
-            z-index: 10;
+            z-index: 1000;
             background-color: white;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             display: none;
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
+            border: 2px solid var(--border-color);
+            border-top: none;
+            transition: all 0.3s ease;
         }
         
         .template-options.show {
             display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .template-option {
-            padding: 10px 20px;
+            padding: 12px 20px;
             cursor: pointer;
-            transition: all 0.2s;
-            border-bottom: 1px solid #eee;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
         }
         
         .template-option:last-child {
@@ -276,62 +374,92 @@ export async function getFakePage(e) {
         
         .template-option:hover {
             background-color: rgba(67, 97, 238, 0.1);
+            padding-left: 24px;
         }
         
         .template-option.selected {
-            background-color: rgba(67, 97, 238, 0.2);
-            font-weight: bold;
+            background-color: rgba(67, 97, 238, 0.15);
+            font-weight: 600;
+            color: var(--primary-dark);
         }
 
         .config-toggle {
             display: flex;
             justify-content: center;
             margin-bottom: 1.5rem;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 10px;
-            padding: 8px;
+            background: rgba(67, 97, 238, 0.08);
+            border-radius: 12px;
+            padding: 6px;
+            border: 2px solid transparent;
         }
 
         .toggle-option {
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: bold;
+            font-weight: 600;
             text-align: center;
             flex: 1;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.95rem;
         }
 
         .toggle-option.active {
-            background-color: #4361ee;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
         }
 
         .toggle-option:not(.active):hover {
-            background-color: rgba(67, 97, 238, 0.2);
+            background-color: rgba(67, 97, 238, 0.15);
+            transform: translateY(-1px);
         }
 
         .mode-options {
             display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .mode-options.active {
             display: block;
+            opacity: 1;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .tip-icon {
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background-color: #4a60ea;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             font-weight: bold;
             font-size: 12px;
             cursor: pointer;
             user-select: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(67, 97, 238, 0.3);
+        }
+
+        .tip-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 8px rgba(67, 97, 238, 0.4);
         }
 
         .tip-wrapper {
@@ -340,25 +468,41 @@ export async function getFakePage(e) {
         }
 
         .tip-panel {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
             position: absolute;
-            top: 24px;
+            top: 28px;
             left: 0;
-            min-width: 260px;
-            max-width: 320px;
+            min-width: 280px;
+            max-width: 340px;
             max-height: 50vh;
             background: white;
-            color: #333;
+            color: var(--text-primary);
             font-size: 14px;
-            border-radius: 8px;
-            padding: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 999;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
             white-space: normal;
             line-height: 1.6;
             overflow-y: auto;
             overflow-x: hidden;
             word-break: break-word;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+        }
+
+        .tip-panel::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            transform: rotate(45deg);
+            border-top: 2px solid var(--border-color);
+            border-left: 2px solid var(--border-color);
         }
 
         .tip-panel ul {
@@ -373,35 +517,96 @@ export async function getFakePage(e) {
 
         .tip-panel strong, .tip-panel b {
             font-weight: bold;
-            color: #4a60ea;
+            color: var(--primary-color);
             display: block;
             margin-top: 10px;
         }
 
         .tip-wrapper.active .tip-panel {
-            display: block;
+            opacity: 1;
+            visibility: visible;
         }
 
         .protocol-options {
             display: flex;
             gap: 15px;
-            margin-top: 8px;
+            margin-top: 12px;
             flex-wrap: wrap;
         }
 
         .protocol-checkbox {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             cursor: pointer;
             user-select: none;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .protocol-checkbox:hover {
+            background-color: rgba(67, 97, 238, 0.08);
         }
 
         .protocol-checkbox input {
             width: auto;
             margin: 0;
+            cursor: pointer;
         }
 
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+                margin: 10px;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .toggle-option {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .protocol-options {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .link-input {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .add-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@keeex/qrcodejs-kx@1.0.2/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -580,7 +785,7 @@ export async function getFakePage(e) {
             if (h1Element) {
                 h1Element.textContent = modeName ? \`\${modeName}配置转换工具\` : '配置转换工具';
             }
-            
+            updateResult('');
             activeMode = modeId;
         }
 
@@ -805,17 +1010,29 @@ export async function getFakePage(e) {
             
             // 生成二维码
             const qrcodeDiv = document.getElementById('qrcode');
-            qrcodeDiv.innerHTML = '';
-            new QRCode(qrcodeDiv, {
-                text: urlLink,
-                width: 220,
-                height: 220,
-                colorDark: "#4a60ea",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.L,
-                scale: 1
-            });
+            
+            if (urlLink) {
+                // 有内容时显示二维码
+                qrcodeDiv.classList.add('show');
+                qrcodeDiv.innerHTML = '';
+                new QRCode(qrcodeDiv, {
+                    text: urlLink,
+                    width: 220,
+                    height: 220,
+                    colorDark: "#4a60ea",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.L,
+                    scale: 1
+                });
+            } else {
+                // 无内容时隐藏二维码
+                qrcodeDiv.classList.remove('show');
+                qrcodeDiv.innerHTML = '';
+            }
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('qrcode').classList.remove('show');
+        });
     </script>
 </body>
 </html>`;

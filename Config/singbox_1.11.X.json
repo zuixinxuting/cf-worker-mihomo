@@ -5,24 +5,6 @@
         "output": "./singbox.log",
         "timestamp": true
     },
-    "experimental": {
-        "clash_api": {
-            "external_controller": "0.0.0.0:20123",
-            "external_ui": "ui",
-            "secret": "",
-            "default_mode": "rule",
-            "external_ui_download_url": "https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
-            "external_ui_download_detour": "🎯 全球直连",
-            "access_control_allow_origin": [
-                "*"
-            ]
-        },
-        "cache_file": {
-            "enabled": true,
-            "path": "cache.db",
-            "store_fakeip": true
-        }
-    },
     "dns": {
         "fakeip": {
             "enabled": true,
@@ -187,5 +169,23 @@
                 "download_detour": "🎯 全球直连"
             }
         ]
+    },
+    "experimental": {
+        "clash_api": {
+            "external_controller": "0.0.0.0:20123",
+            "external_ui": "ui",
+            "secret": "",
+            "default_mode": "rule",
+            "external_ui_download_url": "https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
+            "external_ui_download_detour": "🎯 全球直连",
+            "access_control_allow_origin": [
+                "*"
+            ]
+        },
+        "cache_file": {
+            "enabled": true,
+            "path": "cache.db",
+            "store_fakeip": true
+        }
     }
 }

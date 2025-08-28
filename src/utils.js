@@ -261,12 +261,13 @@ export function modes(sub, userAgent) {
 ## mihomo 使用提示：
 
 - 支持各种订阅或单节点链接，自动合并生成配置
+- 面板地址: http://127.0.0.1:9090/ui/xd
+- mixed(http/socks) 端口: 7890
 - 使用 sub-store 后端转换
 - 适用于 mihomo 客户端
 - 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
 - 防止 DNS 泄漏(安全DNS/DoH)
 - 屏蔽 WebRTC 泄漏(防止真实IP暴露)
-- 内置 分应代理 和 IPCIDR
 - 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
 
 ## 配置信息
@@ -288,6 +289,8 @@ export function modes(sub, userAgent) {
 ## singbox 使用提示：
 
 - 支持各种订阅或单节点链接，自动合并生成配置
+- 面板地址: http://127.0.0.1:20123
+- mixed(http/socks) 端口: 20120
 - 使用 sub-store 后端转换
 - 适用于 sing-box 客户端
 - 支持 1.11.x
@@ -296,7 +299,6 @@ export function modes(sub, userAgent) {
 - 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
 - 防止 DNS 泄漏(安全DNS/DoH)
 - 屏蔽 WebRTC 泄漏(防止真实IP暴露)
-- 内置 分应代理 和 IPCIDR
 - 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
 
 ## 配置信息

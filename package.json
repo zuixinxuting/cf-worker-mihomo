@@ -6,7 +6,7 @@
 	"scripts": {
 		"deploy:workers": "wrangler deploy",
 		"deploy": "vercel --prod",
-		"dev:workers": "wrangler dev",
+		"dev:workers": "wrangler dev src/_worker.js --live-reload",
 		"dev": "vercel dev",
 		"build": "node esbuild.js",
 		"start:workers": "wrangler dev",

@@ -45,16 +45,16 @@ export async function getsingbox_config(e) {
     }
 
     // 处理 route-options 规则
-    Singbox_Top_Data.data.route.rules = Singbox_Top_Data.data.route.rules.flatMap(p => {
-        if (p.action === "route-options") {
+    Singbox_Top_Data.data.route.rules = Singbox_Top_Data.data.route.rules.flatMap((p) => {
+        if (p.action === 'route-options') {
             if (e.udp) {
                 p.udp_disable_domain_unmapping = true;
                 p.udp_connect = true;
-                p.udp_timeout = "5m";
+                p.udp_timeout = '5m';
             }
             if (e.tls_fragment) {
-                p.tls_record_fragment = true;
-                p.tls_fragment_fallback_delay = "5m";
+                p.tls_fragment = true;
+                p.tls_fragment_fallback_delay = '5m';
             }
             // 如果既没有 udp 也没有 tls_fragment 参数，则过滤掉该规则
             return e.udp || e.tls_fragment ? p : [];
@@ -86,7 +86,7 @@ export function Verbose(e) {
     if (!/singbox|sing-box|sfa/i.test(e.userAgent)) throw new Error('不支持的客户端');
     // 匹配 1.12 alpha 版本
     if (v112alphaMatch && !matched) {
-        const num = parseInt(alphaMatch[1], 10);
+        const num = parseInt(v112alphaMatch[1], 10);
         if (num >= 0 && num <= 23) {
             top = e.singbox_1_12_alpha;
             matched = true;
@@ -94,15 +94,19 @@ export function Verbose(e) {
     }
     // 匹配 1.11 中的 1.12 beta 版本
     if (v112betaMatch && !matched) {
-        const num = parseInt(betaMatch[1], 10);
+        const num = parseInt(v112betaMatch[1], 10);
         if (num >= 0 && num <= 9) {
             top = e.singbox_1_11;
+            e.tailscale = false;
+            e.tls_fragment = false;
             matched = true;
         }
     }
     // 匹配 1.11.x 版本
     if (v111Match && !matched) {
         top = e.singbox_1_11;
+        e.tailscale = false;
+        e.tls_fragment = false;
         matched = true;
     }
     // 匹配 1.12.x 版本
@@ -221,7 +225,7 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
         let matchedOutbounds = [];
         let hasValidAction = false;
 
-        outbound.filter?.forEach(filter => {
+        outbound.filter?.forEach((filter) => {
             if (filter.action !== 'all') {
                 // 检查 keywords 是否存在且有效
                 if (!filter.keywords || typeof filter.keywords !== 'string') {
@@ -267,9 +271,9 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
     const applyFilterAction = (items, regex, action) => {
         switch (action) {
             case 'include':
-                return items.filter(name => regex.test(name));
+                return items.filter((name) => regex.test(name));
             case 'exclude':
-                return items.filter(name => !regex.test(name));
+                return items.filter((name) => !regex.test(name));
             default:
                 return [];
         }
@@ -278,9 +282,7 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
     // 更新 outbounds 数组
     const updateOutboundsArray = (outbound, matchedOutbounds, hasValidAction) => {
         if (matchedOutbounds.length > 0) {
-            outbound.outbounds = outbound.outbounds
-                ? [...new Set([...outbound.outbounds, ...matchedOutbounds])]
-                : matchedOutbounds;
+            outbound.outbounds = outbound.outbounds ? [...new Set([...outbound.outbounds, ...matchedOutbounds])] : matchedOutbounds;
         } else if (outbound.outbounds && outbound.outbounds.length > 0) {
             // 保留原有的 outbounds（没有匹配到但原本有内容）
         } else {
@@ -296,27 +298,27 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
     const cleanRemovedTags = (outbounds) => {
         // 找出所有 outbounds 为空的项（将被删除的 tags）
         const removedTags = outbounds
-            .filter(item => !item.outbounds || (Array.isArray(item.outbounds) && item.outbounds.length === 0))
-            .map(item => item.tag)
-            .filter(tag => tag !== undefined);
+            .filter((item) => !item.outbounds || (Array.isArray(item.outbounds) && item.outbounds.length === 0))
+            .map((item) => item.tag)
+            .filter((tag) => tag !== undefined);
 
         // 从所有 outbounds 数组中删除这些 tags
-        const cleanedOutbounds = outbounds.map(item => {
+        const cleanedOutbounds = outbounds.map((item) => {
             if (item.outbounds && Array.isArray(item.outbounds)) {
                 // 严格匹配 tag 名称（完全相等）
-                item.outbounds = item.outbounds.filter(tag => !removedTags.includes(tag));
+                item.outbounds = item.outbounds.filter((tag) => !removedTags.includes(tag));
             }
             return item;
         });
 
         // 过滤掉 outbounds 数组为空或不存在的策略组
-        return cleanedOutbounds.filter(item => {
+        return cleanedOutbounds.filter((item) => {
             return item.outbounds && Array.isArray(item.outbounds) && item.outbounds.length > 0;
         });
     };
 
     // 主处理流程
-    const processedOutbounds = Outbounds.map(outbound => {
+    const processedOutbounds = Outbounds.map((outbound) => {
         const { matchedOutbounds, hasValidAction } = processOutboundFilters(outbound);
         return updateOutboundsArray(outbound, matchedOutbounds, hasValidAction);
     });
