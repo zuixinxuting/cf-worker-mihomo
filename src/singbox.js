@@ -1,4 +1,5 @@
 import * as utils from './utils.js';
+import getSingbox_Outbounds_Data from './outbounds.js';
 export async function getsingbox_config(e) {
     const top = Verbose(e);
     e.urls = utils.splitUrlsAndProxies(e.urls);
@@ -79,79 +80,7 @@ export function Verbose(e) {
     }
     return top;
 }
-/**
- * 加载多个配置 URL，对其 outbounds 进行合并处理。
- * 对第一个配置不添加 tag 后缀，其余的添加 `[序号]`。
- */
-export async function getSingbox_Outbounds_Data(e) {
-    let res;
-    if (e.urls.length === 1) {
-        res = await utils.fetchResponse(e.urls[0], e.userAgent);
-        if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
-            res.data.outbounds.forEach((p) => {
-                if (e.udp_fragment) p.udp_fragment = true;
-            });
-            return {
-                status: res.status,
-                headers: res.headers,
-                data: res.data,
-            };
-        } else {
-            const apiurl = utils.buildApiUrl(e.urls[0], e.sub, 'singbox');
-            res = await utils.fetchResponse(apiurl, e.userAgent);
-            if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
-                res.data.outbounds.forEach((p) => {
-                    if (e.udp_fragment) p.udp_fragment = true;
-                });
-                return {
-                    status: res.status,
-                    headers: res.headers,
-                    data: res.data,
-                };
-            }
-        }
-    } else {
-        const outbounds_list = [];
-        const hesList = [];
-        let res;
-        for (let i = 0; i < e.urls.length; i++) {
-            res = await utils.fetchResponse(e.urls[i], e.userAgent);
-            if (res?.data && Array.isArray(res?.data?.outbounds)) {
-                res.data.outbounds.forEach((p) => {
-                    p.tag = `${p.tag} [${i + 1}]`;
-                    if (e.udp_fragment) p.udp_fragment = true;
-                });
-                hesList.push({
-                    status: res.status,
-                    headers: res.headers,
-                });
-                outbounds_list.push(res.data.outbounds);
-            } else {
-                const apiurl = utils.buildApiUrl(e.urls[i], e.sub, 'singbox');
-                res = await utils.fetchResponse(apiurl, e.userAgent);
-                if (res?.data?.outbounds && Array.isArray(res?.data?.outbounds)) {
-                    res.data.outbounds.forEach((p) => {
-                        p.tag = `${p.tag} [${i + 1}]`;
-                        if (e.udp_fragment) p.udp_fragment = true;
-                    });
-                    hesList.push({
-                        status: res.status,
-                        headers: res.headers,
-                    });
-                    outbounds_list.push(res.data.outbounds);
-                }
-            }
-        }
-        const randomIndex = Math.floor(Math.random() * hesList.length);
-        const hes = hesList[randomIndex];
-        const data = { outbounds: outbounds_list.flat() };
-        return {
-            status: hes.status,
-            headers: hes.headers,
-            data: data,
-        };
-    }
-}
+
 /**
  * 处理配置文件中的 outbounds 数组：
  * 1. 先排除特定类型（如 direct、dns 等）；
@@ -349,22 +278,22 @@ export function applyTemplate(top, rule, e) {
         top.dns.servers.flatMap((p) => {
             if (p.tag === 'DIRECT-DNS') {
                 p = {
-                    "type": "quic",
-                    "tag": "DIRECT-DNS",
-                    "detour": "🎯 全球直连",
-                    "server_port": 853,
-                    "server": "dns.18bit.cn",
-                    "domain_resolver": "local"
+                    type: 'quic',
+                    tag: 'DIRECT-DNS',
+                    detour: '🎯 全球直连',
+                    server_port: 853,
+                    server: 'dns.18bit.cn',
+                    domain_resolver: 'local',
                 };
             }
             if (p.tag === 'PROXY-DNS') {
                 p = {
-                    "type": "quic",
-                    "tag": "PROXY-DNS",
-                    "detour": "🚀 节点选择",
-                    "server_port": 853,
-                    "server": "dns.adguard-dns.com",
-                    "domain_resolver": "local"
+                    type: 'quic',
+                    tag: 'PROXY-DNS',
+                    detour: '🚀 节点选择',
+                    server_port: 853,
+                    server: 'dns.adguard-dns.com',
+                    domain_resolver: 'local',
                 };
             }
             return p;
