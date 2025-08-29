@@ -286,6 +286,7 @@ export function modes(sub, userAgent) {
 - UDP : 启用 UDP 代理流量 [查看详情](https://wiki.metacubex.one/config/proxies/#udp)
 - 分应用代理: 排除 CN 应用(仅包含android应用)不入代理工具 [查看详情](https://wiki.metacubex.one/config/inbound/tun/#exclude-package)
 - 分IPCIDR代理: 排除 CN IP 不进入代理工具 [查看详情](https://wiki.metacubex.one/config/inbound/tun/#route-exclude-address)
+- 去广告dns: 直连使用 [dns.18bit.cn](https://www.18bit.cn), 代理使用 [dns.adguard-dns.com](https://adguard-dns.io/)
 - 仅代理: 关闭 VPN 代理，使用 mixed(http/socks) 端口进行代理。实际就是关闭了 tun 入站
 
 ## 配置信息
@@ -298,6 +299,7 @@ export function modes(sub, userAgent) {
                 { value: 'udp', label: '启用 UDP', checked: true },
                 { value: 'ep', label: '启用 分应用代理(仅Android)' },
                 { value: 'ea', label: '启用 分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
+                { value: 'adgdns', label: '启用 去广告dns' },
                 { value: 'tun', label: '启用 仅代理' },
             ],
         },
@@ -328,6 +330,7 @@ export function modes(sub, userAgent) {
 - 分应用代理: 排除 CN 应用(仅包含android应用)不入代理工具 [查看详情](https://sing-box.sagernet.org/zh/configuration/inbound/tun/#exclude_package)
 - 分IPCIDR代理: 排除 CN IP 不进入代理工具 [查看详情](https://sing-box.sagernet.org/zh/configuration/inbound/tun/#route_exclude_address)
 - tailscale: [查看详情](https://sing-box.sagernet.org/zh/configuration/endpoint/tailscale)
+- 去广告dns: 直连使用 [dns.18bit.cn](https://www.18bit.cn), 代理使用 [dns.adguard-dns.com](https://adguard-dns.io/)
 - 仅代理: 关闭 VPN 代理，使用 mixed(http/socks) 端口进行代理。实际就是关闭了 tun 入站
 
 ## 配置信息
@@ -343,12 +346,13 @@ export function modes(sub, userAgent) {
                 { value: 'ep', label: '启用 分应用代理(仅Android)' },
                 { value: 'ea', label: '启用 分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
                 { value: 'tailscale', label: '启用 tailscale' },
+                { value: 'adgdns', label: '启用 去广告dns' },
                 { value: 'tun', label: '启用 仅代理' },
             ],
         },
         v2ray: {
             name: 'V2Ray',
-            placeholder: '请输入V2Ray订阅地址url，支持各种订阅或单节点链接',
+            placeholder: '请输入V2Ray订阅地址url, 支持各种订阅或单节点链接',
             tipText: `
 **转换后端** ${sub}
                 `,

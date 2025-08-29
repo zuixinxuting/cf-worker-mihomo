@@ -54,7 +54,7 @@ export async function getFakePage(e) {
             -webkit-backdrop-filter: blur(15px);
             max-width: 600px;
             width: 100%;
-            padding: 2.5rem;
+            padding: 1.5rem;
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.5);
@@ -72,7 +72,7 @@ export async function getFakePage(e) {
         h1 {
             text-align: center;
             color: var(--primary-color);
-            margin-bottom: 2rem;
+            margin-bottom: 0.5rem;
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: -0.5px;
@@ -83,7 +83,7 @@ export async function getFakePage(e) {
         }
 
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .link-input {
@@ -166,7 +166,7 @@ export async function getFakePage(e) {
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             position: relative;
             overflow: hidden;
             box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
@@ -251,8 +251,8 @@ export async function getFakePage(e) {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -260,8 +260,8 @@ export async function getFakePage(e) {
             text-align: center;
             font-size: 13px;
             color: var(--text-secondary);
-            margin-top: 2rem;
-            padding-top: 1.5rem;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
             border-top: 1px solid var(--border-color);
         }
 
@@ -295,7 +295,7 @@ export async function getFakePage(e) {
         
         .template-selector {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         
         .template-toggle {
@@ -386,7 +386,7 @@ export async function getFakePage(e) {
         .config-toggle {
             display: flex;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             background: rgba(67, 97, 238, 0.08);
             border-radius: 12px;
             padding: 6px;
@@ -529,7 +529,7 @@ export async function getFakePage(e) {
 
         .protocol-options {
             display: flex;
-            gap: 15px;
+            gap: 1px;
             margin-top: 12px;
             flex-wrap: wrap;
         }
@@ -558,7 +558,7 @@ export async function getFakePage(e) {
         /* 响应式设计 */
         @media (max-width: 768px) {
             .container {
-                padding: 2rem;
+                padding: 1.5rem;
                 margin: 10px;
                 border-radius: 20px;
             }
@@ -573,7 +573,7 @@ export async function getFakePage(e) {
             }
             
             .protocol-options {
-                gap: 10px;
+                gap: 1px;
             }
         }
 

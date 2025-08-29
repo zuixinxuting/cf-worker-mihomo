@@ -9,7 +9,8 @@ export async function getsingbox_config(e) {
         e.exclude_package ? utils.fetchpackExtract() : null,
         e.exclude_address ? utils.fetchipExtract() : null,
     ]);
-
+    e.Exclude_Package = Exclude_Package;
+    e.Exclude_Address = Exclude_Address;
     if (!Singbox_Outbounds_Data?.data?.outbounds || Singbox_Outbounds_Data?.data?.outbounds?.length === 0)
         throw new Error(`节点为空，请使用有效订阅`);
 
@@ -22,56 +23,7 @@ export async function getsingbox_config(e) {
     Singbox_Rule_Data.data.outbounds = loadAndSetOutbounds(Singbox_Rule_Data.data.outbounds, ApiUrlname);
     // 合并 outbounds
     Singbox_Rule_Data.data.outbounds.push(...Singbox_Outbounds_Data.data.outbounds);
-    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data);
-    // 添加排除包和排除地址配置
-    if (e.tun) {
-        Singbox_Top_Data.data.inbounds.filter((p) => p.type !== 'tun');
-    } else {
-        if (e.exclude_package) addExcludePackage(Singbox_Top_Data.data, Exclude_Package);
-        if (e.exclude_address) addExcludeAddress(Singbox_Top_Data.data, Exclude_Address);
-    }
-    // 添加 tailscale 相关配置
-    if (e.tailscale) {
-        Singbox_Top_Data.data.dns.servers.push({
-            type: 'tailscale',
-            endpoint: 'ts-ep',
-            accept_default_resolvers: true,
-        });
-        Singbox_Top_Data.data.endpoints = Singbox_Top_Data.data.endpoints || [];
-        Singbox_Top_Data.data.endpoints.push({
-            type: 'tailscale',
-            tag: 'ts-ep',
-            auth_key: '',
-            hostname: 'singbox-tailscale',
-            udp_timeout: '5m',
-        });
-    }
-
-    // 处理 route-options 规则
-    Singbox_Top_Data.data.route.rules = Singbox_Top_Data.data.route.rules.flatMap((p) => {
-        if (p.action === 'route-options') {
-            if (e.udp) {
-                p.udp_disable_domain_unmapping = true;
-                p.udp_connect = true;
-                p.udp_timeout = '5m';
-            }
-            if (e.tls_fragment) {
-                p.tls_fragment = true;
-                p.tls_fragment_fallback_delay = '5m';
-            }
-            // 如果既没有 udp 也没有 tls_fragment 参数，则过滤掉该规则
-            return e.udp || e.tls_fragment ? p : [];
-        }
-        return p;
-    });
-
-    if (/ref1nd/i.test(e.userAgent)) {
-        for (const item of Singbox_Top_Data.data.route.rules) {
-            if (item.action === 'resolve') {
-                item.match_only = true;
-            }
-        }
-    }
+    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data, e);
     return {
         status: Singbox_Outbounds_Data.status,
         headers: Singbox_Outbounds_Data.headers,
@@ -329,7 +281,7 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
     return cleanRemovedTags(processedOutbounds);
 }
 
-export function applyTemplate(top, rule) {
+export function applyTemplate(top, rule, e) {
     const existingSet = Array.isArray(top.route.rule_set) ? top.route.rule_set : [];
     const newSet = Array.isArray(rule.route.rule_set) ? rule.route.rule_set : [];
     const mergedMap = new Map();
@@ -344,6 +296,80 @@ export function applyTemplate(top, rule) {
     top.route.final = rule?.route?.final || top.route.final;
     top.route.rules = [...(Array.isArray(top.route.rules) ? top.route.rules : []), ...(Array.isArray(rule?.route?.rules) ? rule.route.rules : [])];
     top.route.rule_set = Array.from(mergedMap.values());
+
+    // 添加排除包和排除地址配置
+    if (e.tun) {
+        top.inbounds.filter((p) => p.type !== 'tun');
+    } else {
+        if (e.exclude_package) addExcludePackage(top, e.Exclude_Package);
+        if (e.exclude_address) addExcludeAddress(top, e.Exclude_Address);
+    }
+    // 添加 tailscale 相关配置
+    if (e.tailscale) {
+        top.dns.servers.push({
+            type: 'tailscale',
+            endpoint: 'ts-ep',
+            accept_default_resolvers: true,
+        });
+        top.endpoints = top.endpoints || [];
+        top.endpoints.push({
+            type: 'tailscale',
+            tag: 'ts-ep',
+            auth_key: '',
+            hostname: 'singbox-tailscale',
+            udp_timeout: '5m',
+        });
+    }
+
+    if (/ref1nd/i.test(e.userAgent)) {
+        for (const item of top.route.rules) {
+            if (item.action === 'resolve') {
+                item.match_only = true;
+            }
+        }
+    }
+    // 处理 route-options 规则
+    top.route.rules = top.route.rules.flatMap((p) => {
+        if (p.action === 'route-options') {
+            if (e.udp) {
+                p.udp_disable_domain_unmapping = true;
+                p.udp_connect = true;
+                p.udp_timeout = '5m';
+            }
+            if (e.tls_fragment) {
+                p.tls_fragment = true;
+                p.tls_fragment_fallback_delay = '5m';
+            }
+            // 如果既没有 udp 也没有 tls_fragment 参数，则过滤掉该规则
+            return e.udp || e.tls_fragment ? p : [];
+        }
+        return p;
+    });
+    if (e.adgdns) {
+        top.dns.servers.flatMap((p) => {
+            if (p.tag === 'DIRECT-DNS') {
+                p = {
+                    "type": "quic",
+                    "tag": "DIRECT-DNS",
+                    "detour": "🎯 全球直连",
+                    "server_port": 853,
+                    "server": "dns.18bit.cn",
+                    "domain_resolver": "local"
+                };
+            }
+            if (p.tag === 'PROXY-DNS') {
+                p = {
+                    "type": "quic",
+                    "tag": "PROXY-DNS",
+                    "detour": "🚀 节点选择",
+                    "server_port": 853,
+                    "server": "dns.adguard-dns.com",
+                    "domain_resolver": "local"
+                };
+            }
+            return p;
+        });
+    }
 }
 
 export function addExcludePackage(singboxTopData, newPackages) {

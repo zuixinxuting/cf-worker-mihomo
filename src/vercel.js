@@ -19,6 +19,7 @@ export default async function handler(req, res) {
         exclude_package: url.searchParams.get('ep') === 'true',
         exclude_address: url.searchParams.get('ea') === 'true',
         tailscale: url.searchParams.get('tailscale') === 'true',
+        adgdns: url.searchParams.get('adgdns') === 'true',
         tun: url.searchParams.get('tun') === 'true',
         IMG: process.env.IMG || utils.backimg,
         sub: process.env.SUB || utils.subapi,

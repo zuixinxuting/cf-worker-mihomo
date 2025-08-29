@@ -11,9 +11,9 @@ export async function getmihomo_config(e) {
         e.exclude_package ? utils.fetchpackExtract() : null,
         e.exclude_address ? utils.fetchipExtract() : null,
     ]);
+    e.Exclude_Package = Exclude_Package;
+    e.Exclude_Address = Exclude_Address;
     if (!Mihomo_Proxies_Data?.data?.proxies || Mihomo_Proxies_Data?.data?.proxies?.length === 0) throw new Error('节点为空');
-    if (Exclude_Package) Mihomo_Rule_Data.data['exclude-package'] = Exclude_Package;
-    if (Exclude_Address) Mihomo_Rule_Data.data['route-exclude-address'] = Exclude_Address;
     Mihomo_Rule_Data.data.proxies = [...(Mihomo_Rule_Data?.data?.proxies || []), ...Mihomo_Proxies_Data?.data?.proxies];
     Mihomo_Rule_Data.data['proxy-groups'] = getMihomo_Proxies_Grouping(Mihomo_Proxies_Data.data, Mihomo_Rule_Data.data);
     Mihomo_Rule_Data.data['proxy-providers'] = Mihomo_Proxies_Data?.data?.providers;
@@ -110,23 +110,29 @@ export async function getMihomo_Proxies_Data(e) {
  * @param {Object} template - 模板配置对象
  */
 export function applyTemplate(top, rule, e) {
-    if (e.tun) {
-        delete top.tun;
-    } else if (top.tun) {
-        if (e.exclude_address && rule['route-exclude-address']) {
-            top.tun['route-address'] = ['0.0.0.0/1', '128.0.0.0/1', '::/1', '8000::/1'];
-            top.tun['route-exclude-address'] = rule['route-exclude-address'] || [];
-        }
-        if (e.exclude_package && rule['exclude-package']) {
-            top.tun['exclude-package'] = rule['exclude-package'] || [];
-        }
-    }
     top['proxy-providers'] = rule['proxy-providers'] || {};
     top.proxies = rule.proxies || [];
     top['proxy-groups'] = rule['proxy-groups'] || [];
     top.rules = rule.rules || [];
     top['sub-rules'] = rule['sub-rules'] || {};
     top['rule-providers'] = { ...(top['rule-providers'] || {}), ...(rule['rule-providers'] || {}) };
+
+    if (e.tun && top.tun) {
+        top.tun.enable = false;
+    } else if (top.tun) {
+        if (e.exclude_address && e.Exclude_Address) {
+            top.tun['route-address'] = ['0.0.0.0/1', '128.0.0.0/1', '::/1', '8000::/1'];
+            top.tun['route-exclude-address'] = e.Exclude_Address || [];
+        }
+        if (e.exclude_package && e.Exclude_Package) {
+            top.tun['include-package'] = [];
+            top.tun['exclude-package'] = e.Exclude_Package || [];
+        }
+    }
+    if (e.adgdns) {
+        top.dns.nameserver = ['quic://dns.18bit.cn'];
+        top.dns['nameserver-policy']["RULE-SET:private_domain,cn_domain"] = ["quic://dns.adguard-dns.com"];
+    }
 }
 
 /**
