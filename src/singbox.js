@@ -228,7 +228,7 @@ export function applyTemplate(top, rule, e) {
 
     // 添加排除包和排除地址配置
     if (e.tun) {
-        top.inbounds.filter((p) => p.type !== 'tun');
+        top.inbounds = top.inbounds.filter((p) => p.type !== 'tun');
     } else {
         if (e.exclude_package) addExcludePackage(top, e.Exclude_Package);
         if (e.exclude_address) addExcludeAddress(top, e.Exclude_Address);
