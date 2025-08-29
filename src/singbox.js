@@ -24,9 +24,12 @@ export async function getsingbox_config(e) {
     Singbox_Rule_Data.data.outbounds.push(...Singbox_Outbounds_Data.data.outbounds);
     applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data);
     // 添加排除包和排除地址配置
-    if (e.exclude_package) addExcludePackage(Singbox_Top_Data.data, Exclude_Package);
-    if (e.exclude_address) addExcludeAddress(Singbox_Top_Data.data, Exclude_Address);
-
+    if (e.tun) {
+        Singbox_Top_Data.data.inbounds.filter((p) => p.type !== 'tun');
+    } else {
+        if (e.exclude_package) addExcludePackage(Singbox_Top_Data.data, Exclude_Package);
+        if (e.exclude_address) addExcludeAddress(Singbox_Top_Data.data, Exclude_Address);
+    }
     // 添加 tailscale 相关配置
     if (e.tailscale) {
         Singbox_Top_Data.data.dns.servers.push({
@@ -116,7 +119,7 @@ export function Verbose(e) {
     }
     // 匹配 1.13.x 版本
     if (v113Match && !matched) {
-        top = e.singbox_1_12;
+        top = e.singbox_1_13;
         matched = true;
     }
     if (!matched) {

@@ -19,13 +19,13 @@
             {
                 "tag": "DIRECT-DNS",
                 "address_resolver": "local",
-                "address": "https://dns.alidns.com/dns-query",
+                "address": "quic://dns.alidns.com:853",
                 "detour": "🎯 全球直连"
             },
             {
                 "tag": "PROXY-DNS",
                 "address_resolver": "local",
-                "address": "https://cloudflare-dns.com/dns-query",
+                "address": "h3://cloudflare-dns.com/dns-query",
                 "detour": "🚀 节点选择"
             },
             {

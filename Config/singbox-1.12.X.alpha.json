@@ -38,15 +38,15 @@
                 "type": "local"
             },
             {
-                "type": "https",
+                "type": "quic",
                 "tag": "DIRECT-DNS",
                 "detour": "🎯 全球直连",
-                "server_port": 443,
+                "server_port": 853,
                 "server": "dns.alidns.com",
                 "domain_resolver": "local"
             },
             {
-                "type": "https",
+                "type": "h3",
                 "tag": "PROXY-DNS",
                 "detour": "🚀 节点选择",
                 "server_port": 443,

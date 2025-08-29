@@ -1,13 +1,24 @@
 // import fetch from 'node-fetch';
 import YAML from 'yaml';
-export const backimg = 'https://t.alcy.cc/ycy';
-export const subapi = 'https://sub-stort-nodejs.pages.dev';
-export const mihomo_top = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/Config/Mihomo_lite.yaml';
-export const singbox_1_11 = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox_1.11.X.json';
-export const singbox_1_12 = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.json';
-export const singbox_1_12_alpha = 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/refs/heads/main/Config/singbox-1.12.X.alpha.json';
+export const backimg = base64DecodeUtf8('aHR0cHM6Ly90LmFsY3kuY2MveWN5');
+export const subapi = base64DecodeUtf8('aHR0cHM6Ly9zdWItc3RvcnQtbm9kZWpzLnBhZ2VzLmRldg==');
+export const mihomo_top = base64DecodeUtf8(
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL21haW4vQ29uZmlnL01paG9tb19saXRlLnlhbWw='
+);
+export const singbox_1_11 = base64DecodeUtf8(
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveF8xLjExLlguanNvbg=='
+);
+export const singbox_1_12 = base64DecodeUtf8(
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEyLlguanNvbg=='
+);
+export const singbox_1_12_alpha = base64DecodeUtf8(
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEyLlguYWxwaGEuanNvbg=='
+);
+export const singbox_1_13 = base64DecodeUtf8(
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEzLlguanNvbg=='
+);
 export const beiantext = base64DecodeUtf8('6JCMSUNQ5aSHMjAyNTAwMDHlj7c=');
-export const beiandizi = atob('aHR0cHM6Ly90Lm1lL01hcmlzYV9rcmlzdGk=');
+export const beiandizi = base64DecodeUtf8('aHR0cHM6Ly90Lm1lL01hcmlzYV9rcmlzdGk=');
 // 实现base64解码UTF-8字符串的函数
 export function base64DecodeUtf8(str) {
     const binary = atob(str);
@@ -270,6 +281,13 @@ export function modes(sub, userAgent) {
 - 屏蔽 WebRTC 泄漏(防止真实IP暴露)
 - 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
 
+## 附加参数说明
+
+- UDP : 启用 UDP 代理流量 [查看详情](https://wiki.metacubex.one/config/proxies/#udp)
+- 分应用代理: 排除 CN 应用(仅包含android应用)不入代理工具 [查看详情](https://wiki.metacubex.one/config/inbound/tun/#exclude-package)
+- 分IPCIDR代理: 排除 CN IP 不进入代理工具 [查看详情](https://wiki.metacubex.one/config/inbound/tun/#route-exclude-address)
+- 仅代理: 关闭 VPN 代理，使用 mixed(http/socks) 端口进行代理。实际就是关闭了 tun 入站
+
 ## 配置信息
 
 **userAgent** ${userAgent}
@@ -278,8 +296,9 @@ export function modes(sub, userAgent) {
                 `,
             protocolOptions: [
                 { value: 'udp', label: '启用 UDP', checked: true },
-                { value: 'ep', label: '启用分应用代理(仅Android)' },
-                { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
+                { value: 'ep', label: '启用 分应用代理(仅Android)' },
+                { value: 'ea', label: '启用 分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
+                { value: 'tun', label: '启用 仅代理' },
             ],
         },
         singbox: {
@@ -301,6 +320,16 @@ export function modes(sub, userAgent) {
 - 屏蔽 WebRTC 泄漏(防止真实IP暴露)
 - 关闭所有覆写功能(不是关闭功能，是关闭覆写)以确保配置正常生效
 
+## 附加参数说明
+
+- UDP: 启用 UDP 代理流量 [查看详情](https://sing-box.sagernet.org/zh/configuration/route/rule_action/#udp_disable_domain_unmapping)
+- UDP 分段: [查看详情](https://sing-box.sagernet.org/zh/configuration/shared/dial/#udp_fragment)
+- TLS 分段: 绕过被防火墙拦截的域名 [查看详情](https://sing-box.sagernet.org/zh/configuration/route/rule_action/#tls_fragment)
+- 分应用代理: 排除 CN 应用(仅包含android应用)不入代理工具 [查看详情](https://sing-box.sagernet.org/zh/configuration/inbound/tun/#exclude_package)
+- 分IPCIDR代理: 排除 CN IP 不进入代理工具 [查看详情](https://sing-box.sagernet.org/zh/configuration/inbound/tun/#route_exclude_address)
+- tailscale: [查看详情](https://sing-box.sagernet.org/zh/configuration/endpoint/tailscale)
+- 仅代理: 关闭 VPN 代理，使用 mixed(http/socks) 端口进行代理。实际就是关闭了 tun 入站
+
 ## 配置信息
 
 **userAgent** ${userAgent}
@@ -310,10 +339,11 @@ export function modes(sub, userAgent) {
             protocolOptions: [
                 { value: 'udp', label: '启用 UDP', checked: true },
                 { value: 'udp_frag', label: '启用 UDP 分段' },
-                { value: 'tls_frag', label: '启用 tls 分段' },
-                { value: 'ep', label: '启用分应用代理(仅Android)' },
-                { value: 'ea', label: '启用分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
+                { value: 'tls_frag', label: '启用 TLS 分段' },
+                { value: 'ep', label: '启用 分应用代理(仅Android)' },
+                { value: 'ea', label: '启用 分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
                 { value: 'tailscale', label: '启用 tailscale' },
+                { value: 'tun', label: '启用 仅代理' },
             ],
         },
         v2ray: {

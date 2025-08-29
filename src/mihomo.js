@@ -110,7 +110,9 @@ export async function getMihomo_Proxies_Data(e) {
  * @param {Object} template - 模板配置对象
  */
 export function applyTemplate(top, rule, e) {
-    if (top.tun) {
+    if (e.tun) {
+        delete top.tun;
+    } else if (top.tun) {
         if (e.exclude_address && rule['route-exclude-address']) {
             top.tun['route-address'] = ['0.0.0.0/1', '128.0.0.0/1', '::/1', '8000::/1'];
             top.tun['route-exclude-address'] = rule['route-exclude-address'] || [];
