@@ -288,10 +288,10 @@ export function applyTemplate(top, rule, e) {
             }
             if (p.tag === 'PROXY-DNS') {
                 p = {
-                    type: 'quic',
+                    type: 'https',
                     tag: 'PROXY-DNS',
                     detour: '🚀 节点选择',
-                    server_port: 853,
+                    server_port: 443,
                     server: 'dns.adguard-dns.com',
                     domain_resolver: 'local',
                 };
