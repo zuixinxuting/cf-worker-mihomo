@@ -13,7 +13,6 @@
 proxy: &proxy { type: selector, interrupt_exist_connections: true, outbounds: [ 🚀 节点选择, 🎯 全球直连, ♻️ 自动选择, 🟢 手动选择, 🇦🇩 安道尔自动, 🇦🇪 阿联酋自动, 🇦🇫 阿富汗自动, 🇦🇬 安提瓜和巴布达自动, 🇦🇮 安圭拉自动, 🇦🇱 阿尔巴尼亚自动, 🇦🇲 亚美尼亚自动, 🇦🇴 安哥拉自动, 🇦🇷 阿根廷自动, 🇦🇸 美属萨摩亚自动, 🇦🇹 奥地利自动, 🇦🇺 澳大利亚自动, 🇦🇼 阿鲁巴自动, 🇦🇽 奥兰群岛自动, 🇦🇿 阿塞拜疆自动, 🇧🇦 波斯尼亚和黑塞哥维那自动, 🇧🇧 巴巴多斯自动, 🇧🇩 孟加拉国自动, 🇧🇪 比利时自动, 🇧🇫 布基纳法索自动, 🇧🇬 保加利亚自动, 🇧🇭 巴林自动, 🇧🇮 布隆迪自动, 🇧🇯 贝宁自动, 🇧🇱 法属圣巴泰勒米自动, 🇧🇲 百慕大自动, 🇧🇳 文莱达鲁萨兰国自动, 🇧🇴 玻利维亚自动, 🇧🇶 博内尔、圣尤斯特歇斯和萨巴自动, 🇧🇷 巴西自动, 🇧🇸 巴哈马自动, 🇧🇹 不丹自动, 🇧🇼 博茨瓦纳自动, 🇧🇾 白俄罗斯自动, 🇧🇿 伯利兹自动, 🇨🇦 加拿大自动, 🇨🇩 刚果民主共和国自动, 🇨🇫 中非共和国自动, 🇨🇬 刚果自动, 🇨🇭 瑞士自动, 🇨🇮 科特迪瓦自动, 🇨🇰 库克群岛自动, 🇨🇱 智利自动, 🇨🇲 喀麦隆自动, 🇨🇳 中国自动, 🇨🇴 哥伦比亚自动, 🇨🇷 哥斯达黎加自动, 🇨🇺 古巴自动, 🇨🇻 佛得角自动, 🇨🇼 库拉索自动, 🇨🇾 塞浦路斯自动, 🇨🇿 捷克自动, 🇩🇪 德国自动, 🇩🇯 吉布提自动, 🇩🇰 丹麦自动, 🇩🇲 多米尼克自动, 🇩🇴 多米尼加共和国自动, 🇩🇿 阿尔及利亚自动, 🇪🇨 厄瓜多尔自动, 🇪🇪 爱沙尼亚自动, 🇪🇬 埃及自动, 🇪🇷 厄立特里亚自动, 🇪🇸 西班牙自动, 🇪🇹 埃塞俄比亚自动, 🇪🇺 欧洲联盟自动, 🇫🇮 芬兰自动, 🇫🇯 斐济自动, 🇫🇰 福克兰群岛自动, 🇫🇲 密克罗尼西亚联邦自动, 🇫🇴 法罗群岛自动, 🇫🇷 法国自动, 🇬🇦 加蓬自动, 🇬🇧 英国自动, 🇬🇩 格林纳达自动, 🇬🇪 格鲁吉亚自动, 🇬🇫 法属圭亚那自动, 🇬🇬 格恩西岛自动, 🇬🇭 加纳自动, 🇬🇮 直布罗陀自动, 🇬🇱 格陵兰自动, 🇬🇲 冈比亚自动, 🇬🇳 几内亚自动, 🇬🇵 瓜德罗普自动, 🇬🇶 赤道几内亚自动, 🇬🇷 希腊自动, 🇬🇹 危地马拉自动, 🇬🇺 关岛自动, 🇬🇼 几内亚比绍自动, 🇬🇾 圭亚那自动, 🇭🇰 香港自动, 🇭🇳 洪都拉斯自动, 🇭🇷 克罗地亚自动, 🇭🇹 海地自动, 🇭🇺 匈牙利自动, 🇮🇩 印度尼西亚自动, 🇮🇪 爱尔兰自动, 🇮🇱 以色列自动, 🇮🇲 曼岛自动, 🇮🇳 印度自动, 🇮🇴 英属印度洋领地自动, 🇮🇶 伊拉克自动, 🇮🇷 伊朗自动, 🇮🇸 冰岛自动, 🇮🇹 意大利自动, 🇯🇪 泽西岛自动, 🇯🇲 牙买加自动, 🇯🇴 约旦自动, 🇯🇵 日本自动, 🇰🇪 肯尼亚自动, 🇰🇬 吉尔吉斯斯坦自动, 🇰🇭 柬埔寨自动, 🇰🇮 基里巴斯自动, 🇰🇲 科摩罗自动, 🇰🇳 圣基茨和尼维斯自动, 🇰🇵 朝鲜自动, 🇰🇷 韩国自动, 🇰🇼 科威特自动, 🇰🇾 开曼群岛自动, 🇰🇿 哈萨克斯坦自动, 🇱🇦 老挝自动, 🇱🇧 黎巴嫩自动, 🇱🇨 圣卢西亚自动, 🇱🇮 列支敦士登自动, 🇱🇰 斯里兰卡自动, 🇱🇷 利比里亚自动, 🇱🇸 莱索托自动, 🇱🇹 立陶宛自动, 🇱🇺 卢森堡自动, 🇱🇻 拉脱维亚自动, 🇱🇾 利比亚自动, 🇲🇦 摩洛哥自动, 🇲🇨 摩纳哥自动, 🇲🇩 摩尔多瓦自动, 🇲🇪 黑山自动, 🇲🇫 圣马丁（法属）自动, 🇲🇬 马达加斯加自动, 🇲🇭 马绍尔群岛自动, 🇲🇰 北马其顿自动, 🇲🇱 马里自动, 🇲🇲 缅甸自动, 🇲🇳 蒙古自动, 🇲🇴 澳门自动, 🇲🇵 北马里亚纳群岛自动, 🇲🇶 马提尼克自动, 🇲🇷 毛里塔尼亚自动, 🇲🇸 蒙特塞拉特自动, 🇲🇹 马耳他自动, 🇲🇺 毛里求斯自动, 🇲🇻 马尔代夫自动, 🇲🇼 马拉维自动, 🇲🇽 墨西哥自动, 🇲🇾 马来西亚自动, 🇲🇿 莫桑比克自动, 🇳🇦 纳米比亚自动, 🇳🇨 新喀里多尼亚自动, 🇳🇪 尼日尔自动, 🇳🇫 诺福克岛自动, 🇳🇬 尼日利亚自动, 🇳🇮 尼加拉瓜自动, 🇳🇱 荷兰自动, 🇳🇴 挪威自动, 🇳🇵 尼泊尔自动, 🇳🇷 瑙鲁自动, 🇳🇺 纽埃自动, 🇳🇿 新西兰自动, 🇴🇲 阿曼自动, 🇵🇦 巴拿马自动, 🇵🇪 秘鲁自动, 🇵🇫 法属波利尼西亚自动, 🇵🇬 巴布亚新几内亚自动, 🇵🇭 菲律宾自动, 🇵🇰 巴基斯坦自动, 🇵🇱 波兰自动, 🇵🇲 圣皮埃尔和密克隆自动, 🇵🇷 波多黎各自动, 🇵🇸 巴勒斯坦自动, 🇵🇹 葡萄牙自动, 🇵🇼 帕劳自动, 🇵🇾 巴拉圭自动, 🇶🇦 卡塔尔自动, 🇷🇪 留尼汪自动, 🇷🇴 罗马尼亚自动, 🇷🇸 塞尔维亚自动, 🇷🇺 俄罗斯自动, 🇷🇼 卢旺达自动, 🇸🇦 沙特阿拉伯自动, 🇸🇧 所罗门群岛自动, 🇸🇨 塞舌尔自动, 🇸🇩 苏丹自动, 🇸🇪 瑞典自动, 🇸🇬 新加坡自动, 🇸🇮 斯洛文尼亚自动, 🇸🇰 斯洛伐克自动, 🇸🇱 塞拉利昂自动, 🇸🇲 圣马力诺自动, 🇸🇳 塞内加尔自动, 🇸🇴 索马里自动, 🇸🇷 苏里南自动, 🇸🇸 南苏丹自动, 🇸🇹 圣多美和普林西比自动, 🇸🇻 萨尔瓦多自动, 🇸🇽 荷属圣马丁自动, 🇸🇾 叙利亚自动, 🇸🇿 斯威士兰自动, 🇹🇨 特克斯和凯科斯群岛自动, 🇹🇩 乍得自动, 🇹🇬 多哥自动, 🇹🇭 泰国自动, 🇹🇯 塔吉克斯坦自动, 🇹🇰 托克劳自动, 🇹🇱 东帝汶自动, 🇹🇲 土库曼斯坦自动, 🇹🇳 突尼斯自动, 🇹🇴 汤加自动, 🇹🇷 土耳其自动, 🇹🇹 特立尼达和多巴哥自动, 🇹🇻 图瓦卢自动, 🇹🇼 台湾自动, 🇹🇿 坦桑尼亚自动, 🇺🇦 乌克兰自动, 🇺🇬 乌干达自动, 🇺🇸 美国自动, 🇺🇾 乌拉圭自动, 🇺🇿 乌兹别克斯坦自动, 🇻🇦 梵蒂冈自动, 🇻🇨 圣文森特和格林纳丁斯自动, 🇻🇪 委内瑞拉自动, 🇻🇬 英属维尔京群岛自动, 🇻🇮 美属维尔京群岛自动, 🇻🇳 越南自动, 🇻🇺 瓦努阿图自动, 🇼🇫 瓦利斯和富图纳自动, 🇼🇸 萨摩亚自动, 🇾🇪 也门自动, 🇾🇹 马约特自动, 🇿🇦 南非自动, 🇿🇲 赞比亚自动, 🇿🇼 津巴布韦自动 ] }
 direct: &direct { type: selector, interrupt_exist_connections: true, outbounds: [ 🎯 全球直连, 🚀 节点选择, ♻️ 自动选择, 🟢 手动选择, 🇦🇩 安道尔自动, 🇦🇪 阿联酋自动, 🇦🇫 阿富汗自动, 🇦🇬 安提瓜和巴布达自动, 🇦🇮 安圭拉自动, 🇦🇱 阿尔巴尼亚自动, 🇦🇲 亚美尼亚自动, 🇦🇴 安哥拉自动, 🇦🇷 阿根廷自动, 🇦🇸 美属萨摩亚自动, 🇦🇹 奥地利自动, 🇦🇺 澳大利亚自动, 🇦🇼 阿鲁巴自动, 🇦🇽 奥兰群岛自动, 🇦🇿 阿塞拜疆自动, 🇧🇦 波斯尼亚和黑塞哥维那自动, 🇧🇧 巴巴多斯自动, 🇧🇩 孟加拉国自动, 🇧🇪 比利时自动, 🇧🇫 布基纳法索自动, 🇧🇬 保加利亚自动, 🇧🇭 巴林自动, 🇧🇮 布隆迪自动, 🇧🇯 贝宁自动, 🇧🇱 法属圣巴泰勒米自动, 🇧🇲 百慕大自动, 🇧🇳 文莱达鲁萨兰国自动, 🇧🇴 玻利维亚自动, 🇧🇶 博内尔、圣尤斯特歇斯和萨巴自动, 🇧🇷 巴西自动, 🇧🇸 巴哈马自动, 🇧🇹 不丹自动, 🇧🇼 博茨瓦纳自动, 🇧🇾 白俄罗斯自动, 🇧🇿 伯利兹自动, 🇨🇦 加拿大自动, 🇨🇩 刚果民主共和国自动, 🇨🇫 中非共和国自动, 🇨🇬 刚果自动, 🇨🇭 瑞士自动, 🇨🇮 科特迪瓦自动, 🇨🇰 库克群岛自动, 🇨🇱 智利自动, 🇨🇲 喀麦隆自动, 🇨🇳 中国自动, 🇨🇴 哥伦比亚自动, 🇨🇷 哥斯达黎加自动, 🇨🇺 古巴自动, 🇨🇻 佛得角自动, 🇨🇼 库拉索自动, 🇨🇾 塞浦路斯自动, 🇨🇿 捷克自动, 🇩🇪 德国自动, 🇩🇯 吉布提自动, 🇩🇰 丹麦自动, 🇩🇲 多米尼克自动, 🇩🇴 多米尼加共和国自动, 🇩🇿 阿尔及利亚自动, 🇪🇨 厄瓜多尔自动, 🇪🇪 爱沙尼亚自动, 🇪🇬 埃及自动, 🇪🇷 厄立特里亚自动, 🇪🇸 西班牙自动, 🇪🇹 埃塞俄比亚自动, 🇪🇺 欧洲联盟自动, 🇫🇮 芬兰自动, 🇫🇯 斐济自动, 🇫🇰 福克兰群岛自动, 🇫🇲 密克罗尼西亚联邦自动, 🇫🇴 法罗群岛自动, 🇫🇷 法国自动, 🇬🇦 加蓬自动, 🇬🇧 英国自动, 🇬🇩 格林纳达自动, 🇬🇪 格鲁吉亚自动, 🇬🇫 法属圭亚那自动, 🇬🇬 格恩西岛自动, 🇬🇭 加纳自动, 🇬🇮 直布罗陀自动, 🇬🇱 格陵兰自动, 🇬🇲 冈比亚自动, 🇬🇳 几内亚自动, 🇬🇵 瓜德罗普自动, 🇬🇶 赤道几内亚自动, 🇬🇷 希腊自动, 🇬🇹 危地马拉自动, 🇬🇺 关岛自动, 🇬🇼 几内亚比绍自动, 🇬🇾 圭亚那自动, 🇭🇰 香港自动, 🇭🇳 洪都拉斯自动, 🇭🇷 克罗地亚自动, 🇭🇹 海地自动, 🇭🇺 匈牙利自动, 🇮🇩 印度尼西亚自动, 🇮🇪 爱尔兰自动, 🇮🇱 以色列自动, 🇮🇲 曼岛自动, 🇮🇳 印度自动, 🇮🇴 英属印度洋领地自动, 🇮🇶 伊拉克自动, 🇮🇷 伊朗自动, 🇮🇸 冰岛自动, 🇮🇹 意大利自动, 🇯🇪 泽西岛自动, 🇯🇲 牙买加自动, 🇯🇴 约旦自动, 🇯🇵 日本自动, 🇰🇪 肯尼亚自动, 🇰🇬 吉尔吉斯斯坦自动, 🇰🇭 柬埔寨自动, 🇰🇮 基里巴斯自动, 🇰🇲 科摩罗自动, 🇰🇳 圣基茨和尼维斯自动, 🇰🇵 朝鲜自动, 🇰🇷 韩国自动, 🇰🇼 科威特自动, 🇰🇾 开曼群岛自动, 🇰🇿 哈萨克斯坦自动, 🇱🇦 老挝自动, 🇱🇧 黎巴嫩自动, 🇱🇨 圣卢西亚自动, 🇱🇮 列支敦士登自动, 🇱🇰 斯里兰卡自动, 🇱🇷 利比里亚自动, 🇱🇸 莱索托自动, 🇱🇹 立陶宛自动, 🇱🇺 卢森堡自动, 🇱🇻 拉脱维亚自动, 🇱🇾 利比亚自动, 🇲🇦 摩洛哥自动, 🇲🇨 摩纳哥自动, 🇲🇩 摩尔多瓦自动, 🇲🇪 黑山自动, 🇲🇫 圣马丁（法属）自动, 🇲🇬 马达加斯加自动, 🇲🇭 马绍尔群岛自动, 🇲🇰 北马其顿自动, 🇲🇱 马里自动, 🇲🇲 缅甸自动, 🇲🇳 蒙古自动, 🇲🇴 澳门自动, 🇲🇵 北马里亚纳群岛自动, 🇲🇶 马提尼克自动, 🇲🇷 毛里塔尼亚自动, 🇲🇸 蒙特塞拉特自动, 🇲🇹 马耳他自动, 🇲🇺 毛里求斯自动, 🇲🇻 马尔代夫自动, 🇲🇼 马拉维自动, 🇲🇽 墨西哥自动, 🇲🇾 马来西亚自动, 🇲🇿 莫桑比克自动, 🇳🇦 纳米比亚自动, 🇳🇨 新喀里多尼亚自动, 🇳🇪 尼日尔自动, 🇳🇫 诺福克岛自动, 🇳🇬 尼日利亚自动, 🇳🇮 尼加拉瓜自动, 🇳🇱 荷兰自动, 🇳🇴 挪威自动, 🇳🇵 尼泊尔自动, 🇳🇷 瑙鲁自动, 🇳🇺 纽埃自动, 🇳🇿 新西兰自动, 🇴🇲 阿曼自动, 🇵🇦 巴拿马自动, 🇵🇪 秘鲁自动, 🇵🇫 法属波利尼西亚自动, 🇵🇬 巴布亚新几内亚自动, 🇵🇭 菲律宾自动, 🇵🇰 巴基斯坦自动, 🇵🇱 波兰自动, 🇵🇲 圣皮埃尔和密克隆自动, 🇵🇷 波多黎各自动, 🇵🇸 巴勒斯坦自动, 🇵🇹 葡萄牙自动, 🇵🇼 帕劳自动, 🇵🇾 巴拉圭自动, 🇶🇦 卡塔尔自动, 🇷🇪 留尼汪自动, 🇷🇴 罗马尼亚自动, 🇷🇸 塞尔维亚自动, 🇷🇺 俄罗斯自动, 🇷🇼 卢旺达自动, 🇸🇦 沙特阿拉伯自动, 🇸🇧 所罗门群岛自动, 🇸🇨 塞舌尔自动, 🇸🇩 苏丹自动, 🇸🇪 瑞典自动, 🇸🇬 新加坡自动, 🇸🇮 斯洛文尼亚自动, 🇸🇰 斯洛伐克自动, 🇸🇱 塞拉利昂自动, 🇸🇲 圣马力诺自动, 🇸🇳 塞内加尔自动, 🇸🇴 索马里自动, 🇸🇷 苏里南自动, 🇸🇸 南苏丹自动, 🇸🇹 圣多美和普林西比自动, 🇸🇻 萨尔瓦多自动, 🇸🇽 荷属圣马丁自动, 🇸🇾 叙利亚自动, 🇸🇿 斯威士兰自动, 🇹🇨 特克斯和凯科斯群岛自动, 🇹🇩 乍得自动, 🇹🇬 多哥自动, 🇹🇭 泰国自动, 🇹🇯 塔吉克斯坦自动, 🇹🇰 托克劳自动, 🇹🇱 东帝汶自动, 🇹🇲 土库曼斯坦自动, 🇹🇳 突尼斯自动, 🇹🇴 汤加自动, 🇹🇷 土耳其自动, 🇹🇹 特立尼达和多巴哥自动, 🇹🇻 图瓦卢自动, 🇹🇼 台湾自动, 🇹🇿 坦桑尼亚自动, 🇺🇦 乌克兰自动, 🇺🇬 乌干达自动, 🇺🇸 美国自动, 🇺🇾 乌拉圭自动, 🇺🇿 乌兹别克斯坦自动, 🇻🇦 梵蒂冈自动, 🇻🇨 圣文森特和格林纳丁斯自动, 🇻🇪 委内瑞拉自动, 🇻🇬 英属维尔京群岛自动, 🇻🇮 美属维尔京群岛自动, 🇻🇳 越南自动, 🇻🇺 瓦努阿图自动, 🇼🇫 瓦利斯和富图纳自动, 🇼🇸 萨摩亚自动, 🇾🇪 也门自动, 🇾🇹 马约特自动, 🇿🇦 南非自动, 🇿🇲 赞比亚自动, 🇿🇼 津巴布韦自动 ] }
 ############ end of delete ############
-
 route:
   final: 🚀 节点选择
   rules:
@@ -28,10 +27,20 @@ route:
     - { rule_set: [ fitnessplus_domain ], outbound: FitnessPlus }
     - { rule_set: [ appletv_domain ], outbound: AppleTV }
     - { rule_set: [ applemedia_domain ], outbound: AppleTV }
+    - { rule_set: [ appledev_domain, applefirmware_domain, applehardware_domain, appleid_domain, apple_domain, systemota_domain, siri_domain], outbound: AppleCN }
+    - { rule_set: [ appleproxy_domain ], outbound: Apple }
+    - { rule_set: [ adobe_domain ], outbound: Adobe }
+    - { rule_set: [ amazon_domain, amazon_ip ], outbound: 亚马逊电商 }
+    - { rule_set: [ amazonprimevideo_domain ], outbound: 亚马逊TV }
     - { rule_set: [ biliintl_domain ], outbound: 哔哩东南亚 }
+    - { rule_set: [ bing_domain, microsoft_domain, microsoftedge_domain, teams_domain ], outbound: 微软 }
+    - { rule_set: [ onedrive_domain ], outbound: 微软云盘 }
+    - { rule_set: [ youtube_domain ], outbound: YouTube }
     - { rule_set: [ youtubemusic_domain ], outbound: YouTubeMusic }
+    - { rule_set: [ claude_domain, openai_domain, copilot_domain, gemini_domain ], outbound: OpenAi }
     - { rule_set: [ disney_domain ], outbound: Disney }
     - { rule_set: [ bahamut_domain ], outbound: 巴哈姆特 }
+    - { rule_set: [ tracker_domain ], outbound: BT追踪器 }
     - { rule_set: [ hulujp_domain ], outbound: Hulu }
     - { rule_set: [ huluusa_domain ], outbound: Hulu }
     - { rule_set: [ hulu_domain ], outbound: Hulu }
@@ -39,7 +48,11 @@ route:
     - { rule_set: [ niconico_domain ], outbound: ニコニコ }
     - { rule_set: [ abematv_domain ], outbound: AbemaTV }
     - { rule_set: [ imdb_domain ], outbound: IMDB }
+    - { rule_set: [ instagram_domain ], outbound: Instagram }
     - { rule_set: [ soundcloud_domain ], outbound: SoundCloud }
+    - { rule_set: [ sina_domain ], outbound: 新浪 }
+    - { rule_set: [ speedtest_domain ], outbound: Speedtest }
+    - { rule_set: [ steam_domain ], outbound: Steam }
     - { rule_set: [ lastfm_domain ], outbound: LastFM }
     - { rule_set: [ 4gtv_domain ], outbound: 4GTV }
     - { rule_set: [ discord_domain ], outbound: Discord }
@@ -48,6 +61,7 @@ route:
     - { rule_set: [ intel_domain ], outbound: 因特尔 }
     - { rule_set: [ reddit_domain ], outbound: Reddit }
     - { rule_set: [ ehgallery_domain ], outbound: E站 }
+    - { rule_set: [ emby_domain ], outbound: Emby }
     - { rule_set: [ pixiv_domain ], outbound: Pixiv }
     - { rule_set: [ wikipedia_domain ], outbound: 维基百科 }
     - { rule_set: [ rockstar_domain ], outbound: Rockstar }
@@ -61,17 +75,20 @@ route:
     - { rule_set: [ googleearth_domain ], outbound: Google地图 }
     - { rule_set: [ googlevoice_domain ], outbound: GoogleVoice }
     - { rule_set: [ scholar_domain ], outbound: Google学术 }
+    - { rule_set: [ pinduoduo_domain ], outbound: 拼多多 }
+    - { rule_set: [ github_domain ], outbound: GitHub }
     - { rule_set: [ hbo_domain ], outbound: HBO }
     - { rule_set: [ wise_domain ], outbound: Wise }
     - { rule_set: [ signal_domain ], outbound: Signal }
     - { rule_set: [ picacg_domain ], outbound: 哔咔哔咔 }
     - { rule_set: [ pandora_domain ], outbound: 潘朵拉珠宝 }
     - { rule_set: [ talkatone_domain ], outbound: Talkatone }
-    - { rule_set: [ netflix_domain ], outbound: Netflix }
-    - { rule_set: [ tor_domain ], outbound: Tor }
-    - { rule_set: [ fastly_domain ], outbound: Fastly }
-    - { rule_set: [ google_domain ], outbound: Google }
-    - { rule_set: [ cloudflare_domain ], outbound: Cloudflare }
+    - { rule_set: [ netflix_domain, netflix_ip ], outbound: Netflix }
+    - { rule_set: [ tor_domain, tor_ip ], outbound: Tor }
+    - { rule_set: [ tiktok_domain ], outbound: Tiktok }
+    - { rule_set: [ fastly_domain, fastly_ip ], outbound: Fastly }
+    - { rule_set: [ google_domain, google_ip ], outbound: Google }
+    - { rule_set: [ cloudflare_domain, cloudflare_ip ], outbound: Cloudflare }
     - { rule_set: [ icloud_domain ], outbound: iCloud }
     - { rule_set: [ beats_domain ], outbound: Beats }
     - { rule_set: [ douyin_domain ], outbound: 抖音 }
@@ -84,6 +101,7 @@ route:
     - { rule_set: [ meituan_domain ], outbound: 美团 }
     - { rule_set: [ smzdm_domain ], outbound: 什么值得买 }
     - { rule_set: [ 12306_domain ], outbound: "12306" }
+    - { rule_set: [ 115_domain ], outbound: "115" }
     - { rule_set: [ douban_domain ], outbound: 豆瓣 }
     - { rule_set: [ hupu_domain ], outbound: 虎扑 }
     - { rule_set: [ abc_domain ], outbound: 农业银行 }
@@ -94,26 +112,62 @@ route:
     - { rule_set: [ 58tongcheng_domain ], outbound: 58同城 }
     - { rule_set: [ alipay_domain ], outbound: 支付宝 }
     - { rule_set: [ pinduoduo_domain ], outbound: 拼多多 }
+    - { rule_set: [ pikpak_domain ], outbound: PikPak }
     - { rule_set: [ 4399_domain ], outbound: "4399" }
     - { rule_set: [ wechat_domain ], outbound: 微信 }
     - { rule_set: [ mihoyo_domain ], outbound: Mihoyo }
-    - { rule_set: [ telegram_ip ], outbound: Telegram }
-    - { rule_set: [ facebook_ip ], outbound: Facebook }
-    - { rule_set: [ twitter_ip ], outbound: Twitter }
-    - { rule_set: [ netflix_ip ], outbound: Netflix }
-    - { rule_set: [ tor_ip ], outbound: Tor }
-    - { rule_set: [ fastly_ip ], outbound: Fastly }
-    - { rule_set: [ google_ip ], outbound: Google }
-    - { rule_set: [ cloudflare_ip ], outbound: Cloudflare }
+    - { rule_set: [ telegram_domain, telegram_ip ], outbound: Telegram }
+    - { rule_set: [ facebook_domain, facebook_ip ], outbound: Facebook }
+    - { rule_set: [ twitter_domain, twitter_ip ], outbound: Twitter }
+    - { rule_set: [ alibaba_domain ], outbound: 阿里巴巴 }
+    - { rule_set: [ bilibili_domain ], outbound: 哔哩哔哩 }
+    - { rule_set: [ blizzard_domain ], outbound: 暴雪 }
+    - { rule_set: [ bytedance_domain ], outbound: 字节跳动 }
+    - { rule_set: [ chinamedia_domain ], outbound: 中国媒体 }
+    - { rule_set: [ media_domain ], outbound: 国际媒体 }
+    - { rule_set: [ fcm_domain ], outbound: FCM }
+    - { rule_set: [ iqiyi_domain ], outbound: 爱奇艺 }
+    - { rule_set: [ line_domain ], outbound: LINE }
+    - { rule_set: [ netease_domain ], outbound: 网易 }
+    - { rule_set: [ neteasemusic_domain ], outbound: 网易云音乐 }
+    - { rule_set: [ qobuz_domain ], outbound: Qobuz }
+    - { rule_set: [ spotify_domain ], outbound: Spotify }
+    - { rule_set: [ supercell_domain ], outbound: Supercell }
+    - { rule_set: [ tencent_domain ], outbound: 腾讯 }
+    - { rule_set: [ twitch_domain ], outbound: Twitch }
+    - { rule_set: [ youtube_domain ], outbound: YouTube }
     - { action: resolve }
     - { type: logical, mode: or, rules: [ { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ] }, { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # senshinya 规则集
+    - { tag: youtube_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/YouTube/YouTube.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: alibaba_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Alibaba/Alibaba.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: amazon_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Amazon/Amazon.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: amazon_ip, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/AmazonIP/AmazonIP.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: bilibili_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/BiliBili/BiliBili.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: blizzard_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Blizzard/Blizzard.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: bytedance_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/ByteDance/ByteDance.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: chinamedia_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/ChinaMedia/ChinaMedia.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: media_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/GlobalMedia/GlobalMedia.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: fcm_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/GoogleFCM/GoogleFCM.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: iqiyi_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/iQIYI/iQIYI.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: line_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Line/Line.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: netease_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/NetEase/NetEase.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: neteasemusic_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/NetEaseMusic/NetEaseMusic.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: qobuz_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Qobuz/Qobuz.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: spotify_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Spotify/Spotify.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: supercell_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Supercell/Supercell.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: tencent_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Tencent/Tencent.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: twitch_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Twitch/Twitch.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: youtube_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/YouTube/YouTube.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: apple_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Apple/Apple.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: openai_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/OpenAI/OpenAI.srs, format: binary, download_detour: 🎯 全球直连 }
+    - { tag: copilot_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/Copilot/Copilot.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: stun_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/STUN/STUN.srs, format: binary, download_detour: 🎯 全球直连 }
     - { tag: blockhttpdns_domain, type: remote, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/BlockHttpDNS/BlockHttpDNS.srs, format: binary, download_detour: 🎯 全球直连 }
-    - { tag: "115", type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/115/115.srs, download_detour: 🎯 全球直连 }
-    - { tag: "4399", type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/4399/4399.srs, download_detour: 🎯 全球直连 }
-    - { tag: "12306", type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/12306/12306.srs, download_detour: 🎯 全球直连 }
+    - { tag: 115_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/115/115.srs, download_detour: 🎯 全球直连 }
+    - { tag: 4399_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/4399/4399.srs, download_detour: 🎯 全球直连 }
+    - { tag: 12306_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/12306/12306.srs, download_detour: 🎯 全球直连 }
     - { tag: jingdong_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/JingDong/JingDong.srs, download_detour: 🎯 全球直连 }
     - { tag: 58tongcheng_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/58TongCheng/58TongCheng.srs, download_detour: 🎯 全球直连 }
     - { tag: alipay_domain, type: remote, format: binary, url: https://cdn.jsdmirror.com/gh/senshinya/singbox_ruleset@main/rule/AliPay/AliPay.srs, download_detour: 🎯 全球直连 }
@@ -243,113 +297,113 @@ outbounds:
   - { tag: "115", <<: *direct }
   - { tag: "12306", <<: *direct }
   - { tag: "4399", <<: *direct }
-  - { tag: 4gtv_domain, <<: *proxy }
-  - { tag: 58_domain同城, <<: *direct }
+  - { tag: 4GTV, <<: *proxy }
+  - { tag: 58同城, <<: *direct }
   - { tag: 农业银行, <<: *direct }
-  - { tag: abematv_domain, <<: *proxy }
-  - { tag: adobe_domain, <<: *proxy }
+  - { tag: AbemaTV, <<: *proxy }
+  - { tag: Adobe, <<: *proxy }
   - { tag: 支付宝, <<: *direct }
   - { tag: 阿里巴巴, <<: *direct }
   - { tag: 亚马逊电商, <<: *proxy }
   - { tag: 亚马逊TV, <<: *proxy }
-  - { tag: apple_domain, <<: *proxy }
-  - { tag: applecn_domain, <<: *direct }
-  - { tag: appstore_domain, <<: *proxy }
-  - { tag: apple_domain邮箱, <<: *proxy }
-  - { tag: apple_domain音乐, <<: *proxy }
-  - { tag: apple_domain新闻, <<: *proxy }
-  - { tag: apple_domain日报, <<: *proxy }
-  - { tag: appletv_domain, <<: *proxy }
+  - { tag: Apple, <<: *proxy }
+  - { tag: AppleCN, <<: *direct }
+  - { tag: AppStore, <<: *proxy }
+  - { tag: Apple邮箱, <<: *proxy }
+  - { tag: Apple音乐, <<: *proxy }
+  - { tag: Apple新闻, <<: *proxy }
+  - { tag: Apple日报, <<: *proxy }
+  - { tag: AppleTV, <<: *proxy }
   - { tag: 巴哈姆特, <<: *proxy }
   - { tag: 百度贴吧, <<: *direct }
   - { tag: 百度, <<: *direct }
   - { tag: 哔哩哔哩, <<: *direct }
   - { tag: 哔哩东南亚, <<: *proxy }
-  - { tag: bt_domain追踪器, <<: *direct }
+  - { tag: BT追踪器, <<: *direct }
   - { tag: 暴雪, <<: *proxy }
   - { tag: 字节跳动, <<: *direct }
-  - { tag: beats_domain, <<: *direct }
-  - { tag: cctv_domain, <<: *direct }
+  - { tag: Beats, <<: *direct }
+  - { tag: CCTV, <<: *direct }
   - { tag: 中国媒体, <<: *direct }
-  - { tag: cloudflare_domain, <<: *proxy }
+  - { tag: Cloudflare, <<: *proxy }
   - { tag: 钉钉, <<: *direct }
-  - { tag: discord_domain, <<: *proxy }
-  - { tag: disney_domain, <<: *proxy }
-  - { tag: docker_domain, <<: *proxy }
+  - { tag: Discord, <<: *proxy }
+  - { tag: Disney, <<: *proxy }
+  - { tag: Docker, <<: *proxy }
   - { tag: 豆瓣, <<: *direct }
-  - { tag: e_domain站, <<: *proxy }
-  - { tag: ea_domain, <<: *proxy }
-  - { tag: epic_domain, <<: *proxy }
-  - { tag: emby_domain, <<: *proxy }
-  - { tag: fcm_domain, <<: *proxy }
-  - { tag: facebook_domain, <<: *proxy }
-  - { tag: fastly_domain, <<: *proxy }
-  - { tag: fitnessplus_domain, <<: *direct }
+  - { tag: E站, <<: *proxy }
+  - { tag: EA, <<: *proxy }
+  - { tag: Epic, <<: *proxy }
+  - { tag: Emby, <<: *proxy }
+  - { tag: FCM, <<: *proxy }
+  - { tag: Facebook, <<: *proxy }
+  - { tag: Fastly, <<: *proxy }
+  - { tag: FitnessPlus, <<: *direct }
   - { tag: 高德, <<: *direct }
-  - { tag: github_domain, <<: *proxy }
-  - { tag: google_domain, <<: *proxy }
-  - { tag: google_domain云盘, <<: *proxy }
-  - { tag: google_domain地图, <<: *proxy }
-  - { tag: googlevoice_domain, <<: *proxy }
-  - { tag: hoyoverse_domain, <<: *proxy }
-  - { tag: hulu_domain, <<: *proxy }
+  - { tag: GitHub, <<: *proxy }
+  - { tag: Google, <<: *proxy }
+  - { tag: Google云盘, <<: *proxy }
+  - { tag: Google地图, <<: *proxy }
+  - { tag: GoogleVoice, <<: *proxy }
+  - { tag: Google学术, <<: *proxy }
+  - { tag: Hoyoverse, <<: *proxy }
+  - { tag: Hulu, <<: *proxy }
   - { tag: 虎扑, <<: *direct }
-  - { tag: hbo_domain, <<: *proxy }
-  - { tag: imdb_domain, <<: *proxy }
+  - { tag: HBO, <<: *proxy }
+  - { tag: IMDB, <<: *proxy }
   - { tag: 爱奇艺, <<: *direct }
-  - { tag: instagram_domain, <<: *proxy }
+  - { tag: Instagram, <<: *proxy }
   - { tag: 因特尔, <<: *proxy }
-  - { tag: icloud_domain, <<: *direct }
+  - { tag: iCloud, <<: *direct }
   - { tag: 京东, <<: *direct }
   - { tag: 酷狗, <<: *direct }
   - { tag: 酷我, <<: *direct }
-  - { tag: lastfm_domain, <<: *proxy }
-  - { tag: line_domain, <<: *proxy }
+  - { tag: LastFM, <<: *proxy }
+  - { tag: LINE, <<: *proxy }
   - { tag: 美团, <<: *direct }
   - { tag: 微软, <<: *direct }
-  - { tag: mihoyo_domain, <<: *direct }
-  - { tag: nga_domain, <<: *direct }
+  - { tag: Mihoyo, <<: *direct }
+  - { tag: NGA, <<: *direct }
   - { tag: 网易, <<: *direct }
   - { tag: 网易云音乐, <<: *direct }
-  - { tag: netflix_domain, <<: *proxy }
+  - { tag: Netflix, <<: *proxy }
   - { tag: ニコニコ, <<: *proxy }
-  - { tag: openai_domain, <<: *proxy }
+  - { tag: OpenAi, <<: *proxy }
   - { tag: 微软云盘, <<: *proxy }
   - { tag: 潘朵拉珠宝, <<: *proxy }
-  - { tag: paypal_domain, <<: *proxy }
-  - { tag: pikpak_domain, <<: *proxy }
+  - { tag: PayPal, <<: *proxy }
+  - { tag: PikPak, <<: *proxy }
   - { tag: 拼多多, <<: *direct }
-  - { tag: pixiv_domain, <<: *proxy }
-  - { tag: playstation_domain, <<: *proxy }
+  - { tag: Pixiv, <<: *proxy }
+  - { tag: PlayStation, <<: *proxy }
   - { tag: 国际媒体, <<: *proxy }
-  - { tag: qobuz_domain, <<: *proxy }
-  - { tag: reddit_domain, <<: *proxy }
-  - { tag: rockstar_domain, <<: *proxy }
+  - { tag: Qobuz, <<: *proxy }
+  - { tag: Reddit, <<: *proxy }
+  - { tag: Rockstar, <<: *proxy }
   - { tag: 什么值得买, <<: *direct }
-  - { tag: google_domain学术, <<: *proxy }
   - { tag: 新浪, <<: *direct }
   - { tag: 索尼, <<: *direct }
-  - { tag: soundcloud_domain, <<: *proxy }
-  - { tag: speedtest_domain, <<: *proxy }
-  - { tag: spotify_domain, <<: *proxy }
-  - { tag: steam_domain, <<: *proxy }
-  - { tag: steam_domain中国, <<: *direct }
-  - { tag: supercell_domain, <<: *proxy }
-  - { tag: signal_domain, <<: *proxy }
-  - { tag: tvb_domain, <<: *proxy }
-  - { tag: telegram_domain, <<: *proxy }
+  - { tag: SoundCloud, <<: *proxy }
+  - { tag: Speedtest, <<: *proxy }
+  - { tag: Spotify, <<: *proxy }
+  - { tag: Steam, <<: *proxy }
+  - { tag: Steam中国, <<: *direct }
+  - { tag: Supercell, <<: *proxy }
+  - { tag: Signal, <<: *proxy }
+  - { tag: TVB, <<: *proxy }
+  - { tag: Telegram, <<: *proxy }
   - { tag: 腾讯, <<: *direct }
   - { tag: 抖音, <<: *direct }
-  - { tag: tiktok_domain, <<: *proxy }
-  - { tag: twitch_domain, <<: *proxy }
-  - { tag: twitter_domain, <<: *proxy }
-  - { tag: tor_domain, <<: *proxy }
-  - { tag: talkatone_domain, <<: *proxy }
+  - { tag: Tiktok, <<: *proxy }
+  - { tag: Twitch, <<: *proxy }
+  - { tag: Twitter, <<: *proxy }
+  - { tag: Tor, <<: *proxy }
+  - { tag: Talkatone, <<: *proxy }
   - { tag: 微信, <<: *direct }
   - { tag: 维基百科, <<: *proxy }
-  - { tag: wise_domain, <<: *proxy }
-  - { tag: youtube_domain, <<: *proxy }
-  - { tag: youtubemusic_domain, <<: *proxy }
+  - { tag: Wise, <<: *proxy }
+  - { tag: YouTube, <<: *proxy }
+  - { tag: YouTubeMusic, <<: *proxy }
   - { tag: 禁漫天堂, <<: *proxy }
   - { tag: 哔咔哔咔, <<: *proxy }
   ############ 全国家分组自动选择 ############

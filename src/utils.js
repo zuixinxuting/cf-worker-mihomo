@@ -166,7 +166,7 @@ export function configs(mihomo = '', singbox = '') {
                 ],
             },
             {
-                label: 'Mihomo-Party-ACL4SSR',
+                label: 'zhuqq2020',
                 options: [
                     {
                         label: 'ACL4SSR_Online_Full 全包重度用户使用(与Github同步)',
@@ -195,11 +195,19 @@ export function configs(mihomo = '', singbox = '') {
                 ],
             },
             {
-                label: '网络收集',
+                label: 'mihomo-party-org',
                 options: [
                     {
                         label: '布丁狗的订阅转换 (与Github同步)',
                         value: 'https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/%E5%B8%83%E4%B8%81%E7%8B%97%E7%9A%84%E8%AE%A2%E9%98%85%E8%BD%AC%E6%8D%A2.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_WithIcon (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/ACL4SSR_Online_Full_WithIcon.yaml',
                     },
                 ],
             },
