@@ -191,7 +191,7 @@ dns:
     "RULE-SET:private_domain,cn_domain":
       - "quic://dns.alidns.com/dns-query" # 阿里 DNS over DOQ
   nameserver:
-    - "https://cloudflare-dns.com/dns-query#h3=true" # Cloudflare DNS over H3
+    - "https://cloudflare-dns.com/dns-query" # Cloudflare DNS over H3
   proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名，不能使用 system，不能设置 ecs
     - "quic://dns.alidns.com" # 阿里 DNS over DOQ
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs

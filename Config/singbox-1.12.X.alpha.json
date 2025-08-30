@@ -46,7 +46,7 @@
                 "domain_resolver": "local"
             },
             {
-                "type": "h3",
+                "type": "https",
                 "tag": "PROXY-DNS",
                 "detour": "🚀 节点选择",
                 "server_port": 443,
