@@ -170,3 +170,6 @@ out
 .dev.vars
 .wrangler/
 .vercel
+
+
+script/*.log

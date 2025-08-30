@@ -166,6 +166,27 @@ export function configs(mihomo = '', singbox = '') {
                 ],
             },
             {
+                label: 'Lanlan13-14',
+                options: [
+                    {
+                        label: 'configfull 全分组版 (秋风去广告) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull.yaml',
+                    },
+                    {
+                        label: 'configfull_NoAd 全分组版 (无去广告) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd.yaml',
+                    },
+                    {
+                        label: 'configfull_NoAd_lite 全分组版 (无去广告) (精简版) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_lite.yaml',
+                    },
+                    {
+                        label: 'configfull_lite 全分组版 (精简版) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_lite.yaml',
+                    },
+                ],
+            },
+            {
                 label: 'zhuqq2020',
                 options: [
                     {
@@ -208,27 +229,6 @@ export function configs(mihomo = '', singbox = '') {
                     {
                         label: 'ACL4SSR_Online_Full_WithIcon (与Github同步)',
                         value: 'https://raw.githubusercontent.com/mihomo-party-org/override-hub/main/yaml/ACL4SSR_Online_Full_WithIcon.yaml',
-                    },
-                ],
-            },
-            {
-                label: 'Lanlan13-14',
-                options: [
-                    {
-                        label: 'configfull 全分组版 (与Github同步)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull.yaml',
-                    },
-                    {
-                        label: 'configfull_NoAd 全分组版 (与Github同步) (无去广告)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd.yaml',
-                    },
-                    {
-                        label: 'configfull_NoAd_lite 全分组版 (与Github同步) (无去广告) (精简版)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_NoAd_lite.yaml',
-                    },
-                    {
-                        label: 'configfull_lite 全分组版 (与Github同步) (精简版)',
-                        value: 'https://raw.githubusercontent.com/Lanlan13-14/Rules/main/configfull_lite.yaml',
                     },
                 ],
             },
