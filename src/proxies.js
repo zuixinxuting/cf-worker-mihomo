@@ -66,7 +66,7 @@ async function fetchWithFallback(url, userAgent, sub) {
     }
 
     // 如果第一次请求失败，尝试使用构建的API URL
-    const apiUrl = utils.buildApiUrl(url, sub, 'clash');
+    const apiUrl = utils.buildApiUrl(url, sub, 'clash.meta');
     return await utils.fetchResponse(apiUrl, userAgent);
 }
 
