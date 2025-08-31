@@ -187,14 +187,14 @@
             {
                 "tag": "private_domain",
                 "type": "remote",
-                "url": "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+                "url": "https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
                 "format": "binary",
                 "download_detour": "🎯 全球直连"
             },
             {
                 "tag": "cn_domain",
                 "type": "remote",
-                "url": "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+                "url": "https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
                 "format": "binary",
                 "download_detour": "🎯 全球直连"
             }
