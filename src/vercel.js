@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         } else if (e.mihomo) {
             result = await getmihomo_config(e);
         } else if (e.v2ray) {
-            res = await getv2ray_config(e);
+            result = await getv2ray_config(e);
         }
 
         const rawHeaders = result.headers;
