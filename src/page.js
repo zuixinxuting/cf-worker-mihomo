@@ -162,7 +162,7 @@ export async function getFakePage(e) {
                 // 生成按钮
                 const generateButton = document.createElement('button');
                 generateButton.textContent = \`生成\${modeConfig.name}配置\`;
-                generateButton.onclick = function() { generateConfig(modeId); };
+                generateButton.onclick = function() { generateConfig(modeId); copyToClipboard(); };
                 container.appendChild(generateButton);
                 
                 modeContainers.appendChild(container);
