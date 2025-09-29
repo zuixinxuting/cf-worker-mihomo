@@ -52,7 +52,7 @@ export async function fetchResponse(url, userAgent) {
         response = await fetch(url, {
             method: 'GET',
             headers: {
-                'User-Agent': userAgent,
+                'User-Agent': 'sub-store-node/' + userAgent,
             },
         });
     } catch {
