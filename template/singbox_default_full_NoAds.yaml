@@ -133,8 +133,9 @@ route:
     - { rule_set: [ tencent_domain ], outbound: 腾讯 }
     - { rule_set: [ twitch_domain ], outbound: Twitch }
     - { rule_set: [ youtube_domain ], outbound: YouTube }
+    - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
     - { action: resolve }
-    - { type: logical, mode: or, rules: [ { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ] }, { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
+    - { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # senshinya 规则集
     - { tag: youtube_domain, type: remote, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/YouTube/YouTube.srs, format: binary, download_detour: 🎯 全球直连 }

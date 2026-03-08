@@ -307,7 +307,7 @@ sub-rules:
     - RULE-SET,media_cn_domain,🌏 国内媒体
     - RULE-SET,media_domain,🌍 国外媒体
     - RULE-SET,gfw_domain,🚀全球代理
-    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,cn_ip),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve),(RULE-SET,google_cn_domain),(RULE-SET,steam_cn_domain)),🎯全球直连
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,cn_ip,no-resolve),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve),(RULE-SET,google_cn_domain),(RULE-SET,steam_cn_domain)),🎯全球直连
 
 rule-providers:
   ads_domain:
