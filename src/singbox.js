@@ -40,7 +40,7 @@ export function Verbose(e) {
     const v112Match = e.userAgent.match(/1\.12\.(\d+)/);
     const v113Match = e.userAgent.match(/1\.13\.(\d+)/);
     const v114Match = e.userAgent.match(/1\.14\.(\d+)/);
-    if (!/singbox|sing-box|sfa/i.test(e.userAgent)) throw new Error('不支持的客户端');
+    if (!/singbox|sing-box|sfa|sfm/i.test(e.userAgent)) throw new Error('不支持的客户端');
     // 匹配 1.12 alpha 版本
     if (v112alphaMatch && !matched) {
         const num = parseInt(v112alphaMatch[1], 10);
