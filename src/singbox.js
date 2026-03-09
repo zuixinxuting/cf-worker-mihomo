@@ -39,6 +39,7 @@ export function Verbose(e) {
     const v111Match = e.userAgent.match(/1\.11\.(\d+)/);
     const v112Match = e.userAgent.match(/1\.12\.(\d+)/);
     const v113Match = e.userAgent.match(/1\.13\.(\d+)/);
+    const v114Match = e.userAgent.match(/1\.14\.(\d+)/);
     if (!/singbox|sing-box|sfa/i.test(e.userAgent)) throw new Error('不支持的客户端');
     // 匹配 1.12 alpha 版本
     if (v112alphaMatch && !matched) {
@@ -73,6 +74,11 @@ export function Verbose(e) {
     // 匹配 1.13.x 版本
     if (v113Match && !matched) {
         top = e.singbox_1_13;
+        matched = true;
+    }
+    // 匹配 1.14.x 版本
+    if (v114Match && !matched) {
+        top = e.singbox_1_14;
         matched = true;
     }
     if (!matched) {

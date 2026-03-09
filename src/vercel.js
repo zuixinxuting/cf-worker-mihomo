@@ -28,6 +28,7 @@ export default async function handler(req, res) {
         singbox_1_12: process.env.SINGBOX_1_12 || utils.singbox_1_12,
         singbox_1_12_alpha: process.env.SINGBOX_1_12_ALPHA || utils.singbox_1_12_alpha,
         singbox_1_13: process.env.SINGBOX_1_13 || utils.singbox_1_13,
+        singbox_1_14: process.env.SINGBOX_1_14 || utils.singbox_1_14,
         beian: process.env.BEIAN || utils.beiantext,
         beianurl: process.env.BEIANURL || utils.beiandizi,
         configs: utils.configs(process.env.MIHOMO, process.env.SINGBOX),

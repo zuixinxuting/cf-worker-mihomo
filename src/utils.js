@@ -17,6 +17,9 @@ export const singbox_1_12_alpha = base64DecodeUtf8(
 export const singbox_1_13 = base64DecodeUtf8(
     'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEzLlguanNvbg=='
 );
+export const singbox_1_14 = base64DecodeUtf8(
+    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjE0LlguanNvbg=='
+);
 export const beiantext = base64DecodeUtf8('6JCMSUNQ5aSHMjAyNTAwMDHlj7c=');
 export const beiandizi = base64DecodeUtf8('aHR0cHM6Ly90Lm1lL01hcmlzYV9rcmlzdGk=');
 // 实现base64解码UTF-8字符串的函数
@@ -341,6 +344,7 @@ export function modes(sub, userAgent) {
 - 支持 1.11.x
 - 支持 1.12.x
 - 支持 1.13.x
+- 支持 1.14.x
 - 去广告使用 [秋风广告规则](https://github.com/TG-Twilight/AWAvenue-Ads-Rule.git)
 - 防止 DNS 泄漏(安全DNS/DoH)
 - 屏蔽 WebRTC 泄漏(防止真实IP暴露)
