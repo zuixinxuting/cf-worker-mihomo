@@ -26,8 +26,8 @@ proxy-groups:
   - { name: 🌏 国内媒体, <<: *direct }
   - { name: 📢 谷歌FCM, <<: *proxy }
   - { name: Ⓜ️ 微软Bing, <<: *direct }
-  - { name: Ⓜ️ 微软云盘, <<: *direct }
-  - { name: Ⓜ️ 微软服务, <<: *direct }
+  - { name: Ⓜ️ 微软云盘, <<: *proxy }
+  - { name: Ⓜ️ 微软服务, <<: *proxy }
   - { name: 🍎 苹果服务, <<: *direct }
   - { name: 🎮 游戏平台, <<: *proxy }
   - { name: 🎶 网易音乐, <<: *direct }

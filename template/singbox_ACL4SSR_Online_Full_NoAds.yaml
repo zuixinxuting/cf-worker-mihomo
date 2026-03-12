@@ -86,8 +86,8 @@ outbounds:
   - { tag: 🌏 国内媒体, <<: *direct }
   - { tag: 📢 谷歌FCM, <<: *proxy }
   - { tag: Ⓜ️ 微软Bing, <<: *direct }
-  - { tag: Ⓜ️ 微软云盘, <<: *direct }
-  - { tag: Ⓜ️ 微软服务, <<: *direct }
+  - { tag: Ⓜ️ 微软云盘, <<: *proxy }
+  - { tag: Ⓜ️ 微软服务, <<: *proxy }
   - { tag: 🍎 苹果服务, <<: *direct }
   - { tag: 🎮 游戏平台, <<: *proxy }
   - { tag: 🎶 网易音乐, <<: *direct }

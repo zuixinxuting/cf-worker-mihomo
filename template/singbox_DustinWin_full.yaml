@@ -85,7 +85,7 @@ outbounds:
   - { tag: 国际游戏, <<: *proxy }
   - { tag: 国内游戏, <<: *proxy }
   - { tag: 国际媒体, <<: *proxy }
-  - { tag: 微软服务, <<: *direct }
+  - { tag: 微软服务, <<: *proxy }
   - { tag: netflix, <<: *proxy }
   - { tag: speedtest, <<: *proxy }
   - { tag: openai, <<: *proxy }
