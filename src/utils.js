@@ -183,6 +183,14 @@ export function configs(mihomo = '', singbox = '') {
                 label: '通用',
                 options: [
                     {
+                        label: '默认(ACL4SSR_Online_Full) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: '默认(ACL4SSR_Online_Full) (无去广告Mihomo_ACL4SSR_Online_Full_NoAds.yaml) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_ACL4SSR_Online_Full_NoAds.yaml',
+                    },
+                    {
                         label: '默认(精简版) (仅国内外分流) (与Github同步) ',
                         value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_default.yaml',
                     },
@@ -197,14 +205,6 @@ export function configs(mihomo = '', singbox = '') {
                     {
                         label: '默认(mihomo官方版) (无去广告) (与Github同步) ',
                         value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_official_NoAds.yaml',
-                    },
-                    {
-                        label: '默认(ACL4SSR_Online_Full) (与Github同步)',
-                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_ACL4SSR_Online_Full.yaml',
-                    },
-                    {
-                        label: '默认(ACL4SSR_Online_Full) (无去广告Mihomo_ACL4SSR_Online_Full_NoAds.yaml) (与Github同步)',
-                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/Mihomo_ACL4SSR_Online_Full_NoAds.yaml',
                     },
                     {
                         label: '默认(全分组) (与Github同步) ',
@@ -288,6 +288,14 @@ export function configs(mihomo = '', singbox = '') {
             {
                 label: '通用',
                 options: [
+                    {
+                        label: '默认(ACL4SSR_Online_Full) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: '默认(ACL4SSR_Online_Full) (无去广告Mihomo_ACL4SSR_Online_Full_NoAds.yaml) (与Github同步)',
+                        value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_ACL4SSR_Online_Full_NoAds.yaml',
+                    },
                     {
                         label: '默认(精简版) (与Github同步) ',
                         value: 'https://raw.githubusercontent.com/Kwisma/cf-worker-mihomo/main/template/singbox_default.yaml',

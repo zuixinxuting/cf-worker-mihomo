@@ -22,51 +22,59 @@ route:
     - { rule_set: [ ads_domain ], outbound: 🪧 广告拦截 }
     - { type: logical, mode: or, rules: [ { port: [ 3478 ] }, { network: [ tcp ], port: [ 5349 ] }, { network: [ udp ], port: [ 5350, 5351, 19302 ] }, { rule_set: [ stun_domain ] } ], outbound: 💧 泄漏拦截 }
     - { rule_set: [ blockhttpdns_domain ], outbound: 🔎 HttpDNS }
-    - { rule_set: [ apple_cn_domain ], outbound: apple }
-    - { rule_set: [ appletv_domain ], outbound: appletv }
-    - { rule_set: [ bilibili_domain ], outbound: bilibili }
-    - { rule_set: [ disney_domain ], outbound: disney }
-    - { rule_set: [ games_domain, games_ip ], outbound: 国际游戏 }
-    - { rule_set: [ games_cn_domain ], outbound: 国内游戏 }
-    - { rule_set: [ media_domain, media_ip ], outbound: 国际媒体 }
-    - { rule_set: [ microsoft_cn_domain ], outbound: 微软服务 }
-    - { rule_set: [ netflix_domain, netflix_ip ], outbound: netflix }
-    - { rule_set: [ networktest_domain ], outbound: speedtest }
-    - { rule_set: [ openai_domain ], outbound: openai }
-    - { rule_set: [ primevideo_domain ], outbound: 亚马逊TV }
-    - { rule_set: [ spotify_domain ], outbound: spotify }
-    - { rule_set: [ tiktok_domain ], outbound: tiktok }
-    - { rule_set: [ youtube_domain ], outbound: youtube }
-    - { rule_set: [ telegram_ip ], outbound: telegram }
+    - { rule_set: [ ai_domain ], outbound: 💬 OpenAi }
+    - { rule_set: [ youtube_domain ], outbound: 📹 油管视频 }
+    - { rule_set: [ telegram_domain, telegram_ip ], outbound: 📲 电报消息 }
+    - { rule_set: [ netflix_domain, netflix_ip ], outbound: 🎥 奈飞视频 }
+    - { rule_set: [ bahamut_domain ], outbound: 📺 巴哈姆特 }
+    - { rule_set: [ biliintl_domain ], outbound: 📺 哔哩哔哩东南亚 }
+    - { rule_set: [ bilibili_domain ], outbound: 📺 哔哩哔哩 }
+    - { rule_set: [ media_domain ], outbound: 🌍 国外媒体 }
+    - { rule_set: [ media_cn_domain ], outbound: 🌏 国内媒体 }
+    - { rule_set: [ googlefcm_domain ], outbound: 📢 谷歌FCM }
+    - { rule_set: [ bing_domain ], outbound: Ⓜ️ 微软Bing }
+    - { rule_set: [ onedrive_domain ], outbound: Ⓜ️ 微软云盘 }
+    - { rule_set: [ microsoft_domain ], outbound: Ⓜ️ 微软服务 }
+    - { rule_set: [ epic_domain, origin_domain, sony_domain, steam_domain, nintendo_domain ], outbound: 🎮 游戏平台 }
+    - { rule_set: [ neteasemusic_domain ], outbound: 🎶 网易音乐 }
+    - { rule_set: [ apple_domain, apple_ip ], outbound: 🍎 苹果服务 }
+    - { rule_set: [ google_domain, google_ip ], outbound: 🔍 Google }
     - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
     - { action: resolve }
     - { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
-    # DustinWin 规则集
-    - { tag: apple_cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/apple-cn.srs }
-    - { tag: appletv_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/appletv.srs }
+    # MetaCubeX 规则集
     - { tag: ads_domain, <<: *source_srs, url: https://jsd.onmicrosoft.cn/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.json }
-    - { tag: bilibili_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/bilibili.srs }
-    - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs }
-    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs }
-    - { tag: disney_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/disney.srs }
-    - { tag: games_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/games.srs }
-    - { tag: games_cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/games-cn.srs }
-    - { tag: games_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/gamesip.srs }
-    - { tag: media_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/media.srs }
-    - { tag: media_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/mediaip.srs }
-    - { tag: microsoft_cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/microsoft-cn.srs }
-    - { tag: netflix_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs }
-    - { tag: netflix_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs }
-    - { tag: networktest_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/networktest.srs }
-    - { tag: openai_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ai.srs }
-    - { tag: primevideo_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/primevideo.srs }
-    - { tag: private_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/private.srs }
-    - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs }
-    - { tag: spotify_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/spotify.srs }
-    - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/telegramip.srs }
-    - { tag: tiktok_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/tiktok.srs }
-    - { tag: youtube_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/youtube.srs }
+    - { tag: ai_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ai-!cn.srs }
+    - { tag: youtube_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/youtube.srs }
+    - { tag: google_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/google.srs }
+    - { tag: telegram_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/telegram.srs }
+    - { tag: tiktok_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/tiktok.srs }
+    - { tag: netflix_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/netflix.srs }
+    - { tag: bahamut_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bahamut.srs }
+    - { tag: biliintl_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/biliintl.srs }
+    - { tag: bilibili_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs }
+    - { tag: media_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-media@cn.srs }
+    - { tag: media_cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-media.srs }
+    - { tag: googlefcm_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/googlefcm.srs }
+    - { tag: bing_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bing.srs }
+    - { tag: onedrive_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/onedrive.srs }
+    - { tag: microsoft_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs }
+    - { tag: neteasemusic_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/Lanlan13-14/Rules-singbox@main/rules/NetEaseMusic.srs }
+    - { tag: epic_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/epicgames.srs }
+    - { tag: origin_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/origin.srs }
+    - { tag: sony_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/sony.srs }
+    - { tag: steam_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/steam.srs }
+    - { tag: nintendo_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/nintendo.srs }
+    - { tag: apple_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/apple.srs }
+    - { tag: private_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs }
+    - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs }    
+    - { tag: google_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/google.srs }
+    - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/telegram.srs }
+    - { tag: netflix_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/netflix.srs }
+    - { tag: apple_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs }
+    - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
+    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
     # senshinya 规则集
     - { tag: stun_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/STUN/STUN.srs }
     - { tag: blockhttpdns_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/BlockHttpDNS/BlockHttpDNS.srs }
@@ -78,22 +86,23 @@ outbounds:
   - { tag: 💧 泄漏拦截, type: selector, interrupt_exist_connections: true, outbounds: [ 🚫 拒绝连接, 🎯 全局直连, 🚀 节点选择 ] }
   - { tag: 🔎 HttpDNS, type: selector, interrupt_exist_connections: true, outbounds: [ 🚫 拒绝连接, 🎯 全局直连, 🚀 节点选择 ] }
   - { tag: ♻️ 自动选择, type: urltest, interrupt_exist_connections: true, url: https://www.gstatic.com/generate_204, interval: 3m, tolerance: 150, outbounds: [], filter: [ { action: all, keywords: '' } ] }
-  - { tag: apple, <<: *direct }
-  - { tag: appletv, <<: *direct }
-  - { tag: bilibili, <<: *direct }
-  - { tag: disney, <<: *proxy }
-  - { tag: 国际游戏, <<: *proxy }
-  - { tag: 国内游戏, <<: *proxy }
-  - { tag: 国际媒体, <<: *proxy }
-  - { tag: 微软服务, <<: *direct }
-  - { tag: netflix, <<: *proxy }
-  - { tag: speedtest, <<: *proxy }
-  - { tag: openai, <<: *proxy }
-  - { tag: 亚马逊TV, <<: *proxy }
-  - { tag: spotify, <<: *proxy }
-  - { tag: telegram, <<: *proxy }
-  - { tag: tiktok, <<: *proxy }
-  - { tag: youtube, <<: *proxy }
+  - { tag: 📲 电报消息, <<: *proxy }
+  - { tag: 💬 OpenAi, <<: *proxy }
+  - { tag: 📹 油管视频, <<: *proxy }
+  - { tag: 🎥 奈飞视频, <<: *proxy }
+  - { tag: 📺 巴哈姆特, <<: *proxy }
+  - { tag: 📺 哔哩哔哩东南亚, <<: *proxy }
+  - { tag: 📺 哔哩哔哩, <<: *direct }
+  - { tag: 🌍 国外媒体, <<: *proxy }
+  - { tag: 🌏 国内媒体, <<: *direct }
+  - { tag: 📢 谷歌FCM, <<: *proxy }
+  - { tag: Ⓜ️ 微软Bing, <<: *direct }
+  - { tag: Ⓜ️ 微软云盘, <<: *direct }
+  - { tag: Ⓜ️ 微软服务, <<: *direct }
+  - { tag: 🍎 苹果服务, <<: *direct }
+  - { tag: 🎮 游戏平台, <<: *proxy }
+  - { tag: 🎶 网易音乐, <<: *direct }
+  - { tag: 🔍 Google, <<: *proxy }
   ############ 全国家分组自动选择 ############
   - { tag: 🇺🇸 美国自动, type: urltest, interrupt_exist_connections: true, url: https://www.gstatic.com/generate_204, interval: 3m, tolerance: 150, outbounds: [], filter: [ { action: include, keywords: "(?i)(?:🇺🇸|(?:^|[\\s_-])(US)(?:(?=$|[\\s_-])|(?:[-_0-9]+(?=$|[\\s_-])))|(?:^|[\\s_-])[-_0-9]*US(?=$|[\\s_-])|美国|United States|(?:(?:^|[\\s_-])CT(?=$|[\\s_-]))|UnitedStates)" } ] }
   - { tag: 🇧🇷 巴西自动, type: urltest, interrupt_exist_connections: true, url: https://www.gstatic.com/generate_204, interval: 3m, tolerance: 150, outbounds: [], filter: [ { action: include, keywords: "(?i)(?:🇧🇷|(?:^|[\\s_-])(BR)(?:(?=$|[\\s_-])|(?:[-_0-9]+(?=$|[\\s_-])))|(?:^|[\\s_-])[-_0-9]*BR(?=$|[\\s_-])|巴西|Brazil)" } ] }

@@ -24,16 +24,16 @@ proxy-groups:
   - { name: 🎥 奈飞视频, <<: *proxy }
   - { name: 📺 巴哈姆特, <<: *proxy }
   - { name: 📺 哔哩哔哩东南亚, <<: *proxy }
-  - { name: 📺 哔哩哔哩, <<: *proxy }
+  - { name: 📺 哔哩哔哩, <<: *direct }
   - { name: 🌍 国外媒体, <<: *proxy }
-  - { name: 🌏 国内媒体, <<: *proxy }
+  - { name: 🌏 国内媒体, <<: *direct }
   - { name: 📢 谷歌FCM, <<: *proxy }
-  - { name: Ⓜ️ 微软Bing, <<: *proxy }
-  - { name: Ⓜ️ 微软云盘, <<: *proxy }
-  - { name: Ⓜ️ 微软服务, <<: *proxy }
-  - { name: 🍎 苹果服务, <<: *proxy }
+  - { name: Ⓜ️ 微软Bing, <<: *direct }
+  - { name: Ⓜ️ 微软云盘, <<: *direct }
+  - { name: Ⓜ️ 微软服务, <<: *direct }
+  - { name: 🍎 苹果服务, <<: *direct }
   - { name: 🎮 游戏平台, <<: *proxy }
-  - { name: 🎶 网易音乐, <<: *proxy }
+  - { name: 🎶 网易音乐, <<: *direct }
   ############ 全国家分组自动选择 ############
   - { name: 🇺🇸美国自动, <<: *u, hidden: true, filter: "(?i)(?:🇺🇸|(?:^|[\\s_-])(US)(?:(?=$|[\\s_-])|(?:[-_0-9]+(?=$|[\\s_-])))|(?:^|[\\s_-])[-_0-9]*US(?=$|[\\s_-])|美国|United States|(?:(?:^|[\\s_-])CT(?=$|[\\s_-]))|UnitedStates)" }
   - { name: 🇧🇷巴西自动, <<: *u, hidden: true, filter: "(?i)(?:🇧🇷|(?:^|[\\s_-])(BR)(?:(?=$|[\\s_-])|(?:[-_0-9]+(?=$|[\\s_-])))|(?:^|[\\s_-])[-_0-9]*BR(?=$|[\\s_-])|巴西|Brazil)" }

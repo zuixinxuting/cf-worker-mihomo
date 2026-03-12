@@ -4,7 +4,7 @@ import fs from "fs";
 import yaml from "yaml";
 
 // 读取配置文件
-const file = fs.readFileSync("../template/singbox_default_full.yaml", "utf8");
+const file = fs.readFileSync("./template/singbox_ACL4SSR_Online_Full.yaml", "utf8");
 const config = yaml.parse(file);
 
 function collectRuleSets(rules) {
@@ -60,15 +60,15 @@ const notmissingRuleSets = [...usedRuleSets].filter(rs => !definedRuleSets.has(r
 const notmissingOutbounds = [...usedOutbounds].filter(o => !definedOutbounds.has(o));
 
 function logToFile(...message) {
-    const logLine = `[${new Date().toISOString()}] ${message.join(" ")}\n`;
-    fs.appendFileSync("singbox.log", logLine, "utf8");
+  const logLine = `[${new Date().toISOString()}] ${message.join(" ")}\n`;
+  fs.appendFileSync("singbox.log", logLine, "utf8");
 }
 logToFile("✅ 使用到的 rule_set:", [...usedRuleSets]);
 logToFile("✅ 配置的 rule_set:", [...definedRuleSets]);
-console.log("❌ 缺少的 rule_set:", missingRuleSets);
-console.log("❌ 反向缺少的 rule_set:", notmissingRuleSets);
+console.log("❌ route.rule_set 缺少的 route.rules :", missingRuleSets);
+console.log("❌ route.rules 缺少的 route.rule_set:", notmissingRuleSets);
 
 logToFile("✅ 使用到的 outbound:", [...usedOutbounds]);
 logToFile("✅ 配置的 outbound:", [...definedOutbounds]);
-console.log("❌ 缺少的 outbound:", missingOutbounds);
-console.log("❌ 反向缺少的 outbound:", notmissingOutbounds);
+console.log("❌ route.route 缺少的 outbound :", missingOutbounds);
+console.log("❌ outbound 缺少的 route.route:", notmissingOutbounds);
