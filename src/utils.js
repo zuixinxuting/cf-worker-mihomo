@@ -47,6 +47,7 @@ export function buildApiUrl(rawUrl, BASE_API, ua) {
 }
 // 处理请求
 const MEMORY_CACHE = new Map();
+
 export async function fetchResponse(url, userAgent, useCache = true) {
 
     if (!userAgent) {
@@ -54,8 +55,20 @@ export async function fetchResponse(url, userAgent, useCache = true) {
     }
 
     const cacheKey = url;
+    const cacheRequest = new Request(cacheKey);
 
-    // 命中缓存
+    // ===== Cloudflare Cache API =====
+    if (useCache && typeof caches !== "undefined") {
+        try {
+            const cache = caches.default;
+            const cached = await cache.match(cacheRequest);
+            if (cached) {
+                return await cached.json();
+            }
+        } catch {}
+    }
+
+    // ===== 内存缓存 (Vercel / fallback) =====
     if (useCache && MEMORY_CACHE.has(cacheKey)) {
         return MEMORY_CACHE.get(cacheKey);
     }
@@ -98,7 +111,25 @@ export async function fetchResponse(url, userAgent, useCache = true) {
         data: jsonData,
     };
 
-    // 写入缓存
+    // ===== 写入缓存 =====
+
+    // Cloudflare Cache
+    if (useCache && typeof caches !== "undefined") {
+        try {
+            const cache = caches.default;
+
+            const cacheResponse = new Response(JSON.stringify(result), {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Cache-Control": "public, max-age=300"
+                }
+            });
+
+            await cache.put(cacheRequest, cacheResponse);
+        } catch {}
+    }
+
+    // Vercel / fallback memory cache
     if (useCache) {
         MEMORY_CACHE.set(cacheKey, result);
     }
@@ -435,34 +466,47 @@ export function sanitizeContentDisposition(headers) {
  */
 export async function fetchpackExtract() {
     const processNames = new Set();
+
     const urls = [
         'https://github.com/mnixry/direct-android-ruleset/raw/refs/heads/rules/@Merged/GAME.mutated.yaml',
         'https://github.com/mnixry/direct-android-ruleset/raw/refs/heads/rules/@Merged/APP.mutated.yaml',
     ];
+
     const excludeCommentKeywords = ['浏览器'];
-    const excludeNames = new Set(['com.android.chrome']);
+    const excludeNames = new Set(['com.android.chrome','mark.via']);
+
     for (const url of urls) {
-        const res = await fetch(url, {
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-            },
-        });
-        if (!res.ok) {
-            console.error(`❌ 请求失败: ${url} - ${res.status} ${res.statusText}`);
+
+        const res = await fetchResponse(url);
+
+        if (!res || res === true || res.status !== 200) {
+            console.error(`❌ 请求失败: ${url}`);
             continue;
         }
-        const text = await res.text();
+
+        // fetchResponse 可能返回对象或字符串
+        const text = typeof res.data === "string"
+            ? res.data
+            : JSON.stringify(res.data);
+
         for (const line of text.split('\n')) {
+
             const match = line.match(/PROCESS-NAME\s*,\s*([^\s,]+)/);
+
             if (match) {
                 const processName = match[1];
-                const hasExcludedComment = excludeCommentKeywords.some((keyword) => line.includes(keyword));
+
+                const hasExcludedComment = excludeCommentKeywords.some(
+                    keyword => line.includes(keyword)
+                );
+
                 if (!hasExcludedComment && !excludeNames.has(processName)) {
                     processNames.add(processName);
                 }
             }
         }
     }
+
     return [...processNames];
 }
 /**
