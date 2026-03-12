@@ -46,31 +46,9 @@ export function buildApiUrl(rawUrl, BASE_API, ua) {
     return `${BASE_API}/sub?${params}`;
 }
 // 处理请求
-const MEMORY_CACHE = new Map();
-
 export async function fetchResponse(url, userAgent, useCache = true) {
-
     if (!userAgent) {
         userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3';
-    }
-
-    const cacheKey = url;
-    const cacheRequest = new Request(cacheKey);
-
-    // ===== Cloudflare Cache API =====
-    if (useCache && typeof caches !== "undefined") {
-        try {
-            const cache = caches.default;
-            const cached = await cache.match(cacheRequest);
-            if (cached) {
-                return await cached.json();
-            }
-        } catch {}
-    }
-
-    // ===== 内存缓存 (Vercel / fallback) =====
-    if (useCache && MEMORY_CACHE.has(cacheKey)) {
-        return MEMORY_CACHE.get(cacheKey);
     }
 
     let response;
@@ -105,36 +83,11 @@ export async function fetchResponse(url, userAgent, useCache = true) {
         }
     }
 
-    const result = {
+    return {
         status: response.status,
         headers: headersObj,
         data: jsonData,
     };
-
-    // ===== 写入缓存 =====
-
-    // Cloudflare Cache
-    if (useCache && typeof caches !== "undefined") {
-        try {
-            const cache = caches.default;
-
-            const cacheResponse = new Response(JSON.stringify(result), {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Cache-Control": "public, max-age=300"
-                }
-            });
-
-            await cache.put(cacheRequest, cacheResponse);
-        } catch {}
-    }
-
-    // Vercel / fallback memory cache
-    if (useCache) {
-        MEMORY_CACHE.set(cacheKey, result);
-    }
-
-    return result;
 }
 // 将订阅链接和代理地址分离
 export function splitUrlsAndProxies(urls) {
@@ -481,10 +434,9 @@ export async function fetchpackExtract() {
     ];
 
     const excludeCommentKeywords = ['浏览器'];
-    const excludeNames = new Set(['com.android.chrome','mark.via']);
+    const excludeNames = new Set(['com.android.chrome', 'mark.via']);
 
     for (const url of urls) {
-
         const res = await fetchResponse(url);
 
         if (!res || res === true || res.status !== 200) {
@@ -493,20 +445,15 @@ export async function fetchpackExtract() {
         }
 
         // fetchResponse 可能返回对象或字符串
-        const text = typeof res.data === "string"
-            ? res.data
-            : JSON.stringify(res.data);
+        const text = typeof res.data === 'string' ? res.data : JSON.stringify(res.data);
 
         for (const line of text.split('\n')) {
-
             const match = line.match(/PROCESS-NAME\s*,\s*([^\s,]+)/);
 
             if (match) {
                 const processName = match[1];
 
-                const hasExcludedComment = excludeCommentKeywords.some(
-                    keyword => line.includes(keyword)
-                );
+                const hasExcludedComment = excludeCommentKeywords.some((keyword) => line.includes(keyword));
 
                 if (!hasExcludedComment && !excludeNames.has(processName)) {
                     processNames.add(processName);
@@ -523,24 +470,23 @@ export async function fetchpackExtract() {
  */
 export async function fetchipExtract() {
     const urls = ['https://raw.githubusercontent.com/Kwisma/clash-rules/release/cncidr.yaml'];
+
     const ipcidrs = [];
 
     for (const url of urls) {
-        const res = await fetch(url, {
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-            },
-        });
-        if (!res.ok) {
-            console.error(`❌ 请求失败: ${url} - ${res.status} ${res.statusText}`);
+        const res = await fetchResponse(url);
+
+        if (!res || res.status !== 200) {
+            console.error(`❌ 请求失败: ${url} - ${res?.status}`);
             continue;
         }
-        const data = await res.text();
-        const jsondata = YAML.parse(data, { maxAliasCount: -1, merge: true });
 
-        if (Array.isArray(jsondata.payload)) {
+        const jsondata = res.data;
+
+        if (jsondata && Array.isArray(jsondata.payload)) {
             ipcidrs.push(...jsondata.payload);
         }
     }
+
     return ipcidrs;
 }
