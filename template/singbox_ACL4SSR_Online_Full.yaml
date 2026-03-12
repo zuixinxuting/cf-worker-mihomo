@@ -38,7 +38,7 @@ route:
     - { rule_set: [ epic_domain, origin_domain, sony_domain, steam_domain, nintendo_domain ], outbound: 🎮 游戏平台 }
     - { rule_set: [ neteasemusic_domain ], outbound: 🎶 网易音乐 }
     - { rule_set: [ apple_domain, apple_ip ], outbound: 🍎 苹果服务 }
-    - { rule_set: [ google_domain, google_ip ], outbound: 🔍 Google }
+    - { rule_set: [ google_domain, google_ip ], outbound: 🌐 谷歌服务 }
     - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
     - { action: resolve }
     - { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ], outbound: 🎯 全球直连 }
@@ -102,7 +102,7 @@ outbounds:
   - { tag: 🍎 苹果服务, <<: *direct }
   - { tag: 🎮 游戏平台, <<: *proxy }
   - { tag: 🎶 网易音乐, <<: *direct }
-  - { tag: 🔍 Google, <<: *proxy }
+  - { tag: 🌐 谷歌服务, <<: *proxy }
   ############ 全国家分组自动选择 ############
   - { tag: 🇺🇸 美国自动, type: urltest, interrupt_exist_connections: true, url: https://www.gstatic.com/generate_204, interval: 3m, tolerance: 150, outbounds: [], filter: [ { action: include, keywords: "(?i)(?:🇺🇸|(?:^|[\\s_-])(US)(?:(?=$|[\\s_-])|(?:[-_0-9]+(?=$|[\\s_-])))|(?:^|[\\s_-])[-_0-9]*US(?=$|[\\s_-])|美国|United States|(?:(?:^|[\\s_-])CT(?=$|[\\s_-]))|UnitedStates)" } ] }
   - { tag: 🇧🇷 巴西自动, type: urltest, interrupt_exist_connections: true, url: https://www.gstatic.com/generate_204, interval: 3m, tolerance: 150, outbounds: [], filter: [ { action: include, keywords: "(?i)(?:🇧🇷|(?:^|[\\s_-])(BR)(?:(?=$|[\\s_-])|(?:[-_0-9]+(?=$|[\\s_-])))|(?:^|[\\s_-])[-_0-9]*BR(?=$|[\\s_-])|巴西|Brazil)" } ] }
