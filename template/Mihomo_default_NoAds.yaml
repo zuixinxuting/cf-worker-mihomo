@@ -259,7 +259,7 @@ rules:
   - MATCH,🚀全球代理
 sub-rules:
   SUB-RULES:
-    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,cn_ip,no-resolve),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),🎯全球直连
+    - OR,((AND,((RULE-SET,cn_domain),(RULE-SET,cn_ip))),(RULE-SET,cn_ip,no-resolve)),🎯全球直连
 rule-providers:
   cn_domain:
     <<: *domain_mrs
@@ -269,11 +269,3 @@ rule-providers:
     <<: *ipcidr_mrs
     url: "https://jsd.onmicrosoft.cn/gh/Kwisma/clash-rules@release/cncidr.mrs"
     path: ./ruleset/CN_IP.mrs
-  private_domain:
-    <<: *domain_mrs
-    url: "https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
-    path: ./ruleset/Private_Domain.mrs
-  private_ip:
-    <<: *ipcidr_mrs
-    url: "https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
-    path: ./ruleset/Private_IP.mrs

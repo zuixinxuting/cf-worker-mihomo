@@ -59,7 +59,7 @@ async function handleMultipleUrls(e) {
 
 // 通用获取响应函数，支持回退机制
 async function fetchWithFallback(url, userAgent, sub) {
-    let res = await utils.fetchResponse(url, userAgent);
+    let res = await utils.fetchResponse(url, userAgent, false);
 
     if (res?.data?.proxies && Array.isArray(res.data.proxies) && res.data.proxies.length > 0) {
         return res;
@@ -67,7 +67,7 @@ async function fetchWithFallback(url, userAgent, sub) {
 
     // 如果第一次请求失败，尝试使用构建的API URL
     const apiUrl = utils.buildApiUrl(url, sub, 'clash.meta');
-    return await utils.fetchResponse(apiUrl, userAgent);
+    return await utils.fetchResponse(apiUrl, userAgent, false);
 }
 
 // 处理代理数组的辅助函数

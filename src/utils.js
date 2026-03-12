@@ -46,10 +46,20 @@ export function buildApiUrl(rawUrl, BASE_API, ua) {
     return `${BASE_API}/sub?${params}`;
 }
 // 处理请求
-export async function fetchResponse(url, userAgent) {
+const MEMORY_CACHE = new Map();
+export async function fetchResponse(url, userAgent, useCache = true) {
+
     if (!userAgent) {
         userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3';
     }
+
+    const cacheKey = url;
+
+    // 命中缓存
+    if (useCache && MEMORY_CACHE.has(cacheKey)) {
+        return MEMORY_CACHE.get(cacheKey);
+    }
+
     let response;
     try {
         response = await fetch(url, {
@@ -61,32 +71,39 @@ export async function fetchResponse(url, userAgent) {
     } catch {
         return true;
     }
-    // 直接使用 Object.fromEntries 转换 headers
+
     const headersObj = Object.fromEntries(response.headers.entries());
-    // 替换非法 Content-Disposition 字段Add commentMore actions
+
     const sanitizedCD = sanitizeContentDisposition(response.headers);
     if (sanitizedCD) {
         headersObj['content-disposition'] = sanitizedCD;
     }
-    // 获取响应体的文本内容
+
     const textData = await response.text();
 
     let jsonData;
     try {
         jsonData = YAML.parse(textData, { maxAliasCount: -1, merge: true });
-    } catch (e) {
+    } catch {
         try {
             jsonData = JSON.parse(textData);
-        } catch (yamlError) {
-            // 若YAML解析也失败，保留原始文本
+        } catch {
             jsonData = textData;
         }
     }
-    return {
+
+    const result = {
         status: response.status,
         headers: headersObj,
         data: jsonData,
     };
+
+    // 写入缓存
+    if (useCache) {
+        MEMORY_CACHE.set(cacheKey, result);
+    }
+
+    return result;
 }
 // 将订阅链接和代理地址分离
 export function splitUrlsAndProxies(urls) {

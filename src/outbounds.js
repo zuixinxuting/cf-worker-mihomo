@@ -51,7 +51,7 @@ async function processMultipleUrls(options) {
 
 // 带回退机制的请求
 async function fetchWithFallback(url, options, addIndex, index = null) {
-    let response = await utils.fetchResponse(url, options.userAgent);
+    let response = await utils.fetchResponse(url, options.userAgent, false);
 
     if (hasValidOutbounds(response)) {
         return response;
@@ -59,7 +59,7 @@ async function fetchWithFallback(url, options, addIndex, index = null) {
 
     // 尝试使用构建的 API URL
     const apiUrl = utils.buildApiUrl(url, options.sub, 'singbox');
-    response = await utils.fetchResponse(apiUrl, options.userAgent);
+    response = await utils.fetchResponse(apiUrl, options.userAgent, false);
 
     if (hasValidOutbounds(response)) {
         return response;

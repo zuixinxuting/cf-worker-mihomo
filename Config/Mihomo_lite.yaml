@@ -170,26 +170,21 @@ dns:
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
   default-nameserver: 
     - 223.5.5.5
-    - 119.29.29.29
-    - system
-  enhanced-mode: fake-ip # 启用增强模式 redir-host or fake-ip
+    - 8.8.8.8
+  enhanced-mode: redir-host # 启用增强模式 redir-host or fake-ip
   fake-ip-range: 198.18.0.1/16 # fake-ip 池设置
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - RULE-SET:private_domain,fakeip_filter_domain,cn_domain,dns_domain
+    - RULE-SET:cn_domain
   nameserver-policy:
-    "RULE-SET:private_domain,cn_domain":
+    "RULE-SET:cn_domain":
       - "quic://dns.alidns.com" # 阿里 DNS over DOQ
-      - "https://doh.pub/dns-query" # 腾讯 DNS DOH
   nameserver: #  不能使用国内dns和被墙的dns
-    - "https://cloudflare-dns.com/dns-query#h3=true" # Cloudflare DNS over H3
-    - "https://doh.opendns.com/dns-query" # Open DNS over DOH
+    - "https://doh.cmliussss.net/CMLiussss" # Cloudflare DNS over DOH 不支持 H3
   proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名，不能使用 system，不能设置 ecs
-    - "https://cloudflare-dns.com/dns-query#h3=true" # Cloudflare DNS over H3
-    - "https://doh.opendns.com/dns-query" # Open DNS over DOH
+    - "https://doh.cmliussss.net/CMLiussss" # Cloudflare DNS over DOH 不支持 H3
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
     - "quic://dns.alidns.com" # 阿里 DNS over DOQ
-    - "https://doh.pub/dns-query" # 腾讯 DNS DOH
   direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 rule-providers:
@@ -201,27 +196,3 @@ rule-providers:
     proxy: DIRECT
     url: "https://jsd.onmicrosoft.cn/gh/Kwisma/clash-rules@release/direct.mrs"
     path: ./ruleset/China_Domain.mrs
-  private_domain:
-    type: http
-    interval: 86400
-    behavior: domain
-    format: mrs
-    proxy: DIRECT
-    url: "https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
-    path: ./ruleset/Private_Domain.mrs
-  fakeip_filter_domain:
-    type: http
-    interval: 86400
-    behavior: domain
-    format: mrs
-    proxy: DIRECT
-    url: "https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs"
-    path: ./ruleset/Fakeip_Filter_Domain.mrs
-  dns_domain:
-    type: http
-    interval: 86400
-    behavior: domain
-    format: mrs
-    proxy: DIRECT
-    url: "https://jsd.onmicrosoft.cn/gh/peiyingyao/Rule-for-OCD@master/rule/Clash/DNS/DNS_OCD_Domain.mrs"
-    path: ./ruleset/DNS_Domain.mrs
