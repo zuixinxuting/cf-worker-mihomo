@@ -142,7 +142,6 @@ route:
     - { tag: youtube_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/YouTube/YouTube.srs }
     - { tag: alibaba_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/Alibaba/Alibaba.srs }
     - { tag: amazon_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/Amazon/Amazon.srs }
-    - { tag: amazon_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/AmazonIP/AmazonIP.srs }
     - { tag: bilibili_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/BiliBili/BiliBili.srs }
     - { tag: blizzard_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/Blizzard/Blizzard.srs }
     - { tag: bytedance_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/ByteDance/ByteDance.srs }
@@ -248,17 +247,12 @@ route:
     - { tag: ehgallery_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/EHGallery/EHGallery.srs }
     - { tag: tiktok_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/TikTok/TikTok.srs }
     # MetaCubeX 规则集
-    - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs }
+    - { tag: google_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs }
     - { tag: private_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs }
     - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
-    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
     - { tag: biliintl_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/biliintl.srs }
     - { tag: 18comic_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/18comic.srs }
     - { tag: tor_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/tor.srs }
-    - { tag: tor_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/tor.srs }
-    - { tag: fastly_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/fastly.srs }
-    - { tag: fastly_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/fastly.srs }
-    - { tag: wise_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/wise.srs }
     - { tag: signal_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/signal.srs }
     - { tag: picacg_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/picacg.srs }
     - { tag: hoyoverse_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/hoyoverse.srs }
@@ -266,17 +260,24 @@ route:
     - { tag: kugou_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/kugou.srs }
     - { tag: kuwo_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/kuwo.srs }
     - { tag: cloudflare_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cloudflare.srs }
-    - { tag: cloudflare_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cloudflare.srs }
+    - { tag: fastly_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/fastly.srs }
+    - { tag: wise_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/wise.srs }
     - { tag: telegram_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs }
-    - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs }
     - { tag: facebook_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/facebook.srs }
-    - { tag: facebook_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/facebook.srs }
     - { tag: twitter_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/twitter.srs }
-    - { tag: twitter_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/twitter.srs }
     - { tag: netflix_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/netflix.srs }
+    - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs }
+    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs }
+    - { tag: tor_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/tor.srs }
+    - { tag: fastly_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/fastly.srs }
+    - { tag: cloudflare_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cloudflare.srs }
+    - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs }
+    - { tag: facebook_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/facebook.srs }
+    - { tag: twitter_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/twitter.srs }
     - { tag: netflix_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/netflix.srs }
-    - { tag: google_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs }
     - { tag: google_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs }
+    - { tag: amazon_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/AmazonIP/AmazonIP.srs }
+    
     # 自定义 规则集
     - { tag: 4gtv_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/Kwisma/rules@main/rules/singbox/4GTV/4GTV.srs }
     # - { tag: wechat_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/Coldvvater/Mononoke@master/sing-box/Rules/WeChat.srs }
