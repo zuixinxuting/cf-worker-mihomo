@@ -54,7 +54,7 @@ export function applyTemplate(top, rule, e) {
     }
     if (e.adgdns) {
         top.dns.nameserver = ['https://dns.adguard-dns.com/dns-query'];
-        top.dns['nameserver-policy']['RULE-SET:private_domain,cn_domain'] = ['quic://dns.18bit.cn'];
+        top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['quic://dns.18bit.cn'];
     }
 }
 
