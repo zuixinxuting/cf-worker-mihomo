@@ -364,7 +364,7 @@ outbounds:
   - { tag: LastFM, <<: *proxy }
   - { tag: LINE, <<: *proxy }
   - { tag: 美团, <<: *direct }
-  - { tag: 微软, <<: *direct }
+  - { tag: 微软, <<: *proxy }
   - { tag: Mihoyo, <<: *direct }
   - { tag: NGA, <<: *direct }
   - { tag: 网易, <<: *direct }

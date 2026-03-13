@@ -22,7 +22,7 @@ for (const item of originalData.data) {
         const flagMatch = item.tag.match(/[\p{Emoji_Presentation}\p{Emoji}\u200d]+/u);
         if (flagMatch) {
             const flag = flagMatch[0];
-            
+
             // 如果存在对应的正则表达式，则替换 keywords
             if (flagToRegex[flag]) {
                 for (const filterItem of item.filter) {
