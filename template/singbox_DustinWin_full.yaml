@@ -48,25 +48,25 @@ route:
     - { tag: ads_domain, <<: *source_srs, url: https://jsd.onmicrosoft.cn/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Singbox.json }
     - { tag: bilibili_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/bilibili.srs }
     - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs }
-    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs }
     - { tag: disney_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/disney.srs }
     - { tag: games_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/games.srs }
     - { tag: games_cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/games-cn.srs }
-    - { tag: games_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/gamesip.srs }
     - { tag: media_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/media.srs }
-    - { tag: media_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/mediaip.srs }
     - { tag: microsoft_cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/microsoft-cn.srs }
     - { tag: netflix_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs }
-    - { tag: netflix_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs }
     - { tag: networktest_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/networktest.srs }
     - { tag: openai_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ai.srs }
     - { tag: primevideo_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/primevideo.srs }
     - { tag: private_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/private.srs }
-    - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs }
     - { tag: spotify_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/spotify.srs }
-    - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/telegramip.srs }
     - { tag: tiktok_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/tiktok.srs }
     - { tag: youtube_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/youtube.srs }
+    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs }
+    - { tag: games_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/gamesip.srs }
+    - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs }
+    - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/telegramip.srs }
+    - { tag: media_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/mediaip.srs }
+    - { tag: netflix_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs }
     # senshinya 规则集
     - { tag: stun_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/STUN/STUN.srs }
     - { tag: blockhttpdns_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/BlockHttpDNS/BlockHttpDNS.srs }

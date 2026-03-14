@@ -68,13 +68,13 @@ route:
     - { tag: nintendo_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/nintendo.srs }
     - { tag: apple_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/apple.srs }
     - { tag: private_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs }
+    - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
     - { tag: private_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs }    
     - { tag: google_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/google.srs }
     - { tag: telegram_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/telegram.srs }
     - { tag: netflix_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/netflix.srs }
     - { tag: apple_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs }
-    - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
-    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
+    - { tag: cn_ip, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs }
     # senshinya 规则集
     - { tag: stun_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/STUN/STUN.srs }
     - { tag: blockhttpdns_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/BlockHttpDNS/BlockHttpDNS.srs }
