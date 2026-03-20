@@ -39,7 +39,15 @@ export function applyTemplate(top, rule, e) {
     top.rules = rule.rules || [];
     top['sub-rules'] = rule['sub-rules'] || {};
     top['rule-providers'] = { ...(top['rule-providers'] || {}), ...(rule['rule-providers'] || {}) };
-
+    const proxyName = rule['proxy-groups'][0].name;
+    if (top.dns.nameserver && rule['proxy-groups'][0].name) {
+        top.dns.nameserver = top.dns.nameserver.map((ns) => {
+            if (typeof ns === 'string') {
+                return ns.replace(/#PROXY/g, `#${proxyName}`);
+            }
+            return ns;
+        });
+    }
     if (e.tun && top.tun) {
         top.tun.enable = false;
     } else if (top.tun) {
@@ -53,8 +61,8 @@ export function applyTemplate(top, rule, e) {
         }
     }
     if (e.adgdns) {
-        top.dns.nameserver = ['https://dns.adguard-dns.com/dns-query'];
-        top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['quic://dns.18bit.cn'];
+        top.dns.nameserver = [`https://dns.adguard-dns.com/dns-query#${proxyName}`];
+        top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['quic://2026.dns1.top#DIRECT'];
     }
 }
 
