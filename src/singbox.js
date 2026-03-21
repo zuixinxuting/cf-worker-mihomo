@@ -288,7 +288,7 @@ export function applyTemplate(top, rule, e) {
                     tag: 'DIRECT-DNS',
                     detour: '🎯 全球直连',
                     server_port: 853,
-                    server: '2026.dns1.top',
+                    server: 'dns.18bit.cn',
                     domain_resolver: 'local',
                 };
             }

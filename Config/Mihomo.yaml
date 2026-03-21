@@ -257,7 +257,7 @@ dns:
     - "https://doh.cmliussss.net/CMLiussss#🎯全球直连" # Cloudflare DNS over DOH 不支持 H3
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
     - "quic://dns.alidns.com#🎯全球直连" # 阿里 DNS over DOQ
-  direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
+  direct-nameserver-follow-policy: false # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 proxy-groups:
   - { name: 🚀全球代理, type: select, proxies: [♻️自动选择, 🟢手动选择, ⚡️均衡负载, 🔯故障转移, 🎯全局直连, 🇭🇰香港自动, 🇯🇵日本自动, 🇺🇸美国自动, 🇸🇬新加坡自动] }

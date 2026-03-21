@@ -185,7 +185,7 @@ dns:
     - "https://doh.cmliussss.net/CMLiussss#DIRECT" # Cloudflare DNS over DOH 不支持 H3
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
     - "quic://dns.alidns.com#DIRECT" # 阿里 DNS over DOQ
-  direct-nameserver-follow-policy: true # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
+  direct-nameserver-follow-policy: false # 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
 
 rule-providers:
   cn_domain:
