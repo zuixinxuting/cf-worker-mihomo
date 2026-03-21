@@ -115,8 +115,8 @@ ntp:
 # sniffer 配置：用于检测和处理不同协议的流量
 sniffer:
   enable: true # 是否启用 sniffer 侦测功能，默认关闭
-  force-dns-mapping: false # 对 redir-host 类型识别的流量进行强制嗅探
-  parse-pure-ip: false # 对所有未获取到域名的流量进行强制嗅探
+  force-dns-mapping: true # 对 redir-host 类型识别的流量进行强制嗅探
+  parse-pure-ip: true # 对所有未获取到域名的流量进行强制嗅探
   override-destination: false # 是否使用嗅探结果作为实际访问，默认为 true
   sniff:
     HTTP:
