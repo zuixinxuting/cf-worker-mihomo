@@ -119,7 +119,7 @@ etag-support: true # 外部资源下载的 ETag 支持
 # info 输出一般运行的内容，以及 error 和 warning 级别的日志
 # debug 尽可能的输出运行中所有的信息
 log-level: info # 日志等级
-ipv6: true # 启用 IPv6
+ipv6: false # 启用 IPv6
 #tls: # TLS 相关配置
 #  certificate: string # TLS 证书
 #  private-key: string # TLS 私钥
@@ -241,13 +241,13 @@ dns:
   prefer-h3: false # DOH 优先使用 http/3
   use-hosts: true # 使用配置中的 hosts 文件条目
   use-system-hosts: true # 使用系统的 hosts 文件条目
-  respect-rules: false # dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用, 与遵守 nameserver-policy 冲突 
+  respect-rules: true # dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用
   listen: 0.0.0.0:1053 # 本地 DNS 监听端口，默认是 1053 端口
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
   default-nameserver:
     - 223.5.5.5
     - 8.8.8.8
-  enhanced-mode: redir-host # 启用增强模式 redir-host or fake-ip
+  enhanced-mode: normal # 启用增强模式 redir-host or fake-ip
   nameserver-policy:
     "RULE-SET:cn_domain":
       - "quic://dns.alidns.com#🎯全球直连" # 阿里 DNS over DOQ
