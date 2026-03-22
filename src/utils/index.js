@@ -2,24 +2,6 @@
 import YAML from 'yaml';
 export const backimg = base64DecodeUtf8('aHR0cHM6Ly90LmFsY3kuY2MveWN5');
 export const subapi = base64DecodeUtf8('aHR0cHM6Ly9zdWItc3RvcnQtbm9kZWpzLnBhZ2VzLmRldg==');
-export const mihomo_top = base64DecodeUtf8(
-    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL21haW4vQ29uZmlnL01paG9tb19saXRlLnlhbWw='
-);
-export const singbox_1_11 = base64DecodeUtf8(
-    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveF8xLjExLlguanNvbg=='
-);
-export const singbox_1_12 = base64DecodeUtf8(
-    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEyLlguanNvbg=='
-);
-export const singbox_1_12_alpha = base64DecodeUtf8(
-    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEyLlguYWxwaGEuanNvbg=='
-);
-export const singbox_1_13 = base64DecodeUtf8(
-    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjEzLlguanNvbg=='
-);
-export const singbox_1_14 = base64DecodeUtf8(
-    'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0t3aXNtYS9jZi13b3JrZXItbWlob21vL3JlZnMvaGVhZHMvbWFpbi9Db25maWcvc2luZ2JveC0xLjE0LlguanNvbg=='
-);
 export const beiantext = base64DecodeUtf8('6JCMSUNQ5aSHMjAyNTAwMDHlj7c=');
 export const beiandizi = base64DecodeUtf8('aHR0cHM6Ly90Lm1lL01hcmlzYV9rcmlzdGk=');
 // 实现base64解码UTF-8字符串的函数
@@ -27,12 +9,6 @@ export function base64DecodeUtf8(str) {
     const binary = atob(str);
     const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
     return new TextDecoder('utf-8').decode(bytes);
-}
-// 实现base64编码UTF-8字符串的函数
-export function base64EncodeUtf8(str) {
-    const bytes = new TextEncoder('utf-8').encode(str);
-    const binary = String.fromCharCode.apply(null, bytes);
-    return btoa(binary);
 }
 // 订阅链接
 export function buildApiUrl(rawUrl, BASE_API, ua) {
@@ -108,25 +84,6 @@ export function splitUrlsAndProxies(urls) {
         result.push(proxyText);
     }
     return result;
-}
-/**
- * 获取模板数据
- * @param {string} top - 模板文件地址
- * @returns {Promise<Object|null>} - 返回模板数据对象，或没有模板时返回 null
- */
-export async function Top_Data(top) {
-    return await fetchResponse(top);
-}
-/**
- * 获取基础配置数据，若未提供则使用默认配置地址
- * @param {string} rule - 配置文件地址
- * @returns {Promise<Object>} - 返回配置数据对象
- */
-export async function Rule_Data(rule) {
-    if (!rule) {
-        throw new Error(`缺少规则模板`);
-    }
-    return await fetchResponse(rule);
 }
 
 export function configs(mihomo = '', singbox = '') {
@@ -400,7 +357,7 @@ export function modes(sub, userAgent) {
     return JSON.stringify(modes);
 }
 
-export function sanitizeContentDisposition(headers) {
+function sanitizeContentDisposition(headers) {
     const contentDisposition = headers.get('Content-Disposition') || headers.get('content-disposition');
 
     if (!contentDisposition) return null;

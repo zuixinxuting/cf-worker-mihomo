@@ -1,36 +1,24 @@
-import * as utils from './utils.js';
-export default async function getSingbox_Outbounds_Data(e) {
+import { fetchResponse, buildApiUrl } from '../../utils/index.js';
+export default async function getOutbounds_Data(e) {
     // 处理单个 URL 的情况
     if (e.urls.length === 1) {
-        return await processSingleUrl(e.urls[0], e);
+        let response = await fetchWithFallback(e.urls[0], e);
+        if (response?.data?.outbounds?.length > 0) {
+            processOutbounds(response.data.outbounds, e, 0);
+            return formatResponse(response);
+        }
+        return null;
     }
 
     // 处理多个 URL 的情况
-    return await processMultipleUrls(e);
-}
-
-// 处理单个 URL
-async function processSingleUrl(url, options) {
-    let response = await fetchWithFallback(url, options, false);
-
-    if (response?.data?.outbounds?.length > 0) {
-        processOutbounds(response.data.outbounds, options, 0);
-        return formatResponse(response);
-    }
-
-    return null;
-}
-
-// 处理多个 URL
-async function processMultipleUrls(options) {
     const outboundsList = [];
     const responseList = [];
 
-    for (let i = 0; i < options.urls.length; i++) {
-        const response = await fetchWithFallback(options.urls[i], options, true, i + 1);
+    for (let i = 0; i < e.urls.length; i++) {
+        const response = await fetchWithFallback(e.urls[i], e);
 
         if (response?.data?.outbounds?.length > 0) {
-            processOutbounds(response.data.outbounds, options, i + 1);
+            processOutbounds(response.data.outbounds, e, i + 1);
             responseList.push(response);
             outboundsList.push(response.data.outbounds);
         }
@@ -48,18 +36,17 @@ async function processMultipleUrls(options) {
         data: { outbounds: outboundsList.flat() },
     };
 }
-
 // 带回退机制的请求
-async function fetchWithFallback(url, options, addIndex, index = null) {
-    let response = await utils.fetchResponse(url, options.userAgent, false);
+async function fetchWithFallback(url, options) {
+    let response = await fetchResponse(url, options.userAgent, false);
 
     if (hasValidOutbounds(response)) {
         return response;
     }
 
     // 尝试使用构建的 API URL
-    const apiUrl = utils.buildApiUrl(url, options.sub, 'singbox');
-    response = await utils.fetchResponse(apiUrl, options.userAgent, false);
+    const apiUrl = buildApiUrl(url, options.sub, 'singbox');
+    response = await fetchResponse(apiUrl, options.userAgent, false);
 
     if (hasValidOutbounds(response)) {
         return response;

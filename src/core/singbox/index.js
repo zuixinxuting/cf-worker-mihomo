@@ -1,34 +1,39 @@
-import * as utils from './utils.js';
-import getSingbox_Outbounds_Data from './outbounds.js';
+import { splitUrlsAndProxies, fetchResponse, } from '../../utils/index.js';
+import getOutbounds_Data from './outbounds.js';
+import Config111 from '../../config/singbox_1.11.X.js';
+import Config112 from '../../config/singbox_1.12.X.js';
+import Config112Alpha from '../../config/singbox_1.12.X_alpha.js';
+import Config113 from '../../config/singbox_1.13.X.js';
+import Config114 from '../../config/singbox_1.14.X.js';
 export async function getsingbox_config(e) {
-    const top = Verbose(e);
-    e.urls = utils.splitUrlsAndProxies(e.urls);
-    const [Singbox_Top_Data, Singbox_Rule_Data, Singbox_Outbounds_Data, Exclude_Package, Exclude_Address] = await Promise.all([
-        utils.Top_Data(top),
-        utils.Rule_Data(e.rule),
-        getSingbox_Outbounds_Data(e),
-        e.exclude_package ? utils.fetchpackExtract() : null,
-        e.exclude_address ? utils.fetchipExtract() : null,
-    ]);
-    e.Exclude_Package = Exclude_Package;
-    e.Exclude_Address = Exclude_Address;
-    if (!Singbox_Outbounds_Data?.data?.outbounds || Singbox_Outbounds_Data?.data?.outbounds?.length === 0)
+    const sbConfig = Verbose(e);
+    e.urls = splitUrlsAndProxies(e.urls);
+    const Outbounds_Data = await getOutbounds_Data(e);
+    if (!Outbounds_Data?.data?.outbounds || Outbounds_Data?.data?.outbounds?.length === 0) {
         throw new Error(`节点为空，请使用有效订阅`);
+    }
+    const Rule_Data = await fetchResponse(e.rule);
+    if (e.exclude_package) {
+        e.Exclude_Package = await fetchpackExtract();
+    }
+    if (e.exclude_address) {
+        e.Exclude_Address = await fetchipExtract();
+    }
 
-    Singbox_Outbounds_Data.data.outbounds = outboundArrs(Singbox_Outbounds_Data.data);
+    Outbounds_Data.data.outbounds = outboundArrs(Outbounds_Data.data);
     const ApiUrlname = [];
-    Singbox_Outbounds_Data.data.outbounds.forEach((res) => {
+    Outbounds_Data.data.outbounds.forEach((res) => {
         ApiUrlname.push(res.tag);
     });
     // 策略组处理
-    Singbox_Rule_Data.data.outbounds = loadAndSetOutbounds(Singbox_Rule_Data.data.outbounds, ApiUrlname);
+    Rule_Data.data.outbounds = loadAndSetOutbounds(Rule_Data.data.outbounds, ApiUrlname);
     // 合并 outbounds
-    Singbox_Rule_Data.data.outbounds.push(...Singbox_Outbounds_Data.data.outbounds);
-    applyTemplate(Singbox_Top_Data.data, Singbox_Rule_Data.data, e);
+    Rule_Data.data.outbounds.push(...Outbounds_Data.data.outbounds);
+    applyTemplate(sbConfig, Rule_Data.data, e);
     return {
-        status: Singbox_Outbounds_Data.status,
-        headers: Singbox_Outbounds_Data.headers,
-        data: JSON.stringify(Singbox_Top_Data.data, null, 4),
+        status: Outbounds_Data.status,
+        headers: Outbounds_Data.headers,
+        data: JSON.stringify(sbConfig, null, 4),
     };
 }
 export function Verbose(e) {
@@ -45,7 +50,7 @@ export function Verbose(e) {
     if (v112alphaMatch && !matched) {
         const num = parseInt(v112alphaMatch[1], 10);
         if (num >= 0 && num <= 23) {
-            top = e.singbox_1_12_alpha;
+            top = Config112Alpha;
             matched = true;
         }
     }
@@ -53,7 +58,7 @@ export function Verbose(e) {
     if (v112betaMatch && !matched) {
         const num = parseInt(v112betaMatch[1], 10);
         if (num >= 0 && num <= 9) {
-            top = e.singbox_1_11;
+            top = Config111;
             e.tailscale = false;
             e.tls_fragment = false;
             matched = true;
@@ -61,24 +66,24 @@ export function Verbose(e) {
     }
     // 匹配 1.11.x 版本
     if (v111Match && !matched) {
-        top = e.singbox_1_11;
+        top = Config111;
         e.tailscale = false;
         e.tls_fragment = false;
         matched = true;
     }
     // 匹配 1.12.x 版本
     if (v112Match && !matched) {
-        top = e.singbox_1_12;
+        top = Config112;
         matched = true;
     }
     // 匹配 1.13.x 版本
     if (v113Match && !matched) {
-        top = e.singbox_1_13;
+        top = Config113;
         matched = true;
     }
     // 匹配 1.14.x 版本
     if (v114Match && !matched) {
-        top = e.singbox_1_14;
+        top = Config114;
         matched = true;
     }
     if (!matched) {

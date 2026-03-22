@@ -1,29 +1,34 @@
-import * as utils from './utils.js';
-import getMihomo_Proxies_Data from './proxies.js';
+import { splitUrlsAndProxies, fetchpackExtract, fetchipExtract, fetchResponse } from '../../utils/index.js';
+import getProxies_Data from './proxies.js';
+import clashConfig from '../../config/mihomo.js';
 
 export async function getmihomo_config(e) {
     if (!/meta|clash.meta|clash|clashverge|mihomo/i.test(e.userAgent)) {
         throw new Error('不支持的客户端');
     }
-    e.urls = utils.splitUrlsAndProxies(e.urls);
-    const [Mihomo_Top_Data, Mihomo_Rule_Data, Mihomo_Proxies_Data, Exclude_Package, Exclude_Address] = await Promise.all([
-        utils.Top_Data(e.Mihomo_default),
-        utils.Rule_Data(e.rule),
-        getMihomo_Proxies_Data(e),
-        e.exclude_package ? utils.fetchpackExtract() : null,
-        e.exclude_address ? utils.fetchipExtract() : null,
-    ]);
-    e.Exclude_Package = Exclude_Package;
-    e.Exclude_Address = Exclude_Address;
-    if (!Mihomo_Proxies_Data?.data?.proxies || Mihomo_Proxies_Data?.data?.proxies?.length === 0) throw new Error('节点为空');
-    Mihomo_Rule_Data.data.proxies = [...(Mihomo_Rule_Data?.data?.proxies || []), ...Mihomo_Proxies_Data?.data?.proxies];
-    Mihomo_Rule_Data.data['proxy-groups'] = getMihomo_Proxies_Grouping(Mihomo_Proxies_Data.data, Mihomo_Rule_Data.data);
-    Mihomo_Rule_Data.data['proxy-providers'] = Mihomo_Proxies_Data?.data?.providers;
-    applyTemplate(Mihomo_Top_Data.data, Mihomo_Rule_Data.data, e);
+    if (!e.rule) {
+        throw new Error('缺少规则模板');
+    }
+    e.urls = splitUrlsAndProxies(e.urls);
+    const Proxies_Data = await getProxies_Data(e);
+    if (Proxies_Data.data.proxies.length === 0) {
+        throw new Error('节点为空，请使用有效订阅');
+    }
+    const Rule_Data = await fetchResponse(e.rule);
+    if (e.exclude_package) {
+        e.Exclude_Package = await fetchpackExtract();
+    }
+    if (e.exclude_address) {
+        e.Exclude_Address = await fetchipExtract();
+    }
+    Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
+    Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data);
+    Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
+    applyTemplate(clashConfig, Rule_Data.data, e);
     return {
-        status: Mihomo_Proxies_Data.status,
-        headers: Mihomo_Proxies_Data.headers,
-        data: JSON.stringify(Mihomo_Top_Data.data, null, 4),
+        status: Proxies_Data.status,
+        headers: Proxies_Data.headers,
+        data: JSON.stringify(clashConfig, null, 4),
     };
 }
 
@@ -72,7 +77,7 @@ export function applyTemplate(top, rule, e) {
  * @param {Array} groups - 策略组
  * @returns {Object} 分组信息
  */
-export function getMihomo_Proxies_Grouping(proxies, groups) {
+export function getProxies_Grouping(proxies, groups) {
     const deletedGroups = []; // 用于记录已删除的组名
     const updatedGroups = groups['proxy-groups'].filter((group) => {
         let matchFound = false;
