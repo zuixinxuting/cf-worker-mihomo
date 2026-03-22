@@ -8,28 +8,65 @@ import Config114 from '../../config/singbox_1.14.X.js';
 export async function getsingbox_config(e) {
     const sbConfig = Verbose(e);
     e.urls = splitUrlsAndProxies(e.urls);
-    const Outbounds_Data = await getOutbounds_Data(e);
+
+    // 准备所有独立的异步操作
+    const promises = [
+        getOutbounds_Data(e),                                    // 获取节点数据
+        fetchResponse(e.rule),                                   // 获取规则数据
+        e.exclude_package ? fetchpackExtract() : Promise.resolve(null),  // 可选：排除包
+        e.exclude_address ? fetchipExtract() : Promise.resolve(null)     // 可选：排除地址
+    ];
+
+    // 并行执行所有异步操作，每个操作独立处理成功或失败
+    const results = await Promise.allSettled(promises);
+
+    // 解构结果
+    const outboundsResult = results[0];
+    const ruleResult = results[1];
+    const excludePackageResult = results[2];
+    const excludeAddressResult = results[3];
+
+    // 处理节点数据（必需）
+    if (outboundsResult.status === 'rejected') {
+        throw new Error(`获取节点数据失败: ${outboundsResult.reason}`);
+    }
+
+    const Outbounds_Data = outboundsResult.value;
     if (!Outbounds_Data?.data?.outbounds || Outbounds_Data?.data?.outbounds?.length === 0) {
         throw new Error(`节点为空，请使用有效订阅`);
     }
-    const Rule_Data = await fetchResponse(e.rule);
-    if (e.exclude_package) {
-        e.Exclude_Package = await fetchpackExtract();
+
+    // 处理规则数据（必需）
+    if (ruleResult.status === 'rejected') {
+        throw new Error(`获取规则数据失败: ${ruleResult.reason}`);
     }
-    if (e.exclude_address) {
-        e.Exclude_Address = await fetchipExtract();
+    const Rule_Data = ruleResult.value;
+
+    // 处理可选的排除数据（失败时只警告，不中断流程）
+    if (e.exclude_package && excludePackageResult.status === 'fulfilled') {
+        e.Exclude_Package = excludePackageResult.value;
+    } else if (e.exclude_package && excludePackageResult.status === 'rejected') {
+        console.warn(`获取排除包数据失败: ${excludePackageResult.reason}`);
     }
 
+    if (e.exclude_address && excludeAddressResult.status === 'fulfilled') {
+        e.Exclude_Address = excludeAddressResult.value;
+    } else if (e.exclude_address && excludeAddressResult.status === 'rejected') {
+        console.warn(`获取排除地址数据失败: ${excludeAddressResult.reason}`);
+    }
+
+    // 处理节点数据
     Outbounds_Data.data.outbounds = outboundArrs(Outbounds_Data.data);
-    const ApiUrlname = [];
-    Outbounds_Data.data.outbounds.forEach((res) => {
-        ApiUrlname.push(res.tag);
-    });
+    const ApiUrlname = Outbounds_Data.data.outbounds.map(res => res.tag);
+
     // 策略组处理
     Rule_Data.data.outbounds = loadAndSetOutbounds(Rule_Data.data.outbounds, ApiUrlname);
-    // 合并 outbounds
+
+    // 合并节点
     Rule_Data.data.outbounds.push(...Outbounds_Data.data.outbounds);
+
     applyTemplate(sbConfig, Rule_Data.data, e);
+
     return {
         status: Outbounds_Data.status,
         headers: Outbounds_Data.headers,

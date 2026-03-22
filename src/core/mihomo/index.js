@@ -3,28 +3,69 @@ import getProxies_Data from './proxies.js';
 import clashConfig from '../../config/mihomo.js';
 
 export async function getmihomo_config(e) {
+    // 客户端验证
     if (!/meta|clash.meta|clash|clashverge|mihomo/i.test(e.userAgent)) {
         throw new Error('不支持的客户端');
     }
     if (!e.rule) {
         throw new Error('缺少规则模板');
     }
+
     e.urls = splitUrlsAndProxies(e.urls);
-    const Proxies_Data = await getProxies_Data(e);
+
+    // 准备所有独立的异步操作
+    const promises = [
+        getProxies_Data(e),                                    // 获取代理数据
+        fetchResponse(e.rule),                                 // 获取规则数据
+        e.exclude_package ? fetchpackExtract() : Promise.resolve(null),  // 可选：排除包
+        e.exclude_address ? fetchipExtract() : Promise.resolve(null)     // 可选：排除地址
+    ];
+
+    // 并行执行所有异步操作
+    const results = await Promise.allSettled(promises);
+
+    // 解构结果
+    const proxiesResult = results[0];
+    const ruleResult = results[1];
+    const excludePackageResult = results[2];
+    const excludeAddressResult = results[3];
+
+    // 处理代理数据（必需）
+    if (proxiesResult.status === 'rejected') {
+        throw new Error(`获取节点数据失败: ${proxiesResult.reason}`);
+    }
+
+    const Proxies_Data = proxiesResult.value;
     if (Proxies_Data.data.proxies.length === 0) {
         throw new Error('节点为空，请使用有效订阅');
     }
-    const Rule_Data = await fetchResponse(e.rule);
-    if (e.exclude_package) {
-        e.Exclude_Package = await fetchpackExtract();
+
+    // 处理规则数据（必需）
+    if (ruleResult.status === 'rejected') {
+        throw new Error(`获取规则数据失败: ${ruleResult.reason}`);
     }
-    if (e.exclude_address) {
-        e.Exclude_Address = await fetchipExtract();
+    const Rule_Data = ruleResult.value;
+
+    // 处理可选的排除数据（失败时只警告，不中断流程）
+    if (e.exclude_package && excludePackageResult.status === 'fulfilled') {
+        e.Exclude_Package = excludePackageResult.value;
+    } else if (e.exclude_package && excludePackageResult.status === 'rejected') {
+        console.warn(`获取排除包数据失败: ${excludePackageResult.reason}`);
     }
+
+    if (e.exclude_address && excludeAddressResult.status === 'fulfilled') {
+        e.Exclude_Address = excludeAddressResult.value;
+    } else if (e.exclude_address && excludeAddressResult.status === 'rejected') {
+        console.warn(`获取排除地址数据失败: ${excludeAddressResult.reason}`);
+    }
+
+    // 合并代理数据
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
     Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data);
     Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
+
     applyTemplate(clashConfig, Rule_Data.data, e);
+
     return {
         status: Proxies_Data.status,
         headers: Proxies_Data.headers,

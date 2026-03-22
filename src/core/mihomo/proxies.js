@@ -2,13 +2,26 @@ import { fetchResponse, buildApiUrl } from '../../utils/index.js';
 export default async function getProxies_Data(e) {
     const isSingle = e.urls.length === 1;
     const data = { proxies: [], providers: {} };
+
+    const results = await Promise.allSettled(
+        e.urls.map((url, index) =>
+            fetchWithFallback(url, e.userAgent, e.sub)
+                .then(res => ({ res, index }))
+        )
+    );
+
     const responses = [];
 
-    for (let i = 0; i < e.urls.length; i++) {
-        const res = await fetchWithFallback(e.urls[i], e.userAgent, e.sub);
+    for (const result of results) {
+        if (result.status === 'rejected') continue;
 
+        const { res, index } = result.value;
         if (res?.data?.proxies?.length) {
-            processProxies(res.data.proxies, e.udp, e.urls.length > 1 ? i + 1 : undefined);
+            processProxies(
+                res.data.proxies,
+                e.udp,
+                e.urls.length > 1 ? index + 1 : undefined
+            );
             responses.push({ status: res.status, headers: res.headers });
             data.proxies.push(...res.data.proxies);
         }
@@ -24,7 +37,6 @@ export default async function getProxies_Data(e) {
         data
     };
 }
-
 // 通用获取响应函数，支持回退机制
 async function fetchWithFallback(url, userAgent, sub) {
     let res = await fetchResponse(url, userAgent, false);
