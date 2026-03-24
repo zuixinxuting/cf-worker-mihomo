@@ -7,7 +7,7 @@ import { buildConfig, processUrls, isEmptyRequest, getResponseType } from './env
 export default {
     async fetch(request, env) {
         const e = buildConfig(request, env, false);
-        e.modes = modes(e.sub, e.userAgent)
+        e.modes = modes(e.sub, e.userAgent);
 
         processUrls(e);
 

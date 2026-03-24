@@ -4,12 +4,7 @@ export default async function getOutbounds_Data(e) {
     const outboundsList = [];
     const responseList = [];
 
-    const results = await Promise.allSettled(
-        e.urls.map((url, index) =>
-            fetchWithFallback(url, e)
-                .then(res => ({ res, index }))
-        )
-    );
+    const results = await Promise.allSettled(e.urls.map((url, index) => fetchWithFallback(url, e).then((res) => ({ res, index }))));
 
     for (const result of results) {
         if (result.status === 'rejected') continue;
@@ -31,7 +26,7 @@ export default async function getOutbounds_Data(e) {
         return {
             status: response.status,
             headers: response.headers,
-            data: { outbounds: outboundsList.flat() }
+            data: { outbounds: outboundsList.flat() },
         };
     }
 
@@ -40,7 +35,7 @@ export default async function getOutbounds_Data(e) {
     return {
         status: randomResponse.status,
         headers: randomResponse.headers,
-        data: { outbounds: outboundsList.flat() }
+        data: { outbounds: outboundsList.flat() },
     };
 }
 // 带回退机制的请求

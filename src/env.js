@@ -1,12 +1,8 @@
 import { backimg, subapi, beiantext, beiandizi, configs } from './utils/index.js';
 export function buildConfig(request, env, isNode = false) {
-    const url = isNode
-        ? new URL(request.url, `http://${request.headers.host}`)
-        : new URL(request.url);
+    const url = isNode ? new URL(request.url, `http://${request.headers.host}`) : new URL(request.url);
 
-    const userAgent = isNode
-        ? request.headers['user-agent']
-        : request.headers.get('User-Agent');
+    const userAgent = isNode ? request.headers['user-agent'] : request.headers.get('User-Agent');
 
     const getParam = (key) => {
         if (isNode) {

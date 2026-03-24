@@ -1,4 +1,4 @@
-import { splitUrlsAndProxies, fetchResponse, } from '../../utils/index.js';
+import { splitUrlsAndProxies, fetchResponse } from '../../utils/index.js';
 import getOutbounds_Data from './outbounds.js';
 import Config111 from '../../config/singbox_1.11.X.js';
 import Config112 from '../../config/singbox_1.12.X.js';
@@ -11,10 +11,10 @@ export async function getsingbox_config(e) {
 
     // 准备所有独立的异步操作
     const promises = [
-        getOutbounds_Data(e),                                    // 获取节点数据
-        fetchResponse(e.rule),                                   // 获取规则数据
-        e.exclude_package ? fetchpackExtract() : Promise.resolve(null),  // 可选：排除包
-        e.exclude_address ? fetchipExtract() : Promise.resolve(null)     // 可选：排除地址
+        getOutbounds_Data(e), // 获取节点数据
+        fetchResponse(e.rule), // 获取规则数据
+        e.exclude_package ? fetchpackExtract() : Promise.resolve(null), // 可选：排除包
+        e.exclude_address ? fetchipExtract() : Promise.resolve(null), // 可选：排除地址
     ];
 
     // 并行执行所有异步操作，每个操作独立处理成功或失败
@@ -57,7 +57,7 @@ export async function getsingbox_config(e) {
 
     // 处理节点数据
     Outbounds_Data.data.outbounds = outboundArrs(Outbounds_Data.data);
-    const ApiUrlname = Outbounds_Data.data.outbounds.map(res => res.tag);
+    const ApiUrlname = Outbounds_Data.data.outbounds.map((res) => res.tag);
 
     // 策略组处理
     Rule_Data.data.outbounds = loadAndSetOutbounds(Rule_Data.data.outbounds, ApiUrlname);

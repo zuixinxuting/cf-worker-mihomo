@@ -3,12 +3,7 @@ export default async function getProxies_Data(e) {
     const isSingle = e.urls.length === 1;
     const data = { proxies: [], providers: {} };
 
-    const results = await Promise.allSettled(
-        e.urls.map((url, index) =>
-            fetchWithFallback(url, e.userAgent, e.sub)
-                .then(res => ({ res, index }))
-        )
-    );
+    const results = await Promise.allSettled(e.urls.map((url, index) => fetchWithFallback(url, e.userAgent, e.sub).then((res) => ({ res, index }))));
 
     const responses = [];
 
@@ -17,11 +12,7 @@ export default async function getProxies_Data(e) {
 
         const { res, index } = result.value;
         if (res?.data?.proxies?.length) {
-            processProxies(
-                res.data.proxies,
-                e.udp,
-                e.urls.length > 1 ? index + 1 : undefined
-            );
+            processProxies(res.data.proxies, e.udp, e.urls.length > 1 ? index + 1 : undefined);
             responses.push({ status: res.status, headers: res.headers });
             data.proxies.push(...res.data.proxies);
         }
@@ -34,7 +25,7 @@ export default async function getProxies_Data(e) {
     return {
         status: selected.status,
         headers: selected.headers,
-        data
+        data,
     };
 }
 // 通用获取响应函数，支持回退机制

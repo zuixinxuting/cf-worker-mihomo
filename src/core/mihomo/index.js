@@ -15,10 +15,10 @@ export async function getmihomo_config(e) {
 
     // 准备所有独立的异步操作
     const promises = [
-        getProxies_Data(e),                                    // 获取代理数据
-        fetchResponse(e.rule),                                 // 获取规则数据
-        e.exclude_package ? fetchpackExtract() : Promise.resolve(null),  // 可选：排除包
-        e.exclude_address ? fetchipExtract() : Promise.resolve(null)     // 可选：排除地址
+        getProxies_Data(e), // 获取代理数据
+        fetchResponse(e.rule), // 获取规则数据
+        e.exclude_package ? fetchpackExtract() : Promise.resolve(null), // 可选：排除包
+        e.exclude_address ? fetchipExtract() : Promise.resolve(null), // 可选：排除地址
     ];
 
     // 并行执行所有异步操作
@@ -108,6 +108,7 @@ export function applyTemplate(top, rule, e) {
     }
     if (e.adgdns) {
         top.dns.nameserver = [`https://dns.adguard-dns.com/dns-query#${proxyName}`];
+        top.dns['nameserver-policy']['dns.18bit.cn'] = ['223.5.5.5'];
         top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['quic://dns.18bit.cn#DIRECT'];
     }
 }
