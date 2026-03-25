@@ -162,7 +162,7 @@ export function modes(sub, userAgent) {
 **转换后端** ${sub}
                 `,
             protocolOptions: [
-                { value: 'udp', label: '启用 UDP', checked: true },
+                { value: 'udp', label: '启用 UDP' },
                 { value: 'ep', label: '启用 分应用代理(仅Android)' },
                 { value: 'ea', label: '启用 分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
                 { value: 'adgdns', label: '启用 去广告dns' },
@@ -207,7 +207,7 @@ export function modes(sub, userAgent) {
 **转换后端** ${sub}
                 `,
             protocolOptions: [
-                { value: 'udp', label: '启用 UDP', checked: true },
+                { value: 'udp', label: '启用 UDP' },
                 { value: 'udp_frag', label: '启用 UDP 分段' },
                 { value: 'tls_frag', label: '启用 TLS 分段' },
                 { value: 'ep', label: '启用 分应用代理(仅Android)' },
