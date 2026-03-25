@@ -363,7 +363,7 @@ export async function getFakePage(e) {
                 params.push(\`url=\${allLinks.join(',')}\`);
             }
             if (modeId) {
-                params.push(\`\${modeId}=true\`);
+                params.push(\`target=\${modeId}\`);
             }
 
             for (const [protocol, enabled] of Object.entries(protocolParams)) {

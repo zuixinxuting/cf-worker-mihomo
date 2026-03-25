@@ -40,26 +40,15 @@ export default async function getOutbounds_Data(e) {
 }
 // 带回退机制的请求
 async function fetchWithFallback(url, options) {
-    let response = await fetchResponse(url, options.userAgent, false);
+    // const res = await fetchResponse(url, options.userAgent);
 
-    if (hasValidOutbounds(response)) {
-        return response;
-    }
+    // if (res?.data?.outbounds && Array.isArray(res.data.outbounds)) {
+    //     return res;
+    // }
 
     // 尝试使用构建的 API URL
     const apiUrl = buildApiUrl(url, options.sub, 'singbox');
-    response = await fetchResponse(apiUrl, options.userAgent, false);
-
-    if (hasValidOutbounds(response)) {
-        return response;
-    }
-
-    return null;
-}
-
-// 检查响应是否包含有效的 outbounds
-function hasValidOutbounds(response) {
-    return response?.data?.outbounds && Array.isArray(response.data.outbounds);
+    return await fetchResponse(apiUrl, options.userAgent);
 }
 
 // 处理 outbounds 数组

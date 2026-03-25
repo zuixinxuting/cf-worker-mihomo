@@ -2,13 +2,10 @@ import { getmihomo_config } from './core/mihomo/index.js';
 import { getsingbox_config } from './core/singbox/index.js';
 import { getv2ray_config } from './core/v2ray/index.js';
 import { getFakePage } from './core/page/page.js';
-import { modes } from './utils/index.js';
-import { buildConfig, processUrls, isEmptyRequest, getResponseType } from './env.js';
+import { buildConfig, isEmptyRequest } from './env.js';
 
 export default async function handler(req, res) {
     const e = buildConfig(req, process.env, true);
-    e.modes = modes(e.sub, e.userAgent);
-    processUrls(e);
 
     if (isEmptyRequest(e)) {
         const html = await getFakePage(e);
@@ -19,9 +16,8 @@ export default async function handler(req, res) {
     }
 
     try {
-        const type = getResponseType(e);
         let result;
-        switch (type) {
+        switch (e.target) {
             case 'singbox':
                 result = await getsingbox_config(e);
                 break;

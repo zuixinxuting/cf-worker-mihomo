@@ -30,15 +30,15 @@ export default async function getProxies_Data(e) {
 }
 // 通用获取响应函数，支持回退机制
 async function fetchWithFallback(url, userAgent, sub) {
-    let res = await fetchResponse(url, userAgent, false);
+    // let res = await fetchResponse(url, userAgent);
 
-    if (res?.data?.proxies && Array.isArray(res.data.proxies) && res.data.proxies.length > 0) {
-        return res;
-    }
+    // if (res?.data?.proxies && Array.isArray(res.data.proxies) && res.data.proxies.length > 0) {
+    //     return res;
+    // }
 
     // 如果第一次请求失败，尝试使用构建的API URL
     const apiUrl = buildApiUrl(url, sub, 'clash.meta');
-    return await fetchResponse(apiUrl, userAgent, false);
+    return await fetchResponse(apiUrl, userAgent);
 }
 
 // 处理代理数组的辅助函数

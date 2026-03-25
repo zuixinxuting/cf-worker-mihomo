@@ -2,16 +2,17 @@ import { getmihomo_config } from './core/mihomo/index.js';
 import { getsingbox_config } from './core/singbox/index.js';
 import { getv2ray_config } from './core/v2ray/index.js';
 import { getFakePage } from './core/page/page.js';
-import { modes } from './utils/index.js';
-import { buildConfig, processUrls, isEmptyRequest, getResponseType } from './env.js';
+import { buildConfig, isEmptyRequest } from './env.js';
 export default {
     async fetch(request, env) {
         const e = buildConfig(request, env, false);
-        e.modes = modes(e.sub, e.userAgent);
-
-        processUrls(e);
 
         if (isEmptyRequest(e)) {
+            if (e.url.pathname.startsWith('/template/')) {
+                const url = new URL(request.url);
+                url.pathname = url.pathname.replace('/template', '');
+                return env.ASSETS.fetch(new Request(url, request));
+            }
             return new Response(await getFakePage(e), {
                 status: 200,
                 headers: {
@@ -20,9 +21,8 @@ export default {
             });
         }
         try {
-            const type = getResponseType(e);
             let res;
-            switch (type) {
+            switch (e.target) {
                 case 'singbox':
                     res = await getsingbox_config(e);
                     break;
