@@ -329,7 +329,7 @@ export function applyTemplate(top, rule, e) {
                     type: 'https',
                     tag: 'DIRECT-DNS',
                     detour: '🎯 全球直连',
-                    server_port: 853,
+                    server_port: 443,
                     server: 'doh.18bit.cn',
                     domain_resolver: 'local',
                 };
