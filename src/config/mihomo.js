@@ -182,7 +182,7 @@ const clashConfig = {
         'prefer-h3': false, // DOH 优先使用 http/3
         'use-hosts': true, // 使用配置中的 hosts 文件条目
         'use-system-hosts': true, // 使用系统的 hosts 文件条目
-        'respect-rules': false, // dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用
+        'respect-rules': true, // dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用
         listen: '0.0.0.0:1053', // 本地 DNS 监听端口，默认是 1053 端口
         ipv6: true, // 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
         'default-nameserver': ['223.5.5.5', '8.8.8.8'],
@@ -192,21 +192,19 @@ const clashConfig = {
         'fake-ip-filter': ['RULE-SET:cn_domain'],
         'nameserver-policy': {
             'dns.alidns.com': ['223.5.5.5'],
-            'RULE-SET:cn_domain': [
-                'quic://dns.alidns.com#DIRECT', // 阿里 DNS over DOQ
-            ],
+            'RULE-SET:cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
         },
         nameserver: [
             // 被墙的dns需指定代理
-            'https://dns.google/dns-query#PROXY', // Google DNS over DOH
+            'https://dns.google/dns-query#PROXY',
         ],
         'proxy-server-nameserver': [
-            // 代理节点域名解析服务器，仅用于解析代理节点的域名，不能使用 system，不能设置 ecs
-            'https://doh.cmliussss.net/CMLiussss#DIRECT', // Cloudflare DNS over DOH 不支持 H3
+            // 代理节点域名解析服务器，仅用于解析代理节点的域名
+            'https://doh.cmliussss.net/CMLiussss#DIRECT',
         ],
         'direct-nameserver': [
-            //  用于直连出口域名解析的 DNS 服务器，不能使用 system，不能设置 ecs
-            'quic://dns.alidns.com#DIRECT', // 阿里 DNS over DOQ
+            //  用于直连出口域名解析的 DNS 服务器
+            'https://dns.alidns.com/dns-query#DIRECT',
         ],
         'direct-nameserver-follow-policy': true, // 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
     },

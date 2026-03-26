@@ -106,6 +106,77 @@ export function configs() {
                     },
                 ],
             },
+            {
+                label: 'Lanlan13-14',
+                options: [
+                    {
+                        label: 'configfull 全分组版 (秋风去广告) (与Github同步)',
+                        value: '/Lanlan13-14/configfull.yaml',
+                    },
+                    {
+                        label: 'configfull_NoAd 全分组版 (无去广告) (与Github同步)',
+                        value: '/Lanlan13-14/configfull_NoAd.yaml',
+                    },
+                    {
+                        label: 'configfull_NoAd_lite 全分组版 (无去广告) (精简版) (与Github同步)',
+                        value: '/Lanlan13-14/configfull_NoAd_lite.yaml',
+                    },
+                    {
+                        label: 'configfull_lite 全分组版 (精简版) (与Github同步)',
+                        value: '/Lanlan13-14/configfull_lite.yaml',
+                    },
+                    {
+                        label: 'configfull_beta 全分组版 (beta版) (与Github同步)',
+                        value: '/Lanlan13-14/configfull_beta.yaml',
+                    },
+                ],
+            },
+            {
+                label: 'zhuqq2020',
+                options: [
+                    {
+                        label: 'ACL4SSR_Online_Full 全包重度用户使用(与Github同步)',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_AdblockPlus 全包重度用户使用更多去广告(与Github同步)',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full_AdblockPlus.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_Tiktok 全包重度用户使用抖音全量(与Github同步)',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full_Tiktok.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_WithIcon 全包重度用户使用(与Github同步)(无图标)',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full_WithIcon.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Mini_MultiMode 专业版自动测速、故障转移、负载均衡(与Github同步)',
+                        value: '/zhuqq2020/ACL4SSR_Online_Mini_MultiMode.yaml',
+                    },
+                    {
+                        label: '极简分流规则',
+                        value: '/zhuqq2020/极简分流规则.yaml',
+                    },
+                ],
+            },
+            {
+                label: 'mihomo-party-org',
+                options: [
+                    {
+                        label: '布丁狗的订阅转换 (与Github同步)',
+                        value: '/mihomo-party-org/布丁狗的订阅转换.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full (与Github同步)',
+                        value: '/mihomo-party-org/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_WithIcon (与Github同步)',
+                        value: '/mihomo-party-org/ACL4SSR_Online_Full_WithIcon.yaml',
+                    },
+                ],
+            },
         ],
         singbox: [
             {
@@ -299,7 +370,7 @@ export async function fetchpackExtract() {
  * @returns {Promise<Object>} - 返回配置数据对象
  */
 export async function fetchipExtract() {
-    const urls = ['https://raw.githubusercontent.com/Kwisma/clash-rules/release/cncidr.yaml'];
+    const urls = ['/Kwisma/clash-rules/release/cncidr.yaml'];
 
     const ipcidrs = [];
 

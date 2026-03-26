@@ -109,7 +109,7 @@ export function applyTemplate(top, rule, e) {
     if (e.adgdns) {
         top.dns.nameserver = [`https://dns.adguard-dns.com/dns-query#${proxyName}`];
         top.dns['nameserver-policy']['dns.18bit.cn'] = ['223.5.5.5'];
-        top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['quic://dns.18bit.cn#DIRECT'];
+        top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['https://doh.18bit.cn/dns-query#DIRECT'];
     }
 }
 

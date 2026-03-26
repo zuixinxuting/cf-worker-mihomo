@@ -326,11 +326,11 @@ export function applyTemplate(top, rule, e) {
         top.dns.servers.flatMap((p) => {
             if (p.tag === 'DIRECT-DNS') {
                 p = {
-                    type: 'quic',
+                    type: 'https',
                     tag: 'DIRECT-DNS',
                     detour: '🎯 全球直连',
                     server_port: 853,
-                    server: 'dns.18bit.cn',
+                    server: 'doh.18bit.cn',
                     domain_resolver: 'local',
                 };
             }
