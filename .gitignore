@@ -174,3 +174,4 @@ dist
 
 
 script/*.log
+.env*.local

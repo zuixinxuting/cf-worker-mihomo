@@ -47,7 +47,7 @@ async function fetchWithFallback(url, options) {
     // }
 
     // 尝试使用构建的 API URL
-    const apiUrl = buildApiUrl(url, options.sub, 'singbox');
+    const apiUrl = buildApiUrl(url, options.sub, options.target);
     return await fetchResponse(apiUrl, options.userAgent);
 }
 

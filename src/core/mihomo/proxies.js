@@ -3,7 +3,7 @@ export default async function getProxies_Data(e) {
     const isSingle = e.urls.length === 1;
     const data = { proxies: [], providers: {} };
 
-    const results = await Promise.allSettled(e.urls.map((url, index) => fetchWithFallback(url, e.userAgent, e.sub).then((res) => ({ res, index }))));
+    const results = await Promise.allSettled(e.urls.map((url, index) => fetchWithFallback(url, e).then((res) => ({ res, index }))));
 
     const responses = [];
 
@@ -29,16 +29,16 @@ export default async function getProxies_Data(e) {
     };
 }
 // 通用获取响应函数，支持回退机制
-async function fetchWithFallback(url, userAgent, sub) {
-    // let res = await fetchResponse(url, userAgent);
+async function fetchWithFallback(url, options) {
+    // let res = await fetchResponse(url, options.userAgent);
 
     // if (res?.data?.proxies && Array.isArray(res.data.proxies) && res.data.proxies.length > 0) {
     //     return res;
     // }
 
     // 如果第一次请求失败，尝试使用构建的API URL
-    const apiUrl = buildApiUrl(url, sub, 'clash.meta');
-    return await fetchResponse(apiUrl, userAgent);
+    const apiUrl = buildApiUrl(url, options.sub, options.target);
+    return await fetchResponse(apiUrl, options.userAgent);
 }
 
 // 处理代理数组的辅助函数

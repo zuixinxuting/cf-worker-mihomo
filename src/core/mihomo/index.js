@@ -13,22 +13,13 @@ export async function getmihomo_config(e) {
 
     e.urls = splitUrlsAndProxies(e.urls);
 
-    // 准备所有独立的异步操作
-    const promises = [
+    // 并行执行所有异步操作
+    const [proxiesResult, ruleResult, excludePackageResult, excludeAddressResult] = await Promise.allSettled([
         getProxies_Data(e), // 获取代理数据
         fetchResponse(e.rule), // 获取规则数据
         e.exclude_package ? fetchpackExtract() : Promise.resolve(null), // 可选：排除包
         e.exclude_address ? fetchipExtract() : Promise.resolve(null), // 可选：排除地址
-    ];
-
-    // 并行执行所有异步操作
-    const results = await Promise.allSettled(promises);
-
-    // 解构结果
-    const proxiesResult = results[0];
-    const ruleResult = results[1];
-    const excludePackageResult = results[2];
-    const excludeAddressResult = results[3];
+    ]);
 
     // 处理代理数据（必需）
     if (proxiesResult.status === 'rejected') {

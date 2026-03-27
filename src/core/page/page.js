@@ -1,4 +1,5 @@
 import CSS from './css.js';
+import { modes, configs } from '../../utils/index.js';
 
 export async function getFakePage(e) {
     return `
@@ -55,7 +56,7 @@ export async function getFakePage(e) {
 
     <script>
         // 配置模式定义
-        const MODES = ${e.modes};
+        const MODES = ${modes(e.sub, e.userAgent)};
 
         // 当前激活的模式
         let activeMode = 'mihomo';
@@ -94,7 +95,7 @@ export async function getFakePage(e) {
         // 初始化模式容器
         function initModeContainers() {
             const modeContainers = document.getElementById('mode-containers');
-            const configs = ${e.configs};
+            const configs = ${configs()};
             
             for (const [modeId, modeConfig] of Object.entries(MODES)) {
                 const container = document.createElement('div');
@@ -222,7 +223,7 @@ export async function getFakePage(e) {
 
         // 初始化所有模板选择器
         function initAllTemplateSelectors() {
-            const configs = ${e.configs};
+            const configs = ${configs()};
             
             for (const modeId of Object.keys(MODES)) {
                 if (!MODES[modeId].noTemplate && configs[modeId]) {

@@ -75,7 +75,7 @@ export function splitUrlsAndProxies(urls) {
             result.push(url);
         } else {
             if (proxyText) {
-                proxyText += '|';
+                proxyText += ',';
             }
             proxyText += url;
         }

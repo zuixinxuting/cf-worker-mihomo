@@ -1,4 +1,4 @@
-import { backimg, subapi, beiantext, beiandizi, configs, modes } from './utils/index.js';
+import { backimg, subapi, beiantext, beiandizi } from './utils/index.js';
 export function buildConfig(request, env, isNode = false) {
     const url = isNode ? new URL(request.url, `http://${request.headers.host}`) : new URL(request.url);
 
@@ -11,9 +11,11 @@ export function buildConfig(request, env, isNode = false) {
     const getParamBool = (key) => getParam(key) === 'true';
     const data = {
         url,
-        urls: url.searchParams.getAll('url'),
+        urls: getParam('url')
+            ?.split(',')
+            .map((u) => u.trim()),
         userAgent,
-        target: getParam('target') || 'v2ray',
+        target: getParam('target'),
         udp: getParamBool('udp'),
         udp_fragment: getParamBool('udp_frag'),
         tls_fragment: getParamBool('tls_frag'),
@@ -26,23 +28,7 @@ export function buildConfig(request, env, isNode = false) {
         sub: env?.SUB || subapi,
         beian: env?.BEIAN || beiantext,
         beianurl: env?.BEIANURL || beiandizi,
-        configs: configs(),
     };
-    data.rule = url.origin + '/template/' + data.target + getParam('template');
-    data.modes = modes(data.sub, data.userAgent);
-    processUrls(data);
+    data.rule = `${url.origin}${isNode ? '/template' : ''}/${data.target}${getParam('template') ? getParam('template') : ''}`;
     return data;
-}
-
-// 处理 URL 列表的函数
-export function processUrls(e) {
-    if (e.urls.length === 1 && e.urls[0].includes(',')) {
-        e.urls = e.urls[0].split(',').map((u) => u.trim());
-    }
-    return e;
-}
-
-// 检查是否为空请求
-export function isEmptyRequest(e) {
-    return e.urls.length === 0 || e.urls[0] === '';
 }
