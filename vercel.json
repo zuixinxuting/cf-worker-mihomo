@@ -2,14 +2,25 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/vercel.js",
+      "src": "template/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "src/vercel.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/template/(.*)",
+      "dest": "/template/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "dist/vercel.js"
+      "dest": "src/vercel.js"
     }
   ]
 }

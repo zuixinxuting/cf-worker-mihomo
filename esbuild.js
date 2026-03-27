@@ -1,10 +1,5 @@
-// build.js
-const esbuild = require('esbuild');
-
-const artifacts = [
-    { src: 'src/vercel.js', dest: 'dist/vercel.js' },
-    { src: 'src/_worker.js', dest: 'dist/_worker.js' },
-];
+import esbuild from 'esbuild';
+const artifacts = [{ src: 'src/_worker.js', dest: 'dist/_worker.js' }];
 
 (async () => {
     for (const artifact of artifacts) {
