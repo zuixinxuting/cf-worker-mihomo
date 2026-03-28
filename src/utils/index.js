@@ -26,7 +26,6 @@ export async function fetchResponse(url, userAgent) {
     if (!userAgent) {
         userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3';
     }
-
     let response;
     try {
         response = await fetch(url, {
@@ -36,33 +35,33 @@ export async function fetchResponse(url, userAgent) {
             },
         });
     } catch {
-        return true;
+        return true
     }
-
-    const headersObj = Object.fromEntries(response.headers.entries());
-
-    const sanitizedCD = sanitizeContentDisposition(response.headers);
-    if (sanitizedCD) {
-        headersObj['content-disposition'] = sanitizedCD;
+    const headers = {};
+    const subInfo = response.headers.get('subscription-userinfo');
+    if (subInfo) {
+        headers['subscription-userinfo'] = subInfo;
     }
-
+    const fixedCD = sanitizeContentDisposition(response.headers);
+    if (fixedCD) {
+        headers['content-disposition'] = fixedCD;
+    }
     const textData = await response.text();
-
-    let jsonData;
+    let data;
     try {
-        jsonData = YAML.parse(textData, { maxAliasCount: -1, merge: true });
+        data = YAML.parse(textData, { maxAliasCount: -1, merge: true });
     } catch {
         try {
-            jsonData = JSON.parse(textData);
+            data = JSON.parse(textData);
         } catch {
-            jsonData = textData;
+            data = textData;
         }
     }
 
     return {
         status: response.status,
-        headers: headersObj,
-        data: jsonData,
+        headers,
+        data,
     };
 }
 // 将订阅链接和代理地址分离
@@ -302,23 +301,44 @@ export function modes(sub, userAgent) {
 }
 
 function sanitizeContentDisposition(headers) {
-    const contentDisposition = headers.get('Content-Disposition') || headers.get('content-disposition');
+    // 统一取 header
+    const raw = headers.get('content-disposition');
+    if (!raw) return null;
 
-    if (!contentDisposition) return null;
+    // 提取 filename（优先 filename*）
+    let filename = null;
 
-    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+    // 1. filename* (UTF-8''xxx)
+    const filenameStarMatch = raw.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
+    if (filenameStarMatch) {
+        try {
+            filename = decodeURIComponent(filenameStarMatch[1]);
+        } catch {
+            filename = filenameStarMatch[1];
+        }
+    }
 
-    if (!filenameMatch) return null;
+    // 2. fallback: filename=""
+    if (!filename) {
+        const filenameMatch = raw.match(/filename\s*=\s*"?([^"]+)"?/i);
+        if (filenameMatch) {
+            filename = filenameMatch[1];
+        }
+    }
 
-    const originalFilename = filenameMatch[1];
+    if (!filename) return raw;
 
-    // 检查是否含中文(或非 ASCII)
-    const isNonAscii = /[^\x00-\x7F]/.test(originalFilename);
-    if (!isNonAscii) return contentDisposition; // 不含中文，保持原样
+    // 判断是否包含非 ASCII
+    const isNonAscii = /[^\x00-\x7F]/.test(filename);
 
-    // 使用 fallback ASCII 名 + filename*=UTF-8''xxx 形式替换
-    const fallback = 'download.json';
-    const encoded = encodeURIComponent(originalFilename);
+    // 不需要修复
+    if (!isNonAscii) return raw;
+
+    // 自动提取扩展名
+    const extMatch = filename.match(/\.[a-zA-Z0-9]+$/);
+    const fallback = `download${extMatch ? extMatch[0] : ''}`;
+
+    const encoded = encodeURIComponent(filename);
 
     return `attachment; filename="${fallback}"; filename*=UTF-8''${encoded}`;
 }
@@ -370,7 +390,7 @@ export async function fetchpackExtract() {
  * @returns {Promise<Object>} - 返回配置数据对象
  */
 export async function fetchipExtract() {
-    const urls = ['/Kwisma/clash-rules/release/cncidr.yaml'];
+    const urls = ['https://raw.githubusercontent.com/Kwisma/clash-rules/release/cncidr.yaml'];
 
     const ipcidrs = [];
 
