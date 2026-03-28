@@ -221,4 +221,4 @@ const clashConfig = {
         },
     },
 };
-export default clashConfig;
+export default Object.freeze(clashConfig);

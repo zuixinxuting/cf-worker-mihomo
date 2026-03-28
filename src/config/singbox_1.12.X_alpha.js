@@ -197,4 +197,4 @@ const Config112Alpha = {
         },
     },
 };
-export default Config112Alpha;
+export default Object.freeze(Config112Alpha);

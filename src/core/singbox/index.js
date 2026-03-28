@@ -6,7 +6,7 @@ import Config112Alpha from '../../config/singbox_1.12.X_alpha.js';
 import Config113 from '../../config/singbox_1.13.X.js';
 import Config114 from '../../config/singbox_1.14.X.js';
 export async function getsingbox_config(e) {
-    const sbConfig = Verbose(e);
+    const config = structuredClone(Verbose(e));
     e.urls = splitUrlsAndProxies(e.urls);
 
     // 并行执行所有异步操作，每个操作独立处理成功或失败
@@ -31,7 +31,7 @@ export async function getsingbox_config(e) {
     if (ruleResult.status === 'rejected') {
         throw new Error(`获取规则数据失败: ${ruleResult.reason}`);
     }
-    const Rule_Data = ruleResult.value;
+    const Rule_Data = structuredClone(ruleResult.value);
 
     // 处理可选的排除数据（失败时只警告，不中断流程）
     if (e.exclude_package && excludePackageResult.status === 'fulfilled') {
@@ -55,13 +55,11 @@ export async function getsingbox_config(e) {
 
     // 合并节点
     Rule_Data.data.outbounds.push(...Outbounds_Data.data.outbounds);
-    const config = sbConfig;
-    const rule = Rule_Data.data;
-    const data = applyTemplate(config, rule, e);
+    applyTemplate(config, Rule_Data.data, e);
     return {
         status: Outbounds_Data.status,
         headers: Outbounds_Data.headers,
-        data: JSON.stringify(data, null, 4),
+        data: JSON.stringify(config, null, 4),
     };
 }
 export function Verbose(e) {

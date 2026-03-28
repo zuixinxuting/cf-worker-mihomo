@@ -176,4 +176,4 @@ const Config111 = {
         },
     },
 };
-export default Config111;
+export default Object.freeze(Config111);
