@@ -54,13 +54,13 @@ export async function getmihomo_config(e) {
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
     Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data);
     Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
-
-    applyTemplate(clashConfig, Rule_Data.data, e);
-
+    const config = clashConfig;
+    const rule = Rule_Data.data;
+    const data = applyTemplate(config, rule, e);
     return {
         status: Proxies_Data.status,
         headers: Proxies_Data.headers,
-        data: JSON.stringify(clashConfig, null, 4),
+        data: JSON.stringify(data, null, 4),
     };
 }
 
@@ -102,6 +102,7 @@ export function applyTemplate(top, rule, e) {
         top.dns['nameserver-policy']['dns.18bit.cn'] = ['223.5.5.5'];
         top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['https://doh.18bit.cn/dns-query#DIRECT'];
     }
+    return top;
 }
 
 /**

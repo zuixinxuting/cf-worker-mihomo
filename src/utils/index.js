@@ -35,7 +35,7 @@ export async function fetchResponse(url, userAgent) {
             },
         });
     } catch {
-        return true
+        return true;
     }
     const headers = {};
     const subInfo = response.headers.get('subscription-userinfo');

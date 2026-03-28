@@ -55,13 +55,13 @@ export async function getsingbox_config(e) {
 
     // 合并节点
     Rule_Data.data.outbounds.push(...Outbounds_Data.data.outbounds);
-
-    applyTemplate(sbConfig, Rule_Data.data, e);
-
+    const config = sbConfig;
+    const rule = Rule_Data.data;
+    const data = applyTemplate(config, rule, e);
     return {
         status: Outbounds_Data.status,
         headers: Outbounds_Data.headers,
-        data: JSON.stringify(sbConfig, null, 4),
+        data: JSON.stringify(data, null, 4),
     };
 }
 export function Verbose(e) {
@@ -338,6 +338,7 @@ export function applyTemplate(top, rule, e) {
             return p;
         });
     }
+    return top;
 }
 
 export function addExcludePackage(singboxTopData, newPackages) {
