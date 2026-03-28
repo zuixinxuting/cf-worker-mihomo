@@ -33,6 +33,7 @@ export function buildConfig(request, env, isNode = false) {
         tailscale: getParamBool('tailscale'),
         adgdns: getParamBool('adgdns'),
         tun: getParamBool('tun'),
+        ech: getParamBool('ech'),
         IMG: getEnv('IMG', backimg),
         sub: getEnv('SUB', subapi),
         beian: getEnv('BEIAN', beiantext),

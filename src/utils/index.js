@@ -233,6 +233,7 @@ export function modes(sub, userAgent) {
                 `,
             protocolOptions: [
                 { value: 'udp', label: '启用 UDP' },
+                { value: 'ech', label: '启用 ECH' },
                 { value: 'ep', label: '启用 分应用代理(仅Android)' },
                 { value: 'ea', label: '启用 分IPCIDR代理(ios/macOS/windows/linux 推荐)' },
                 { value: 'adgdns', label: '启用 去广告dns' },
@@ -278,6 +279,7 @@ export function modes(sub, userAgent) {
                 `,
             protocolOptions: [
                 { value: 'udp', label: '启用 UDP' },
+                { value: 'ech', label: '启用 ECH' },
                 { value: 'udp_frag', label: '启用 UDP 分段' },
                 { value: 'tls_frag', label: '启用 TLS 分段' },
                 { value: 'ep', label: '启用 分应用代理(仅Android)' },
