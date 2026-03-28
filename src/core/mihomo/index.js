@@ -55,11 +55,11 @@ export async function getmihomo_config(e) {
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
     Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data);
     Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
-    const data = applyTemplate(config, Rule_Data.data, e);
+    applyTemplate(config, Rule_Data.data, e);
     return {
         status: Proxies_Data.status,
         headers: Proxies_Data.headers,
-        data: JSON.stringify(data, null, 4),
+        data: JSON.stringify(config, null, 4),
     };
 }
 

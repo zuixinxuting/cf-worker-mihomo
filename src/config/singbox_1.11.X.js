@@ -19,13 +19,13 @@ const Config111 = {
             {
                 tag: 'DIRECT-DNS',
                 address_resolver: 'local',
-                address: 'quic://dns.alidns.com:853',
+                address: 'https://dns.alidns.com/dns-query',
                 detour: '🎯 全球直连',
             },
             {
                 tag: 'PROXY-DNS',
                 address_resolver: 'local',
-                address: 'https://cloudflare-dns.com/dns-query',
+                address: 'https://dns.google/dns-query',
                 detour: '🚀 节点选择',
             },
             {
