@@ -34,6 +34,7 @@ export function buildConfig(request, env, isNode = false) {
         adgdns: getParamBool('adgdns'),
         tun: getParamBool('tun'),
         ech: getParamBool('ech'),
+        relay: getParamBool('relay'),
         IMG: getEnv('IMG', backimg),
         sub: getEnv('SUB', subapi),
         beian: getEnv('BEIAN', beiantext),

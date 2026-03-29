@@ -26,7 +26,7 @@ const Config112Alpha = {
             {
                 type: 'https',
                 tag: 'DIRECT-DNS',
-                detour: '🎯 全球直连',
+                detour: 'DIRECT',
                 server_port: 443,
                 server: 'dns.alidns.com',
                 path: '/dns-query',
@@ -35,7 +35,7 @@ const Config112Alpha = {
             {
                 type: 'https',
                 tag: 'PROXY-DNS',
-                detour: '🚀 节点选择',
+                detour: 'PROXY',
                 server_port: 443,
                 server: 'dns.google',
                 path: '/dns-query',
@@ -105,11 +105,11 @@ const Config112Alpha = {
     ],
     outbounds: [
         {
-            tag: '🎯 全局直连',
+            tag: 'DIRECT',
             type: 'direct',
         },
         {
-            tag: '🚫 拒绝连接',
+            tag: 'REJECT',
             type: 'socks',
             server: '127.0.0.1',
             server_port: 1024,
@@ -122,7 +122,7 @@ const Config112Alpha = {
     ],
     route: {
         auto_detect_interface: true,
-        final: '🚀 节点选择',
+        final: 'PROXY',
         default_domain_resolver: {
             server: 'DIRECT-DNS',
             strategy: 'prefer_ipv4',
@@ -146,15 +146,15 @@ const Config112Alpha = {
             },
             {
                 ip_is_private: true,
-                outbound: '🎯 全球直连',
+                outbound: 'DIRECT',
             },
             {
                 clash_mode: 'direct',
-                outbound: '🎯 全球直连',
+                outbound: 'DIRECT',
             },
             {
                 clash_mode: 'global',
-                outbound: '🚀 节点选择',
+                outbound: 'PROXY',
             },
             {
                 action: 'route-options',
@@ -166,14 +166,14 @@ const Config112Alpha = {
                 type: 'remote',
                 url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs',
                 format: 'binary',
-                download_detour: '🎯 全球直连',
+                download_detour: 'DIRECT',
             },
             {
                 tag: 'cn_domain',
                 type: 'remote',
                 url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs',
                 format: 'binary',
-                download_detour: '🎯 全球直连',
+                download_detour: 'DIRECT',
             },
         ],
     },
@@ -185,7 +185,7 @@ const Config112Alpha = {
             secret: '',
             default_mode: 'rule',
             external_ui_download_url: 'https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip',
-            external_ui_download_detour: '🎯 全球直连',
+            external_ui_download_detour: 'DIRECT',
             access_control_allow_origin: ['*'],
             access_control_allow_private_network: true,
         },
