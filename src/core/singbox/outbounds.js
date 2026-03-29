@@ -53,12 +53,22 @@ async function fetchWithFallback(url, options) {
 
 // 处理 outbounds 数组
 function processOutbounds(outbounds, options, index) {
+    const isV113 = /1\.(1[3-9]|[3-9]\d)/i.test(options.userAgent);
     outbounds.forEach((outbound) => {
         if (index > 0) {
             outbound.tag = `${outbound.tag} [${index}]`;
         }
         if (options.udp_fragment) {
             outbound.udp_fragment = true;
+        }
+        if (options.ech && outbound.tls) {
+            outbound.tls = {
+                ...outbound.tls,
+                ech: {
+                    enabled: true,
+                    ...(isV113 && { query_server_name: 'cloudflare-ech.com' }),
+                },
+            };
         }
     });
 }

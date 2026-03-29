@@ -6,7 +6,7 @@ import Config112Alpha from '../../config/singbox_1.12.X_alpha.js';
 import Config113 from '../../config/singbox_1.13.X.js';
 import Config114 from '../../config/singbox_1.14.X.js';
 export async function getsingbox_config(e) {
-    const sbConfig = Verbose(e);
+    const config = structuredClone(Verbose(e));
     e.urls = splitUrlsAndProxies(e.urls);
 
     // 并行执行所有异步操作，每个操作独立处理成功或失败
@@ -31,7 +31,7 @@ export async function getsingbox_config(e) {
     if (ruleResult.status === 'rejected') {
         throw new Error(`获取规则数据失败: ${ruleResult.reason}`);
     }
-    const Rule_Data = ruleResult.value;
+    const Rule_Data = structuredClone(ruleResult.value);
 
     // 处理可选的排除数据（失败时只警告，不中断流程）
     if (e.exclude_package && excludePackageResult.status === 'fulfilled') {
@@ -55,13 +55,11 @@ export async function getsingbox_config(e) {
 
     // 合并节点
     Rule_Data.data.outbounds.push(...Outbounds_Data.data.outbounds);
-
-    applyTemplate(sbConfig, Rule_Data.data, e);
-
+    applyTemplate(config, Rule_Data.data, e);
     return {
         status: Outbounds_Data.status,
         headers: Outbounds_Data.headers,
-        data: JSON.stringify(sbConfig, null, 4),
+        data: JSON.stringify(config, null, 4),
     };
 }
 export function Verbose(e) {
@@ -313,31 +311,49 @@ export function applyTemplate(top, rule, e) {
         }
         return p;
     });
+    const isV112 = /1\.(1[2-9]|[2-9]\d)/i.test(e.userAgent);
     if (e.adgdns) {
-        top.dns.servers.flatMap((p) => {
+        top.dns.servers = top.dns.servers.map((p) => {
             if (p.tag === 'DIRECT-DNS') {
-                p = {
-                    type: 'https',
-                    tag: 'DIRECT-DNS',
-                    detour: '🎯 全球直连',
-                    server_port: 443,
-                    server: 'doh.18bit.cn',
-                    domain_resolver: 'local',
-                };
+                return isV112
+                    ? {
+                          type: 'https',
+                          tag: 'DIRECT-DNS',
+                          detour: '🎯 全球直连',
+                          server_port: 443,
+                          server: 'doh.18bit.cn',
+                          path: '/dns-query',
+                          domain_resolver: 'local',
+                      }
+                    : {
+                          tag: 'DIRECT-DNS',
+                          address_resolver: 'local',
+                          address: 'https://doh.18bit.cn/dns-query',
+                          detour: '🎯 全球直连',
+                      };
             }
             if (p.tag === 'PROXY-DNS') {
-                p = {
-                    type: 'https',
-                    tag: 'PROXY-DNS',
-                    detour: '🚀 节点选择',
-                    server_port: 443,
-                    server: 'dns.adguard-dns.com',
-                    domain_resolver: 'local',
-                };
+                return isV112
+                    ? {
+                          type: 'https',
+                          tag: 'PROXY-DNS',
+                          detour: '🚀 节点选择',
+                          server_port: 443,
+                          server: 'dns.adguard-dns.com',
+                          path: '/dns-query',
+                          domain_resolver: 'local',
+                      }
+                    : {
+                          tag: 'DIRECT-DNS',
+                          address_resolver: 'local',
+                          address: 'https://dns.adguard-dns.com/dns-query',
+                          detour: '🎯 全球直连',
+                      };
             }
             return p;
         });
     }
+    return top;
 }
 
 export function addExcludePackage(singboxTopData, newPackages) {

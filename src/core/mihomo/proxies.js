@@ -12,7 +12,7 @@ export default async function getProxies_Data(e) {
 
         const { res, index } = result.value;
         if (res?.data?.proxies?.length) {
-            processProxies(res.data.proxies, e.udp, e.urls.length > 1 ? index + 1 : undefined);
+            processProxies(res.data.proxies, e, e.urls.length > 1 ? index + 1 : undefined);
             responses.push({ status: res.status, headers: res.headers });
             data.proxies.push(...res.data.proxies);
         }
@@ -42,13 +42,19 @@ async function fetchWithFallback(url, options) {
 }
 
 // 处理代理数组的辅助函数
-function processProxies(proxies, udpEnabled, index = null) {
+function processProxies(proxies, options, index = null) {
     proxies.forEach((proxy) => {
         if (index !== null) {
             proxy.name = `${proxy.name} [${index}]`;
         }
-        if (udpEnabled) {
+        if (options.udp) {
             proxy.udp = true;
+        }
+        if (options.ech) {
+            proxy['ech-opts'] = {
+                enable: true,
+                'query-server-name': 'cloudflare-ech.com',
+            };
         }
     });
 }

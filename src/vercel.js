@@ -22,15 +22,11 @@ export default async function handler(req, res) {
                 default:
                     throw new Error('Invalid config type');
             }
-
-            const headersToIgnore = ['transfer-encoding', 'content-length', 'content-encoding', 'connection'];
-
-            for (const [key, value] of Object.entries(result.headers)) {
-                if (!headersToIgnore.includes(key.toLowerCase())) {
+            if (result.headers) {
+                for (const [key, value] of Object.entries(result.headers)) {
                     res.setHeader(key, value);
                 }
             }
-
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
             res.setHeader('Profile-web-page-url', e.url.origin);
             res.statusCode = result.status || 200;

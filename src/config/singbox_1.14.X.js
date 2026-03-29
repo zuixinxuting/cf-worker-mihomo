@@ -24,10 +24,10 @@ const Config114 = {
                 server_port: 53,
             },
             {
-                type: 'quic',
+                type: 'https',
                 tag: 'DIRECT-DNS',
                 detour: '🎯 全球直连',
-                server_port: 853,
+                server_port: 443,
                 server: 'dns.alidns.com',
                 domain_resolver: 'local',
             },
@@ -36,7 +36,8 @@ const Config114 = {
                 tag: 'PROXY-DNS',
                 detour: '🚀 节点选择',
                 server_port: 443,
-                server: 'cloudflare-dns.com',
+                server: 'dns.google',
+                path: '/dns-query',
                 domain_resolver: 'local',
             },
             {
@@ -190,4 +191,4 @@ const Config114 = {
         },
     },
 };
-export default Config114;
+export default Object.freeze(Config114);

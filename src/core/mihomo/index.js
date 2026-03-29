@@ -3,6 +3,7 @@ import getProxies_Data from './proxies.js';
 import clashConfig from '../../config/mihomo.js';
 
 export async function getmihomo_config(e) {
+    const config = structuredClone(clashConfig);
     // 客户端验证
     if (!/meta|clash.meta|clash|clashverge|mihomo/i.test(e.userAgent)) {
         throw new Error('不支持的客户端');
@@ -35,7 +36,7 @@ export async function getmihomo_config(e) {
     if (ruleResult.status === 'rejected') {
         throw new Error(`获取规则数据失败: ${ruleResult.reason}`);
     }
-    const Rule_Data = ruleResult.value;
+    const Rule_Data = structuredClone(ruleResult.value);
 
     // 处理可选的排除数据（失败时只警告，不中断流程）
     if (e.exclude_package && excludePackageResult.status === 'fulfilled') {
@@ -54,13 +55,11 @@ export async function getmihomo_config(e) {
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
     Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data);
     Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
-
-    applyTemplate(clashConfig, Rule_Data.data, e);
-
+    applyTemplate(config, Rule_Data.data, e);
     return {
         status: Proxies_Data.status,
         headers: Proxies_Data.headers,
-        data: JSON.stringify(clashConfig, null, 4),
+        data: JSON.stringify(config, null, 4),
     };
 }
 
@@ -102,6 +101,7 @@ export function applyTemplate(top, rule, e) {
         top.dns['nameserver-policy']['dns.18bit.cn'] = ['223.5.5.5'];
         top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['https://doh.18bit.cn/dns-query#DIRECT'];
     }
+    return top;
 }
 
 /**
