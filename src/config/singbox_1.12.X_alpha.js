@@ -1,4 +1,4 @@
-const Config112Alpha = {
+const Config112 = {
     log: {
         disabled: false,
         level: 'info',
@@ -26,7 +26,7 @@ const Config112Alpha = {
             {
                 type: 'https',
                 tag: 'DIRECT-DNS',
-                detour: 'DIRECT',
+                detour: '🎯 全球直连',
                 server_port: 443,
                 server: 'dns.alidns.com',
                 path: '/dns-query',
@@ -35,7 +35,7 @@ const Config112Alpha = {
             {
                 type: 'https',
                 tag: 'PROXY-DNS',
-                detour: 'PROXY',
+                detour: '🚀 节点选择',
                 server_port: 443,
                 server: 'dns.google',
                 path: '/dns-query',
@@ -105,24 +105,17 @@ const Config112Alpha = {
     ],
     outbounds: [
         {
-            tag: 'DIRECT',
+            tag: '🎯 全局直连',
             type: 'direct',
         },
         {
-            tag: 'REJECT',
-            type: 'socks',
-            server: '127.0.0.1',
-            server_port: 1024,
-            version: '5',
-            username: 'sekai',
-            password: 'admin',
-            network: 'udp',
-            udp_over_tcp: false,
+            tag: '🚫 拒绝连接',
+            type: 'block',
         },
     ],
     route: {
         auto_detect_interface: true,
-        final: 'PROXY',
+        final: '🚀 节点选择',
         default_domain_resolver: {
             server: 'DIRECT-DNS',
             strategy: 'prefer_ipv4',
@@ -146,15 +139,15 @@ const Config112Alpha = {
             },
             {
                 ip_is_private: true,
-                outbound: 'DIRECT',
+                outbound: '🎯 全球直连',
             },
             {
                 clash_mode: 'direct',
-                outbound: 'DIRECT',
+                outbound: '🎯 全球直连',
             },
             {
                 clash_mode: 'global',
-                outbound: 'PROXY',
+                outbound: '🚀 节点选择',
             },
             {
                 action: 'route-options',
@@ -166,14 +159,14 @@ const Config112Alpha = {
                 type: 'remote',
                 url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs',
                 format: 'binary',
-                download_detour: 'DIRECT',
+                download_detour: '🎯 全球直连',
             },
             {
                 tag: 'cn_domain',
                 type: 'remote',
                 url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs',
                 format: 'binary',
-                download_detour: 'DIRECT',
+                download_detour: '🎯 全球直连',
             },
         ],
     },
@@ -185,7 +178,7 @@ const Config112Alpha = {
             secret: '',
             default_mode: 'rule',
             external_ui_download_url: 'https://ghfast.top/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip',
-            external_ui_download_detour: 'DIRECT',
+            external_ui_download_detour: '🎯 全球直连',
             access_control_allow_origin: ['*'],
             access_control_allow_private_network: true,
         },
@@ -199,4 +192,4 @@ const Config112Alpha = {
         },
     },
 };
-export default Object.freeze(Config112Alpha);
+export default Object.freeze(Config112);
