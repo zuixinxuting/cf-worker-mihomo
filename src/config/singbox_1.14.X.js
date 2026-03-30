@@ -29,6 +29,7 @@ const Config114 = {
                 detour: '🎯 全球直连',
                 server_port: 443,
                 server: 'dns.alidns.com',
+                path: '/dns-query',
                 domain_resolver: 'local',
             },
             {

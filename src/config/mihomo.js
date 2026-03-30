@@ -191,7 +191,6 @@ const clashConfig = {
         'fake-ip-filter-mode': 'blacklist',
         'fake-ip-filter': ['RULE-SET:cn_domain'],
         'nameserver-policy': {
-            'dns.alidns.com': ['223.5.5.5'],
             'RULE-SET:cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
         },
         nameserver: [
@@ -200,7 +199,7 @@ const clashConfig = {
         ],
         'proxy-server-nameserver': [
             // 代理节点域名解析服务器，仅用于解析代理节点的域名
-            'https://doh.cmliussss.net/CMLiussss#DIRECT',
+            'https://dns.alidns.com/dns-query#DIRECT',
         ],
         'direct-nameserver': [
             //  用于直连出口域名解析的 DNS 服务器

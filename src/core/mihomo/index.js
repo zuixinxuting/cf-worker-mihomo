@@ -53,7 +53,7 @@ export async function getmihomo_config(e) {
 
     // 合并代理数据
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
-    Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data);
+    Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data, e);
     Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
     applyTemplate(config, Rule_Data.data, e);
     return {
@@ -110,7 +110,7 @@ export function applyTemplate(top, rule, e) {
  * @param {Array} groups - 策略组
  * @returns {Object} 分组信息
  */
-export function getProxies_Grouping(proxies, groups) {
+export function getProxies_Grouping(proxies, groups, e) {
     const deletedGroups = []; // 用于记录已删除的组名
     const updatedGroups = groups['proxy-groups'].filter((group) => {
         let matchFound = false;
@@ -148,7 +148,13 @@ export function getProxies_Grouping(proxies, groups) {
 
         return true;
     });
-
+    if (e.relay) {
+        updatedGroups.splice(2, 0, {
+            name: '🔗链式代理',
+            type: 'select',
+            'include-all': true
+        });
+    }
     // 遍历所有策略组，删除 deletedGroups 中的代理
     updatedGroups.forEach((group) => {
         if (group.proxies) {

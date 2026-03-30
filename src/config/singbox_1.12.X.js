@@ -1,4 +1,4 @@
-const Config112 = {
+const Config112Alpha = {
     log: {
         disabled: false,
         level: 'info',
@@ -110,7 +110,14 @@ const Config112 = {
         },
         {
             tag: '🚫 拒绝连接',
-            type: 'block',
+            type: 'socks',
+            server: '127.0.0.1',
+            server_port: 1024,
+            version: '5',
+            username: 'sekai',
+            password: 'admin',
+            network: 'udp',
+            udp_over_tcp: false,
         },
     ],
     route: {
@@ -192,4 +199,4 @@ const Config112 = {
         },
     },
 };
-export default Object.freeze(Config112);
+export default Object.freeze(Config112Alpha);

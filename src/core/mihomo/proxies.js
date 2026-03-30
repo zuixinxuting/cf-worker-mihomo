@@ -56,5 +56,8 @@ function processProxies(proxies, options, index = null) {
                 'query-server-name': 'cloudflare-ech.com',
             };
         }
+        if (options.relay) {
+            proxy['dialer-proxy'] = '🔗链式代理';
+        }
     });
 }
