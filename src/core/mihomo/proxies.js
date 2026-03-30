@@ -46,6 +46,14 @@ function processProxies(proxies, options, index = null) {
     proxies.forEach((proxy) => {
         if (index !== null) {
             proxy.name = `${proxy.name} [${index}]`;
+            if (options.relay) {
+                if (index === 1) {
+                    options.proxyname ??= [];
+                    options.proxyname.push(proxy.name);
+                } else {
+                    proxy['dialer-proxy'] = '🔗链式代理';
+                }
+            }
         }
         if (options.udp) {
             proxy.udp = true;
@@ -55,9 +63,6 @@ function processProxies(proxies, options, index = null) {
                 enable: true,
                 'query-server-name': 'cloudflare-ech.com',
             };
-        }
-        if (options.relay) {
-            proxy['dialer-proxy'] = '🔗链式代理';
         }
     });
 }

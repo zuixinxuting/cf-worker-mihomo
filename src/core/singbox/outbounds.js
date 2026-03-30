@@ -57,6 +57,14 @@ function processOutbounds(outbounds, options, index) {
     outbounds.forEach((outbound) => {
         if (index > 0) {
             outbound.tag = `${outbound.tag} [${index}]`;
+            if (options.relay) {
+                if (index === 1) {
+                    options.proxyname ??= [];
+                    options.proxyname.push(outbound.tag);
+                } else {
+                    outbound.detour = '🔗链式代理';
+                }
+            }
         }
         if (options.udp_fragment) {
             outbound.udp_fragment = true;

@@ -602,7 +602,7 @@ export async function getFakePage(e) {
             const origin = window.location.origin;
             const params = new URLSearchParams();
             if (templateVal) params.set('template', templateVal);
-            if (links.length) params.set('url', links.map(l => encodeURIComponent(l)).join(','));
+            if (links.length) params.set('url', links.join(','));
             params.set('target', modeId);
             for (const [key, enabled] of Object.entries(protocolParams)) {
                 if (enabled) params.set(key, 'true');
@@ -841,5 +841,5 @@ export async function getFakePage(e) {
 </body>
 
 </html>
-    `
+    `;
 }

@@ -148,11 +148,11 @@ export function getProxies_Grouping(proxies, groups, e) {
 
         return true;
     });
-    if (e.relay) {
+    if (e.relay && e.proxyname) {
         updatedGroups.splice(2, 0, {
             name: '🔗链式代理',
             type: 'select',
-            'include-all': true
+            proxies: e.proxyname,
         });
     }
     // 遍历所有策略组，删除 deletedGroups 中的代理

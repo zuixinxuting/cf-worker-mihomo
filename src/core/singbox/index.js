@@ -51,7 +51,7 @@ export async function getsingbox_config(e) {
     const ApiUrlname = Outbounds_Data.data.outbounds.map((res) => res.tag);
 
     // 策略组处理
-    Rule_Data.data.outbounds = loadAndSetOutbounds(Rule_Data.data.outbounds, ApiUrlname);
+    Rule_Data.data.outbounds = loadAndSetOutbounds(Rule_Data.data.outbounds, ApiUrlname, e);
 
     // 合并节点
     Rule_Data.data.outbounds.push(...Outbounds_Data.data.outbounds);
@@ -140,7 +140,7 @@ export function outboundArrs(data) {
     }
 }
 // 策略组处理
-export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
+export function loadAndSetOutbounds(Outbounds, ApiUrlname, e) {
     // 处理每个 outbound 的过滤器
     const processOutboundFilters = (outbound) => {
         let matchedOutbounds = [];
@@ -243,7 +243,14 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname) {
         const { matchedOutbounds, hasValidAction } = processOutboundFilters(outbound);
         return updateOutboundsArray(outbound, matchedOutbounds, hasValidAction);
     });
-
+    if (e.relay && e.proxyname) {
+        processedOutbounds.splice(2, 0, {
+            tag: '🔗链式代理',
+            type: 'selector',
+            interrupt_exist_connections: true,
+            outbounds: e.proxyname,
+        });
+    }
     return cleanRemovedTags(processedOutbounds);
 }
 
