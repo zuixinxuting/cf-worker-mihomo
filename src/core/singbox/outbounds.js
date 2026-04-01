@@ -1,4 +1,4 @@
-import { fetchResponse, buildApiUrl } from '../../utils/index.js';
+import { fetchWithFallback } from '../../utils/index.js';
 export default async function getOutbounds_Data(e) {
     const isSingle = e.urls.length === 1;
     const outboundsList = [];
@@ -37,18 +37,6 @@ export default async function getOutbounds_Data(e) {
         headers: randomResponse.headers,
         data: { outbounds: outboundsList.flat() },
     };
-}
-// 带回退机制的请求
-async function fetchWithFallback(url, options) {
-    // const res = await fetchResponse(url, options.userAgent);
-
-    // if (res?.data?.outbounds && Array.isArray(res.data.outbounds)) {
-    //     return res;
-    // }
-
-    // 尝试使用构建的 API URL
-    const apiUrl = buildApiUrl(url, options.sub, options.target);
-    return await fetchResponse(apiUrl, options.userAgent);
 }
 
 // 处理 outbounds 数组
