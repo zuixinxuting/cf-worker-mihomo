@@ -117,41 +117,47 @@ function sanitizeContentDisposition(headers) {
  */
 export async function fetchpackExtract() {
     const processNames = new Set();
-
-    const urls = [
-        'https://github.com/mnixry/direct-android-ruleset/raw/refs/heads/rules/@Merged/GAME.mutated.yaml',
-        'https://github.com/mnixry/direct-android-ruleset/raw/refs/heads/rules/@Merged/APP.mutated.yaml',
+    const excludeList = [
+        { pkg: 'com.android.chrome', comment: 'Chrome浏览器' },
+        { pkg: 'mark.via', comment: 'Via浏览器' },
+        { pkg: 'com.baidu.browser.apps', comment: '百度浏览器' },
+        { pkg: 'com.browser2345', comment: '2345浏览器' },
+        { pkg: 'com.cat.readall', comment: '悟空浏览器' },
+        { pkg: 'com.estrongs.android.pop', comment: 'ES文件浏览器' },
+        { pkg: 'com.mmbox.xbrowser.pro', comment: 'X浏览器' },
+        { pkg: 'com.mx.browser', comment: '傲游浏览器' },
+        { pkg: 'com.oupeng.browser', comment: '欧朋浏览器极速版' },
+        { pkg: 'com.oupeng.mini.android', comment: '欧朋浏览器' },
+        { pkg: 'com.qihoo.browser', comment: '360浏览器' },
+        { pkg: 'com.tencent.mtt', comment: 'QQ浏览器' },
+        { pkg: 'com.UCMobile', comment: 'UC浏览器' },
+        { pkg: 'com.ucmobile.lite', comment: 'UC浏览器极速版' },
+        { pkg: 'com.ume.browser', comment: '微米浏览器' },
+        { pkg: 'com.vivo.browser', comment: 'vivo浏览器' },
+        { pkg: 'org.mozilla.fennec_mylinux', comment: '蚂蚁浏览器' },
+        { pkg: 'sogou.mobile.explorer', comment: '搜狗浏览器极速版' },
     ];
 
-    const excludeCommentKeywords = ['浏览器'];
-    const excludeNames = new Set(['com.android.chrome', 'mark.via']);
+    const excludeNames = new Set(excludeList.map((i) => i.pkg));
 
-    for (const url of urls) {
-        const res = await fetchResponse(url);
+    const urls = [
+        'https://cdn.jsdelivr.net/gh/mnixry/direct-android-ruleset@rules/@Merged/GAME.mutated.yaml',
+        'https://cdn.jsdelivr.net/gh/mnixry/direct-android-ruleset@rules/@Merged/APP.mutated.yaml',
+    ];
 
-        if (!res || res === true || res.status !== 200) {
-            console.error(`❌ 请求失败: ${url}`);
-            continue;
-        }
-
-        // fetchResponse 可能返回对象或字符串
-        const text = typeof res.data === 'string' ? res.data : JSON.stringify(res.data);
-
-        for (const line of text.split('\n')) {
+    const results = await Promise.allSettled(urls.map(async (url) => await fetchResponse(url)));
+    for (const result of results) {
+        if (result.status === 'rejected') continue;
+        const res = result.value;
+        if (!res?.data?.payload?.length) continue;
+        for (const line of res.data.payload) {
             const match = line.match(/PROCESS-NAME\s*,\s*([^\s,]+)/);
-
-            if (match) {
-                const processName = match[1];
-
-                const hasExcludedComment = excludeCommentKeywords.some((keyword) => line.includes(keyword));
-
-                if (!hasExcludedComment && !excludeNames.has(processName)) {
-                    processNames.add(processName);
-                }
-            }
+            if (!match) continue;
+            const name = match[1];
+            if (excludeNames.has(name)) continue;
+            processNames.add(name);
         }
     }
-
     return [...processNames];
 }
 /**
@@ -159,7 +165,7 @@ export async function fetchpackExtract() {
  * @returns {Promise<Object>} - 返回配置数据对象
  */
 export async function fetchipExtract() {
-    const urls = ['https://raw.githubusercontent.com/Kwisma/clash-rules/release/cncidr.yaml'];
+    const urls = ['https://cdn.jsdelivr.net/gh/Kwisma/clash-rules@release/cncidr.yaml'];
 
     const ipcidrs = [];
 
