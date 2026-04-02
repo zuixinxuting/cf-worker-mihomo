@@ -90,27 +90,16 @@ npm run deploy
 - 构建命令：`npm run build`
 - 部署命令：`npx wrangler deploy --keep-vars`
 
-#### 方法二：手动部署
-1. 创建新Worker
-2. 复制[_worker.js](./dist/_worker.js)内容
-3. 保存部署
-4. 绑定自定义域名（如`sub.ikar.eu.org`）
+#### 方法二：CLI部署
+```bash
+git clone https://github.com/Kwisma/cf-worker-mihomo.git
+cd cf-worker-mihomo
+npm install
+npm run build
+npm run deploy:workers
+```
 
 ---
-
-### 3️⃣ Cloudflare Pages 部署
-
-#### Git仓库部署
-1. 进入[Cloudflare Pages](https://dash.cloudflare.com/?to=/:account/pages)
-2. 导入Git仓库
-3. 设置构建目录为`dist`
-4. 保存并部署
-
-#### 手动上传
-1. 下载[_worker.js](./dist/_worker.js)并压缩为ZIP
-2. 在Pages控制台选择直接上传
-3. 选择ZIP文件部署
-4. 绑定自定义域名（如`sub.ikar.eu.org`）
 
 ## ⚙️ 环境变量
 | 参数名       | 说明               | 示例值                                                          |

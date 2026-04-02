@@ -24,34 +24,96 @@ export default function configs() {
 ✔ 去广告dns: 去广告DNS
 
 ✔ 仅代理: 关闭tun，纯http/socks代理
+
+✔ fallback: 获取原节点格式和流量信息
             `,
-            protocolList: ['udp', 'ech', 'relay', 'ep', 'ea', 'adgdns', 'tun'],
-            protocolLabels: { udp: 'UDP', ech: 'ECH', relay: '链式代理', ep: '分应用代理', ea: '分IPCIDR代理', adgdns: '去广告DNS', tun: '仅代理' },
+            protocolList: ['udp', 'ech', 'relay', 'ep', 'ea', 'adgdns', 'tun', 'fallback'],
+            protocolLabels: {
+                udp: 'UDP',
+                ech: 'ECH',
+                relay: '链式代理',
+                ep: '分应用代理',
+                ea: '分IPCIDR代理',
+                adgdns: '去广告DNS',
+                tun: '仅代理',
+                fallback: 'fallback',
+            },
             templates: {
                 通用: [
-                    { label: '默认(ACL4SSR_Online_Full)', value: '/ACL4SSR_Online_Full.yaml' },
-                    { label: '默认(全分组)', value: '/default_full.yaml' },
-                    { label: '默认(精简版)', value: '/default.yaml' },
+                    {
+                        label: '默认(ACL4SSR_Online_Full)',
+                        value: '/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: '默认(全分组)',
+                        value: '/default_full.yaml',
+                    },
+                    {
+                        label: '默认(精简版)',
+                        value: '/default.yaml',
+                    },
                 ],
                 'Lanlan13-14': [
-                    { label: 'configfull 全分组版 (秋风去广告)', value: '/Lanlan13-14/configfull.yaml' },
-                    { label: 'configfull_NoAd (无广告)', value: '/Lanlan13-14/configfull_NoAd.yaml' },
-                    { label: 'configfull_NoAd_lite (精简)', value: '/Lanlan13-14/configfull_NoAd_lite.yaml' },
-                    { label: 'configfull_lite (精简版)', value: '/Lanlan13-14/configfull_lite.yaml' },
-                    { label: 'configfull_beta', value: '/Lanlan13-14/configfull_beta.yaml' },
+                    {
+                        label: 'configfull 全分组版 (秋风去广告)',
+                        value: '/Lanlan13-14/configfull.yaml',
+                    },
+                    {
+                        label: 'configfull_NoAd (无广告)',
+                        value: '/Lanlan13-14/configfull_NoAd.yaml',
+                    },
+                    {
+                        label: 'configfull_NoAd_lite (精简)',
+                        value: '/Lanlan13-14/configfull_NoAd_lite.yaml',
+                    },
+                    {
+                        label: 'configfull_lite (精简版)',
+                        value: '/Lanlan13-14/configfull_lite.yaml',
+                    },
+                    {
+                        label: 'configfull_beta',
+                        value: '/Lanlan13-14/configfull_beta.yaml',
+                    },
                 ],
                 zhuqq2020: [
-                    { label: 'ACL4SSR_Online_Full 重度', value: '/zhuqq2020/ACL4SSR_Online_Full.yaml' },
-                    { label: 'ACL4SSR_Online_Full_AdblockPlus', value: '/zhuqq2020/ACL4SSR_Online_Full_AdblockPlus.yaml' },
-                    { label: 'ACL4SSR_Online_Full_Tiktok', value: '/zhuqq2020/ACL4SSR_Online_Full_Tiktok.yaml' },
-                    { label: 'ACL4SSR_Online_Full_WithIcon', value: '/zhuqq2020/ACL4SSR_Online_Full_WithIcon.yaml' },
-                    { label: 'ACL4SSR_Online_Mini_MultiMode', value: '/zhuqq2020/ACL4SSR_Online_Mini_MultiMode.yaml' },
-                    { label: '极简分流规则', value: '/zhuqq2020/极简分流规则.yaml' },
+                    {
+                        label: 'ACL4SSR_Online_Full 重度',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_AdblockPlus',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full_AdblockPlus.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_Tiktok',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full_Tiktok.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_WithIcon',
+                        value: '/zhuqq2020/ACL4SSR_Online_Full_WithIcon.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Mini_MultiMode',
+                        value: '/zhuqq2020/ACL4SSR_Online_Mini_MultiMode.yaml',
+                    },
+                    {
+                        label: '极简分流规则',
+                        value: '/zhuqq2020/极简分流规则.yaml',
+                    },
                 ],
                 'mihomo-party-org': [
-                    { label: '布丁狗的订阅转换', value: '/mihomo-party-org/布丁狗的订阅转换.yaml' },
-                    { label: 'ACL4SSR_Online_Full', value: '/mihomo-party-org/ACL4SSR_Online_Full.yaml' },
-                    { label: 'ACL4SSR_Online_Full_WithIcon', value: '/mihomo-party-org/ACL4SSR_Online_Full_WithIcon.yaml' },
+                    {
+                        label: '布丁狗的订阅转换',
+                        value: '/mihomo-party-org/布丁狗的订阅转换.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full',
+                        value: '/mihomo-party-org/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: 'ACL4SSR_Online_Full_WithIcon',
+                        value: '/mihomo-party-org/ACL4SSR_Online_Full_WithIcon.yaml',
+                    },
                 ],
             },
         },
@@ -83,8 +145,10 @@ export default function configs() {
 ✔ 去广告dns: 去广告DNS
 
 ✔ 仅代理: 关闭tun，纯http/socks代理
+
+✔ fallback: 获取原节点格式和流量信息
             `,
-            protocolList: ['udp', 'ech', 'relay', 'udp_frag', 'tls_frag', 'ep', 'ea', 'tailscale', 'adgdns', 'tun'],
+            protocolList: ['udp', 'ech', 'relay', 'udp_frag', 'tls_frag', 'ep', 'ea', 'tailscale', 'adgdns', 'tun', 'fallback'],
             protocolLabels: {
                 udp: 'UDP',
                 ech: 'ECH',
@@ -96,12 +160,22 @@ export default function configs() {
                 tailscale: 'Tailscale',
                 adgdns: '去广告DNS',
                 tun: '仅代理',
+                fallback: 'fallback',
             },
             templates: {
                 通用: [
-                    { label: '默认(ACL4SSR_Online_Full)', value: '/ACL4SSR_Online_Full.yaml' },
-                    { label: '默认(全分组)', value: '/default_full.yaml' },
-                    { label: '默认(精简版)', value: '/default.yaml' },
+                    {
+                        label: '默认(ACL4SSR_Online_Full)',
+                        value: '/ACL4SSR_Online_Full.yaml',
+                    },
+                    {
+                        label: '默认(全分组)',
+                        value: '/default_full.yaml',
+                    },
+                    {
+                        label: '默认(精简版)',
+                        value: '/default.yaml',
+                    },
                 ],
             },
         },

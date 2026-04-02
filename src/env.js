@@ -41,6 +41,7 @@ export function buildConfig(request, env, isNode = false) {
     if (getParamBool('tun')) data.tun = true;
     if (getParamBool('ech')) data.ech = true;
     if (getParamBool('relay')) data.relay = true;
+    if (getParamBool('fallback')) data.relay = true;
 
     data.IMG = getEnv('IMG', backimg);
     data.sub = getEnv('SUB', subapi);
