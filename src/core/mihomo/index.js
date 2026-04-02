@@ -1,4 +1,4 @@
-import { splitUrlsAndProxies, fetchpackExtract, fetchipExtract, fetchResponse } from '../../utils/index.js';
+import { fetchpackExtract, fetchipExtract, fetchResponse } from '../../utils/index.js';
 import getProxies_Data from './proxies.js';
 import clashConfig from '../../config/mihomo.js';
 
@@ -11,50 +11,25 @@ export async function getmihomo_config(e) {
     if (!e.rule) {
         throw new Error('缺少规则模板');
     }
-
-    e.urls = splitUrlsAndProxies(e.urls);
-
-    // 并行执行所有异步操作
-    const [proxiesResult, ruleResult, excludePackageResult, excludeAddressResult] = await Promise.allSettled([
-        getProxies_Data(e), // 获取代理数据
-        fetchResponse(e.rule), // 获取规则数据
-        e.exclude_package ? fetchpackExtract() : Promise.resolve(null), // 可选：排除包
-        e.exclude_address ? fetchipExtract() : Promise.resolve(null), // 可选：排除地址
-    ]);
-
-    // 处理代理数据（必需）
-    if (proxiesResult.status === 'rejected') {
-        throw new Error(`获取节点数据失败: ${proxiesResult.reason}`);
-    }
-
-    const Proxies_Data = proxiesResult.value;
-    if (Proxies_Data.data.proxies.length === 0) {
+    // 获取订阅数据
+    const Proxies_Data = await getProxies_Data(e);
+    if (!Proxies_Data?.data?.proxies?.length === 0) {
         throw new Error('节点为空，请使用有效订阅');
     }
-
-    // 处理规则数据（必需）
-    if (ruleResult.status === 'rejected') {
-        throw new Error(`获取规则数据失败: ${ruleResult.reason}`);
-    }
-    const Rule_Data = structuredClone(ruleResult.value);
-
-    // 处理可选的排除数据（失败时只警告，不中断流程）
-    if (e.exclude_package && excludePackageResult.status === 'fulfilled') {
-        e.Exclude_Package = excludePackageResult.value;
-    } else if (e.exclude_package && excludePackageResult.status === 'rejected') {
-        console.warn(`获取排除包数据失败: ${excludePackageResult.reason}`);
+    // 获取规则数据
+    const Rule_Data = await fetchResponse(e.rule);
+    if (!Rule_Data?.data) {
+        throw new Error('获取规则数据失败');
     }
 
-    if (e.exclude_address && excludeAddressResult.status === 'fulfilled') {
-        e.Exclude_Address = excludeAddressResult.value;
-    } else if (e.exclude_address && excludeAddressResult.status === 'rejected') {
-        console.warn(`获取排除地址数据失败: ${excludeAddressResult.reason}`);
-    }
+    // 处理路由的排除配置
+    e.Package = e.exclude_package ? await fetchpackExtract() : null;
+    e.Address = e.exclude_address ? await fetchipExtract() : null;
 
     // 合并代理数据
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];
     Rule_Data.data['proxy-groups'] = getProxies_Grouping(Proxies_Data.data, Rule_Data.data, e);
-    Rule_Data.data['proxy-providers'] = Proxies_Data?.data?.providers;
+    Rule_Data.data['proxy-providers'] = Proxies_Data.data.providers;
     applyTemplate(config, Rule_Data.data, e);
     return {
         status: Proxies_Data.status,
@@ -87,19 +62,19 @@ export function applyTemplate(top, rule, e) {
     if (e.tun && top.tun) {
         top.tun.enable = false;
     } else if (top.tun) {
-        if (e.exclude_address && e.Exclude_Address) {
+        if (e.exclude_address && e.Address) {
             top.tun['route-address'] = ['0.0.0.0/1', '128.0.0.0/1', '::/1', '8000::/1'];
-            top.tun['route-exclude-address'] = e.Exclude_Address || [];
+            top.tun['route-exclude-address'] = e.Address || [];
         }
-        if (e.exclude_package && e.Exclude_Package) {
+        if (e.exclude_package && e.Package) {
             top.tun['include-package'] = [];
-            top.tun['exclude-package'] = e.Exclude_Package || [];
+            top.tun['exclude-package'] = e.Package || [];
         }
     }
     if (e.adgdns) {
         top.dns.nameserver = [`https://dns.adguard-dns.com/dns-query#${proxyName}`];
         top.dns['nameserver-policy']['dns.18bit.cn'] = ['223.5.5.5'];
-        top.dns['nameserver-policy']['RULE-SET:cn_domain'] = ['https://doh.18bit.cn/dns-query#DIRECT'];
+        top.dns['nameserver-policy']['RULE-SET:private_domain,cn_domain'] = ['https://doh.18bit.cn/dns-query#DIRECT'];
     }
     return top;
 }

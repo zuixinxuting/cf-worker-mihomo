@@ -1,4 +1,4 @@
-import { backimg, subapi, beiantext, beiandizi } from './utils/index.js';
+import { splitUrlsAndProxies, backimg, subapi, beiantext, beiandizi } from './utils/index.js';
 export function buildConfig(request, env, isNode = false) {
     const url = isNode ? new URL(request.url, `http://${request.headers.host}`) : new URL(request.url);
 
@@ -18,28 +18,39 @@ export function buildConfig(request, env, isNode = false) {
         }
         return env?.[key] ?? fallback;
     };
-    const data = {
-        url,
-        urls: getParam('url')
-            ?.split(',')
-            .map((u) => u.trim()),
-        userAgent: getHeader('User-Agent'),
-        target: getParam('target'),
-        udp: getParamBool('udp'),
-        udp_fragment: getParamBool('udp_frag'),
-        tls_fragment: getParamBool('tls_frag'),
-        exclude_package: getParamBool('ep'),
-        exclude_address: getParamBool('ea'),
-        tailscale: getParamBool('tailscale'),
-        adgdns: getParamBool('adgdns'),
-        tun: getParamBool('tun'),
-        ech: getParamBool('ech'),
-        relay: getParamBool('relay'),
-        IMG: getEnv('IMG', backimg),
-        sub: getEnv('SUB', subapi),
-        beian: getEnv('BEIAN', beiantext),
-        beianurl: getEnv('BEIANURL', beiandizi),
-    };
-    data.rule = `${url.origin}${isNode ? '/template' : ''}/${data.target}${getParam('template') ? getParam('template') : ''}`;
+
+    const data = {};
+    data.url = url;
+    data.userAgent = getHeader('User-Agent');
+
+    const urlParam = getParam('url');
+    if (urlParam && urlParam.trim()) {
+        data.urls = splitUrlsAndProxies(urlParam.split(',').map((u) => u.trim()));
+    }
+
+    const target = getParam('target');
+    if (target) data.target = target;
+
+    if (getParamBool('udp')) data.udp = true;
+    if (getParamBool('udp_frag')) data.udp_fragment = true;
+    if (getParamBool('tls_frag')) data.tls_fragment = true;
+    if (getParamBool('ep')) data.exclude_package = true;
+    if (getParamBool('ea')) data.exclude_address = true;
+    if (getParamBool('tailscale')) data.tailscale = true;
+    if (getParamBool('adgdns')) data.adgdns = true;
+    if (getParamBool('tun')) data.tun = true;
+    if (getParamBool('ech')) data.ech = true;
+    if (getParamBool('relay')) data.relay = true;
+
+    data.IMG = getEnv('IMG', backimg);
+    data.sub = getEnv('SUB', subapi);
+    data.beian = getEnv('BEIAN', beiantext);
+    data.beianurl = getEnv('BEIANURL', beiandizi);
+
+    const template = getParam('template');
+    if (template) {
+        data.rule = `${url.origin}${isNode ? '/template' : ''}/${data.target}${getParam('template') ? getParam('template') : ''}`;
+    }
+
     return data;
 }

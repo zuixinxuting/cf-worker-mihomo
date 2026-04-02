@@ -191,7 +191,7 @@ const clashConfig = {
         'fake-ip-filter-mode': 'blacklist',
         'fake-ip-filter': ['RULE-SET:cn_domain'],
         'nameserver-policy': {
-            'RULE-SET:cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
+            'RULE-SET:private_domain,cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
         },
         nameserver: [
             // 被墙的dns需指定代理
@@ -217,6 +217,15 @@ const clashConfig = {
             proxy: 'DIRECT',
             url: 'https://jsd.onmicrosoft.cn/gh/Kwisma/clash-rules@release/direct.mrs',
             path: './ruleset/China_Domain.mrs',
+        },
+        private_domain: {
+            type: 'http',
+            interval: 86400,
+            behavior: 'domain',
+            format: 'mrs',
+            proxy: 'DIRECT',
+            url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs',
+            path: './ruleset/Private_Domain.mrs',
         },
     },
 };
