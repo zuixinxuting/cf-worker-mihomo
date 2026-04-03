@@ -194,17 +194,19 @@ export async function fetchipExtract() {
  * @returns {Promise<Object>} - 返回请求结果对象
  */
 export async function fetchWithFallback(url, options) {
-    // let res = await fetchResponse(url, options.userAgent);
-    // if (options.target === 'mihomo') {
-    //     if (res?.data?.proxies && Array.isArray(res.data.proxies) && res.data.proxies.length > 0) {
-    //         return res;
-    //     }
-    // }
-    // if (options.target === 'singbox') {
-    //     if (res?.data?.outbounds && Array.isArray(res.data.outbounds)) {
-    //         return res;
-    //     }
-    // }
+    if (options.fallback) {
+        let res = await fetchResponse(url, options.userAgent);
+        if (options.target === 'mihomo') {
+            if (res?.data?.proxies && Array.isArray(res.data.proxies) && res.data.proxies.length > 0) {
+                return res;
+            }
+        }
+        if (options.target === 'singbox') {
+            if (res?.data?.outbounds && Array.isArray(res.data.outbounds)) {
+                return res;
+            }
+        }
+    }
     // 如果第一次请求失败，尝试使用构建的API URL
     const apiUrl = buildApiUrl(url, options.sub, options.target);
     return await fetchResponse(apiUrl, options.userAgent);
