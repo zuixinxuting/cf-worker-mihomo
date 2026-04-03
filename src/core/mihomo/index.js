@@ -45,9 +45,9 @@ export async function getmihomo_config(e) {
  */
 export function applyTemplate(top, rule, e) {
     top['proxy-providers'] = rule['proxy-providers'] || {};
-    top.proxies = rule.proxies || [];
+    top.proxies = [...(top.proxies || []), ...(rule.proxies || [])];
     top['proxy-groups'] = rule['proxy-groups'] || [];
-    top.rules = rule.rules || [];
+    top.rules = [...(top.rules || []), ...(rule.rules || [])];
     top['sub-rules'] = rule['sub-rules'] || {};
     top['rule-providers'] = { ...(top['rule-providers'] || {}), ...(rule['rule-providers'] || {}) };
     const proxyName = rule['proxy-groups'][0].name;
@@ -73,8 +73,7 @@ export function applyTemplate(top, rule, e) {
     }
     if (e.adgdns) {
         top.dns.nameserver = [`https://dns.adguard-dns.com/dns-query#${proxyName}`];
-        top.dns['nameserver-policy']['dns.18bit.cn'] = ['223.5.5.5'];
-        top.dns['nameserver-policy']['RULE-SET:private_domain,cn_domain'] = ['https://doh.18bit.cn/dns-query#DIRECT'];
+        top.dns['nameserver-policy']['RULE-SET:private_domain,cn_domain'] = ['quic://dns.18bit.cn#DIRECT'];
     }
     return top;
 }

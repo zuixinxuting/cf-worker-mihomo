@@ -239,11 +239,11 @@ export function applyTemplate(top, rule, e) {
     for (const item of newSet) {
         if (item?.tag) mergedMap.set(item.tag, item);
     }
-    top.inbounds = rule?.inbounds || top.inbounds;
-    top.outbounds = [...(Array.isArray(top.outbounds) ? top.outbounds : []), ...(Array.isArray(rule?.outbounds) ? rule.outbounds : [])];
+    top.inbounds = [...(top.inbounds || []), ...(rule.inbounds || [])];
+    top.outbounds = [...(top.outbounds || []), ...(rule.outbounds || [])];
     top.route.final = rule?.route?.final || top.route.final;
-    top.route.rules = [...(Array.isArray(top.route.rules) ? top.route.rules : []), ...(Array.isArray(rule?.route?.rules) ? rule.route.rules : [])];
-    top.route.rule_set = Array.from(mergedMap.values());
+    top.route.rules = [...(top.route.rules || []), ...(rule.route.rules || [])];
+    top.route.rule_set = [...mergedMap.values()];
 
     // 添加排除包和排除地址配置
     if (e.tun) {
@@ -299,18 +299,17 @@ export function applyTemplate(top, rule, e) {
             if (p.tag === 'DIRECT-DNS') {
                 return isV112
                     ? {
-                          type: 'https',
+                          type: 'quic',
                           tag: 'DIRECT-DNS',
                           detour: '🎯 全球直连',
-                          server_port: 443,
+                          server_port: 853,
                           server: 'doh.18bit.cn',
-                          path: '/dns-query',
                           domain_resolver: 'local',
                       }
                     : {
                           tag: 'DIRECT-DNS',
                           address_resolver: 'local',
-                          address: 'https://doh.18bit.cn/dns-query',
+                          address: 'quic://doh.18bit.cn',
                           detour: '🎯 全球直连',
                       };
             }

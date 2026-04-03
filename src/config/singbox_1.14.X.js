@@ -24,12 +24,11 @@ const Config114 = {
                 server_port: 53,
             },
             {
-                type: 'https',
+                type: 'quic',
                 tag: 'DIRECT-DNS',
                 detour: '🎯 全球直连',
-                server_port: 443,
+                server_port: 853,
                 server: 'dns.alidns.com',
-                path: '/dns-query',
                 domain_resolver: 'local',
             },
             {
