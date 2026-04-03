@@ -201,16 +201,8 @@ const clashConfig = {
             // 代理节点域名解析服务器，仅用于解析代理节点的域名
             'quic://dns.alidns.com#DIRECT',
         ],
+        'direct-nameserver': ['quic://dns.alidns.com#DIRECT'],
     },
-    proxies: [
-        {
-            name: 'dns-out',
-            type: 'dns',
-        },
-    ],
-    rules: [
-        'DST-PORT,53,dns-out', // 将所有目的端口为 53 的流量路由到 dns-out
-    ],
     'rule-providers': {
         cn_domain: {
             type: 'http',
