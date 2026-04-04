@@ -189,9 +189,9 @@ const clashConfig = {
         'enhanced-mode': 'normal', // 启用增强模式 redir-host or fake-ip
         'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
         'fake-ip-filter-mode': 'blacklist',
-        'fake-ip-filter': ['RULE-SET:cn_domain'],
+        'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
         'nameserver-policy': {
-            'RULE-SET:private_domain,cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
+            'RULE-SET:private_domain,cn_domain': ['quic://dns.alidns.com#DIRECT'],
         },
         nameserver: [
             // 被墙的dns需指定代理
@@ -199,15 +199,10 @@ const clashConfig = {
         ],
         'proxy-server-nameserver': [
             // 代理节点域名解析服务器，仅用于解析代理节点的域名
-            'https://dns.alidns.com/dns-query#DIRECT',
+            'quic://dns.alidns.com#DIRECT',
         ],
-        'direct-nameserver': [
-            //  用于直连出口域名解析的 DNS 服务器
-            'https://dns.alidns.com/dns-query#DIRECT',
-        ],
-        'direct-nameserver-follow-policy': true, // 是否遵循 nameserver-policy，默认为不遵守，仅当 direct-nameserver 不为空时生效
+        'direct-nameserver': ['quic://dns.alidns.com#DIRECT'],
     },
-
     'rule-providers': {
         cn_domain: {
             type: 'http',
@@ -226,6 +221,15 @@ const clashConfig = {
             proxy: 'DIRECT',
             url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs',
             path: './ruleset/Private_Domain.mrs',
+        },
+        fakeip_filter_domain: {
+            type: 'http',
+            interval: 86400,
+            behavior: 'domain',
+            format: 'mrs',
+            proxy: 'DIRECT',
+            url: 'https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs',
+            path: './ruleset/Fakeip_Filter_Domain.mrs',
         },
     },
 };

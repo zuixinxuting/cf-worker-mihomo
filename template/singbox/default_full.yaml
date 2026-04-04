@@ -138,9 +138,8 @@ route:
     - { rule_set: [ tencent_domain ], outbound: 腾讯 }
     - { rule_set: [ twitch_domain ], outbound: Twitch }
     - { rule_set: [ youtube_domain ], outbound: YouTube }
-    - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
     - { action: resolve }
-    - { type: logical, mode: and, rules: [ { rule_set: [ cn_domain ] }, { rule_set: [ cn_ip ] } ], outbound: 🎯 全球直连 }
+    - { type: logical, mode: or, rules: [ { rule_set: [ cn_ip ] }, { rule_set: [ private_domain, private_ip ] } ], outbound: 🎯 全球直连 }
   rule_set:
     # senshinya 规则集
     - { tag: youtube_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/senshinya/singbox_ruleset@main/rule/YouTube/YouTube.srs }
@@ -258,7 +257,6 @@ route:
     - { tag: 18comic_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/18comic.srs }
     - { tag: tor_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/tor.srs }
     - { tag: private_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs }
-    - { tag: cn_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs }
     - { tag: fastly_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/fastly.srs }
     - { tag: wise_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/wise.srs }
     - { tag: signal_domain, <<: *binary_srs, url: https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/signal.srs }

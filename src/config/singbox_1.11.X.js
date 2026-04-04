@@ -19,7 +19,7 @@ const Config111 = {
             {
                 tag: 'DIRECT-DNS',
                 address_resolver: 'local',
-                address: 'https://dns.alidns.com/dns-query',
+                address: 'quic://dns.alidns.com',
                 detour: '🎯 全球直连',
             },
             {
