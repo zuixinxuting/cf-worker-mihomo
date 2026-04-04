@@ -40,12 +40,6 @@ const Config112Alpha = {
                 path: '/dns-query',
                 domain_resolver: 'local',
             },
-            {
-                type: 'fakeip',
-                tag: 'FAKEIP-DNS',
-                inet4_range: '198.18.0.0/15',
-                inet6_range: 'fc00::/18',
-            },
         ],
         rules: [
             {
@@ -63,10 +57,6 @@ const Config112Alpha = {
             {
                 rule_set: ['cn_domain', 'private_domain'],
                 server: 'DIRECT-DNS',
-            },
-            {
-                query_type: ['A', 'AAAA'],
-                server: 'FAKEIP-DNS',
             },
         ],
         disable_cache: true,
@@ -91,7 +81,7 @@ const Config112Alpha = {
                 http_proxy: {
                     enabled: true,
                     server: '127.0.0.1',
-                    server_port: 20120,
+                    server_port: 7890,
                 },
             },
         },
@@ -99,7 +89,19 @@ const Config112Alpha = {
             tag: 'mixed-in',
             type: 'mixed',
             listen: '::',
-            listen_port: 20120,
+            listen_port: 7890,
+        },
+        {
+            type: 'http',
+            tag: 'http-in',
+            listen: '::',
+            listen_port: 7892,
+        },
+        {
+            type: 'socks',
+            tag: 'socks-in',
+            listen: '::',
+            listen_port: 7893,
         },
     ],
     outbounds: [
@@ -134,9 +136,6 @@ const Config112Alpha = {
                 type: 'logical',
                 mode: 'or',
                 rules: [
-                    {
-                        port: [53],
-                    },
                     {
                         protocol: 'dns',
                     },
@@ -179,7 +178,7 @@ const Config112Alpha = {
     services: [],
     experimental: {
         clash_api: {
-            external_controller: '0.0.0.0:20123',
+            external_controller: '0.0.0.0:9090',
             external_ui: 'ui',
             secret: '',
             default_mode: 'rule',

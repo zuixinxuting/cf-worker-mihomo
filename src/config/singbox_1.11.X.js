@@ -28,10 +28,6 @@ const Config111 = {
                 address: 'https://dns.google/dns-query',
                 detour: '🚀 节点选择',
             },
-            {
-                tag: 'FAKEIP-DNS',
-                address: 'fakeip',
-            },
         ],
         rules: [
             {
@@ -49,11 +45,6 @@ const Config111 = {
             {
                 rule_set: ['cn_domain', 'private_domain'],
                 server: 'DIRECT-DNS',
-            },
-            {
-                query_type: ['A', 'AAAA'],
-                server: 'FAKEIP-DNS',
-                rewrite_ttl: 1,
             },
         ],
         disable_cache: true,
@@ -78,7 +69,7 @@ const Config111 = {
                 http_proxy: {
                     enabled: true,
                     server: '127.0.0.1',
-                    server_port: 20120,
+                    server_port: 7890,
                 },
             },
         },
@@ -86,7 +77,19 @@ const Config111 = {
             tag: 'mixed-in',
             type: 'mixed',
             listen: '::',
-            listen_port: 20120,
+            listen_port: 7890,
+        },
+        {
+            type: 'http',
+            tag: 'http-in',
+            listen: '::',
+            listen_port: 7892,
+        },
+        {
+            type: 'socks',
+            tag: 'socks-in',
+            listen: '::',
+            listen_port: 7893,
         },
     ],
     outbounds: [
@@ -117,9 +120,6 @@ const Config111 = {
                 type: 'logical',
                 mode: 'or',
                 rules: [
-                    {
-                        port: [53],
-                    },
                     {
                         protocol: 'dns',
                     },
@@ -161,7 +161,7 @@ const Config111 = {
     },
     experimental: {
         clash_api: {
-            external_controller: '0.0.0.0:20123',
+            external_controller: '0.0.0.0:9090',
             external_ui: 'ui',
             secret: '',
             default_mode: 'rule',

@@ -123,7 +123,8 @@ export default function configs() {
             tipMarkdown: `
 ## sing-box 
 - 支持多链接合并
-- 面板: http://127.0.0.1:20123 mixed(http+socks)端口 20120
+- 面板: http://127.0.0.1:9090 
+- mixed(http+socks) 端口: 7890
 - **附加参数说明**  
 
 ✔ UDP: 开启UDP代理
