@@ -50,7 +50,7 @@ const clashConfig = {
     // info 输出一般运行的内容，以及 error 和 warning 级别的日志
     // debug 尽可能的输出运行中所有的信息
     'log-level': 'info', // 日志等级
-    ipv6: false, // 启用 IPv6
+    ipv6: true, // 启用 IPv6
     // tls: { // TLS 相关配置
     //   certificate: "string", // TLS 证书
     //   'private-key': "string", // TLS 私钥
@@ -158,8 +158,7 @@ const clashConfig = {
         // 'auto-redirect': true, // 自动配置 iptables/nftables 以重定向 TCP 连接, 需要auto-route已启用, 需要root权限
         'auto-detect-interface': true, // 自动选择流量出口接口，多出口网卡同时连接的设备建议手动指定出口网卡
         'dns-hijack': [
-            'any:53', // 劫持所有 53 端口的 DNS 请求
-            'tcp://any:53',
+            'any:1053', // 劫持所有 1053 端口的 DNS 请求
         ],
         device: 'mihomo', // 指定 TUN 设备名称，默认为 utun
         mtu: 1500, // 设置最大传输单元 (MTU)，提高网络吞吐量
@@ -186,7 +185,7 @@ const clashConfig = {
         listen: '0.0.0.0:1053', // 本地 DNS 监听端口，默认是 1053 端口
         ipv6: true, // 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
         'default-nameserver': ['223.5.5.5', '8.8.8.8'],
-        'enhanced-mode': 'normal', // 启用增强模式 redir-host or fake-ip
+        'enhanced-mode': 'redir-host', // 启用增强模式 normal or redir-host or fake-ip
         'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
         'fake-ip-filter-mode': 'blacklist',
         'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
