@@ -117,13 +117,7 @@ const Config111 = {
                 action: 'sniff',
             },
             {
-                type: 'logical',
-                mode: 'or',
-                rules: [
-                    {
-                        protocol: 'dns',
-                    },
-                ],
+                protocol: 'dns',
                 action: 'hijack-dns',
             },
             {
