@@ -265,8 +265,8 @@ sub-rules:
   SUB-RULES:
     - RULE-SET,ads_domain,🪧广告拦截
     - OR,((RULE-SET,blockhttpdns_domain),(RULE-SET,blockhttpdns_ip,no-resolve)),🔎HttpDNS
-    - OR,((AND,((NETWORK,TCP),(DST-PORT,5349))),(AND,((NETWORK,UDP),(DST-PORT,5350))),(AND,((NETWORK,UDP),(DST-PORT,5351))),(AND,((NETWORK,UDP),(DST-PORT,19302))),(RULE-SET,stun_domain),(DST-PORT,3478),(RULE-SET,private_domain)),💧泄漏拦截
-    - OR,((RULE-SET,cn_ip),(RULE-SET,private_ip,no-resolve)),🎯全球直连
+    - OR,((AND,((NETWORK,TCP),(DST-PORT,5349))),(AND,((NETWORK,UDP),(DST-PORT,5350))),(AND,((NETWORK,UDP),(DST-PORT,5351))),(AND,((NETWORK,UDP),(DST-PORT,19302))),(RULE-SET,stun_domain),(DST-PORT,3478),(RULE-SET,private_domain),(RULE-SET,private_ip,no-resolve)),💧泄漏拦截
+    - RULE-SET,cn_ip,🎯全球直连
 
 rule-providers:
   ads_domain:
