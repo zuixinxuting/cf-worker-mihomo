@@ -122,11 +122,29 @@ export function getProxies_Grouping(proxies, groups, e) {
 
         return true;
     });
-    if (e.relay && e.proxyname) {
+    if (e.relay && e.proxyname && e.dialerproxy) {
+        if (updatedGroups[1].proxies) {
+            updatedGroups[1].proxies.splice(0, 0, '🔗链式落地');
+        } else {
+            updatedGroups[1].proxies = ['🔗链式落地'];
+        }
+        if (updatedGroups[0].proxies) {
+            updatedGroups[0].proxies.splice(0, 0, updatedGroups[1].name);
+        } else {
+            updatedGroups[0].proxies = updatedGroups[1].name;
+        }
+        updatedGroups[0].proxies = [...new Set(updatedGroups[0].proxies)];
         updatedGroups.splice(2, 0, {
-            name: '🔗链式代理',
+            name: '🔗链式前置',
             type: 'select',
+            lazy: true,
             proxies: e.proxyname,
+        });
+        updatedGroups.splice(3, 0, {
+            name: '🔗链式落地',
+            type: 'select',
+            lazy: true,
+            proxies: e.dialerproxy,
         });
     }
     // 遍历所有策略组，删除 deletedGroups 中的代理

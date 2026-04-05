@@ -218,12 +218,29 @@ export function loadAndSetOutbounds(Outbounds, ApiUrlname, e) {
         const { matchedOutbounds, hasValidAction } = processOutboundFilters(outbound);
         return updateOutboundsArray(outbound, matchedOutbounds, hasValidAction);
     });
-    if (e.relay && e.proxyname) {
+    if (e.relay && e.proxyname && e.dialerproxy) {
+        if (processedOutbounds[1].outbounds) {
+            processedOutbounds[1].outbounds.splice(0, 0, '🔗链式落地');
+        } else {
+            processedOutbounds[1].outbounds = ['🔗链式落地'];
+        }
+        if (processedOutbounds[0].outbounds) {
+            processedOutbounds[0].outbounds.splice(0, 0, processedOutbounds[1].tag);
+        } else {
+            processedOutbounds[0].outbounds = [processedOutbounds[1].tag];
+        }
+        processedOutbounds[0].outbounds = [...new Set(processedOutbounds[0].outbounds)];
         processedOutbounds.splice(2, 0, {
-            tag: '🔗链式代理',
+            tag: '🔗链式前置',
             type: 'selector',
             interrupt_exist_connections: true,
             outbounds: e.proxyname,
+        });
+        processedOutbounds.splice(3, 0, {
+            tag: '🔗链式落地',
+            type: 'selector',
+            interrupt_exist_connections: true,
+            outbounds: e.dialerproxy,
         });
     }
     return cleanRemovedTags(processedOutbounds);
@@ -299,37 +316,37 @@ export function applyTemplate(top, rule, e) {
             if (p.tag === 'DIRECT-DNS') {
                 return isV112
                     ? {
-                          type: 'quic',
-                          tag: 'DIRECT-DNS',
-                          detour: '🎯 全球直连',
-                          server_port: 853,
-                          server: 'doh.18bit.cn',
-                          domain_resolver: 'local',
-                      }
+                        type: 'quic',
+                        tag: 'DIRECT-DNS',
+                        detour: '🎯 全球直连',
+                        server_port: 853,
+                        server: 'doh.18bit.cn',
+                        domain_resolver: 'local',
+                    }
                     : {
-                          tag: 'DIRECT-DNS',
-                          address_resolver: 'local',
-                          address: 'quic://doh.18bit.cn',
-                          detour: '🎯 全球直连',
-                      };
+                        tag: 'DIRECT-DNS',
+                        address_resolver: 'local',
+                        address: 'quic://doh.18bit.cn',
+                        detour: '🎯 全球直连',
+                    };
             }
             if (p.tag === 'PROXY-DNS') {
                 return isV112
                     ? {
-                          type: 'https',
-                          tag: 'PROXY-DNS',
-                          detour: '🚀 节点选择',
-                          server_port: 443,
-                          server: 'dns.adguard-dns.com',
-                          path: '/dns-query',
-                          domain_resolver: 'local',
-                      }
+                        type: 'https',
+                        tag: 'PROXY-DNS',
+                        detour: '🚀 节点选择',
+                        server_port: 443,
+                        server: 'dns.adguard-dns.com',
+                        path: '/dns-query',
+                        domain_resolver: 'local',
+                    }
                     : {
-                          tag: 'DIRECT-DNS',
-                          address_resolver: 'local',
-                          address: 'https://dns.adguard-dns.com/dns-query',
-                          detour: '🎯 全球直连',
-                      };
+                        tag: 'DIRECT-DNS',
+                        address_resolver: 'local',
+                        address: 'https://dns.adguard-dns.com/dns-query',
+                        detour: '🎯 全球直连',
+                    };
             }
             return p;
         });
