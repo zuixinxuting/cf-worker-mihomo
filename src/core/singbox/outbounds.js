@@ -50,7 +50,9 @@ function processOutbounds(outbounds, options, index) {
                     options.proxyname ??= [];
                     options.proxyname.push(outbound.tag);
                 } else {
-                    outbound.detour = '🔗链式代理';
+                    outbound.detour = '🔗链式前置';
+                    options.dialerproxy ??= [];
+                    options.dialerproxy.push(outbound.tag);
                 }
             }
         }

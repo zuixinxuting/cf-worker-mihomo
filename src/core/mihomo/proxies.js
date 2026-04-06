@@ -39,7 +39,9 @@ function processProxies(proxies, options, index = null) {
                     options.proxyname ??= [];
                     options.proxyname.push(proxy.name);
                 } else {
-                    proxy['dialer-proxy'] = '🔗链式代理';
+                    proxy['dialer-proxy'] = '🔗链式前置';
+                    options.dialerproxy ??= [];
+                    options.dialerproxy.push(proxy.name);
                 }
             }
         }
