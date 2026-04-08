@@ -589,11 +589,16 @@ export async function getFakePage(e) {
             let templateVal = '';
             const selectedTmpl = container.querySelector('.template-opt.selected');
             if (selectedTmpl) templateVal = selectedTmpl.dataset.value;
-
+            // 获取 checkbox 参数
             const checkboxes = container.querySelectorAll('.proto-check');
             const protocolParams = {};
             checkboxes.forEach(cb => { protocolParams[cb.value] = cb.checked; });
-
+            // 获取 log select 的值
+            const logSelect = container.querySelector('.log-select');
+            let logValue = '';
+            if (logSelect && logSelect.value) {
+                logValue = logSelect.value;
+            }
             if (links.length === 0 && !templateVal) {
                 alert('请至少填写一个订阅链接或选择一个模板');
                 return;
@@ -606,6 +611,9 @@ export async function getFakePage(e) {
             params.set('target', modeId);
             for (const [key, enabled] of Object.entries(protocolParams)) {
                 if (enabled) params.set(key, 'true');
+            }
+            if (logValue) {
+                params.set('log', logValue);
             }
             const fullUrl = \`\${origin}/?\${params.toString()}\`;
 
@@ -744,9 +752,51 @@ export async function getFakePage(e) {
                 protoCard.innerHTML = \`<div class="section-title">⚙️ 附加参数</div><div class="checkbox-group" id="proto-group-\${modeId}"></div>\`;
                 const groupDiv = protoCard.querySelector(\`#proto-group-\${modeId}\`);
                 meta.protocolList.forEach(proto => {
-                    const label = document.createElement('label');
-                    label.innerHTML = \`<input type="checkbox" class="proto-check" value="\${proto}"> <span>\${meta.protocolLabels[proto] || proto}</span>\`;
-                    groupDiv.appendChild(label);
+                    if (proto === 'log' && meta.logOptions) {
+                        // log 特殊处理为下拉框
+                        const logContainer = document.createElement('div');
+                        logContainer.style.display = 'flex';
+                        logContainer.style.alignItems = 'center';
+                        logContainer.style.gap = '12px';
+                        logContainer.style.marginBottom = '8px';
+                        logContainer.style.flexWrap = 'wrap';
+
+                        const logLabel = document.createElement('span');
+                        logLabel.style.fontSize = '0.85rem';
+                        logLabel.style.fontWeight = '500';
+
+                        const select = document.createElement('select');
+                        select.className = 'log-select';
+                        select.setAttribute('data-proto', 'log');
+                        select.style.padding = '6px 12px';
+                        select.style.borderRadius = '30px';
+                        select.style.border = '1.5px solid var(--border-light)';
+                        select.style.backgroundColor = 'white';
+                        select.style.fontSize = '0.85rem';
+                        select.style.cursor = 'pointer';
+
+                        // 添加默认选项
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.innerText = '日志级别';
+                        select.appendChild(defaultOption);
+                
+                        // 添加各级别选项
+                        meta.logOptions.levels.forEach(level => {
+                            const option = document.createElement('option');
+                            option.value = level;
+                            option.innerText = level;
+                            select.appendChild(option);
+                        });
+
+                        logContainer.appendChild(logLabel);
+                        logContainer.appendChild(select);
+                        groupDiv.appendChild(logContainer);
+                    } else {
+                        const label = document.createElement('label');
+                        label.innerHTML = \`<input type="checkbox" class="proto-check" value="\${proto}"> <span>\${meta.protocolLabels[proto] || proto}</span>\`;
+                        groupDiv.appendChild(label);
+                    }
                 });
                 panel.appendChild(protoCard);
             }

@@ -44,6 +44,7 @@ export async function getmihomo_config(e) {
  * @param {Object} template - 模板配置对象
  */
 export function applyTemplate(top, rule, e) {
+    if (e.log) top['log-level'] = e.log;
     top['proxy-providers'] = rule['proxy-providers'] || {};
     top.proxies = [...(top.proxies || []), ...(rule.proxies || [])];
     top['proxy-groups'] = rule['proxy-groups'] || [];

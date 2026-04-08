@@ -30,7 +30,8 @@ export function buildConfig(request, env, isNode = false) {
 
     const target = getParam('target');
     if (target) data.target = target;
-
+    const log = getParam('log');
+    if (log) data.target = log;
     if (getParamBool('udp')) data.udp = true;
     if (getParamBool('udp_frag')) data.udp_fragment = true;
     if (getParamBool('tls_frag')) data.tls_fragment = true;
