@@ -40,7 +40,7 @@ export default function configs() {
                 log: '',
             },
             logOptions: {
-                levels: ['silent','error', 'warning', 'info', 'debug'],
+                levels: ['silent', 'error', 'warning', 'info', 'debug'],
                 default: '',
             },
             templates: {
