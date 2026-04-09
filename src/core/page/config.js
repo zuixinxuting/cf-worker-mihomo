@@ -27,7 +27,7 @@ export default function configs() {
 
 ✔ fallback: 获取原节点格式和流量信息
             `,
-            protocolList: ['udp', 'ech', 'relay', 'ep', 'ea', 'adgdns', 'tun', 'fallback'],
+            protocolList: ['udp', 'ech', 'relay', 'ep', 'ea', 'adgdns', 'tun', 'fallback', 'log'],
             protocolLabels: {
                 udp: 'UDP',
                 ech: 'ECH',
@@ -37,6 +37,11 @@ export default function configs() {
                 adgdns: '去广告DNS',
                 tun: '仅代理',
                 fallback: 'fallback',
+                log: '',
+            },
+            logOptions: {
+                levels: ['silent', 'error', 'warning', 'info', 'debug'],
+                default: '',
             },
             templates: {
                 通用: [
@@ -149,7 +154,7 @@ export default function configs() {
 
 ✔ fallback: 获取原节点格式和流量信息
             `,
-            protocolList: ['udp', 'ech', 'relay', 'udp_frag', 'tls_frag', 'ep', 'ea', 'tailscale', 'adgdns', 'tun', 'fallback'],
+            protocolList: ['udp', 'ech', 'relay', 'udp_frag', 'tls_frag', 'ep', 'ea', 'tailscale', 'adgdns', 'tun', 'fallback', 'log'],
             protocolLabels: {
                 udp: 'UDP',
                 ech: 'ECH',
@@ -162,6 +167,11 @@ export default function configs() {
                 adgdns: '去广告DNS',
                 tun: '仅代理',
                 fallback: 'fallback',
+                log: '',
+            },
+            logOptions: {
+                levels: ['trace', 'debug', 'info', 'warn', 'error', 'fatal', 'panic'],
+                default: '',
             },
             templates: {
                 通用: [

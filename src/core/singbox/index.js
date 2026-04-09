@@ -256,6 +256,7 @@ export function applyTemplate(top, rule, e) {
     for (const item of newSet) {
         if (item?.tag) mergedMap.set(item.tag, item);
     }
+    if (e.log) top.log.level = e.log;
     top.inbounds = [...(top.inbounds || []), ...(rule.inbounds || [])];
     top.outbounds = [...(top.outbounds || []), ...(rule.outbounds || [])];
     top.route.final = rule?.route?.final || top.route.final;
@@ -316,37 +317,37 @@ export function applyTemplate(top, rule, e) {
             if (p.tag === 'DIRECT-DNS') {
                 return isV112
                     ? {
-                        type: 'quic',
-                        tag: 'DIRECT-DNS',
-                        detour: '🎯 全球直连',
-                        server_port: 853,
-                        server: 'doh.18bit.cn',
-                        domain_resolver: 'local',
-                    }
+                          type: 'quic',
+                          tag: 'DIRECT-DNS',
+                          detour: '🎯 全球直连',
+                          server_port: 853,
+                          server: 'doh.18bit.cn',
+                          domain_resolver: 'local',
+                      }
                     : {
-                        tag: 'DIRECT-DNS',
-                        address_resolver: 'local',
-                        address: 'quic://doh.18bit.cn',
-                        detour: '🎯 全球直连',
-                    };
+                          tag: 'DIRECT-DNS',
+                          address_resolver: 'local',
+                          address: 'quic://doh.18bit.cn',
+                          detour: '🎯 全球直连',
+                      };
             }
             if (p.tag === 'PROXY-DNS') {
                 return isV112
                     ? {
-                        type: 'https',
-                        tag: 'PROXY-DNS',
-                        detour: '🚀 节点选择',
-                        server_port: 443,
-                        server: 'dns.adguard-dns.com',
-                        path: '/dns-query',
-                        domain_resolver: 'local',
-                    }
+                          type: 'https',
+                          tag: 'PROXY-DNS',
+                          detour: '🚀 节点选择',
+                          server_port: 443,
+                          server: 'dns.adguard-dns.com',
+                          path: '/dns-query',
+                          domain_resolver: 'local',
+                      }
                     : {
-                        tag: 'DIRECT-DNS',
-                        address_resolver: 'local',
-                        address: 'https://dns.adguard-dns.com/dns-query',
-                        detour: '🎯 全球直连',
-                    };
+                          tag: 'DIRECT-DNS',
+                          address_resolver: 'local',
+                          address: 'https://dns.adguard-dns.com/dns-query',
+                          detour: '🎯 全球直连',
+                      };
             }
             return p;
         });
