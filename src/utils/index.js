@@ -91,13 +91,15 @@ export function splitUrlsAndProxies(urls) {
 function sanitizeContentDisposition(headers) {
     const contentDisposition = headers['content-disposition'];
     if (!contentDisposition) return null;
-    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
-    if (!filenameMatch) return null;
-    const originalFilename = filenameMatch[1];
-    // 检查是否含中文(或非 ASCII)
-    const isNonAscii = /[^\x00-\x7F]/.test(originalFilename);
-    if (!isNonAscii) return contentDisposition; // 不含中文，保持原样
-    // 使用 fallback ASCII 名 + filename*=UTF-8''xxx 形式替换
+    let originalFilename = null;
+    let match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/);
+    if (match) {
+        originalFilename = decodeURIComponent(match[1]);
+    } else {
+        match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match) originalFilename = match[1];
+    }
+    if (!originalFilename) return null;
     const fallback = 'download.json';
     const encoded = encodeURIComponent(originalFilename);
     return `attachment; filename="${fallback}"; filename*=UTF-8''${encoded}`;
