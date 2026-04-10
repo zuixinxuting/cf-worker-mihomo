@@ -252,7 +252,7 @@ dns:
   nameserver: # 被墙的dns需指定代理
     - "https://dns.google/dns-query#🚀全球代理" # Google DNS over DOH
   proxy-server-nameserver: # 代理节点域名解析服务器，仅用于解析代理节点的域名
-    - "https://doh.cmliussss.net/CMLiussss#🎯全球直连"
+    - "https://dns.alidns.com/dns-query#🎯全球直连"
   direct-nameserver: #  用于直连出口域名解析的 DNS 服务器
     - "https://dns.alidns.com/dns-query#🎯全球直连"
 

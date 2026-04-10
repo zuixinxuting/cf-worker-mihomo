@@ -317,17 +317,16 @@ export function applyTemplate(top, rule, e) {
             if (p.tag === 'DIRECT-DNS') {
                 return isV112
                     ? {
-                          type: 'quic',
+                          type: 'https',
                           tag: 'DIRECT-DNS',
                           detour: '🎯 全球直连',
-                          server_port: 853,
                           server: 'doh.18bit.cn',
                           domain_resolver: 'local',
                       }
                     : {
                           tag: 'DIRECT-DNS',
                           address_resolver: 'local',
-                          address: 'quic://doh.18bit.cn',
+                          address: 'https://doh.18bit.cn/dns-query',
                           detour: '🎯 全球直连',
                       };
             }

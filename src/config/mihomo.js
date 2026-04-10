@@ -184,14 +184,14 @@ const clashConfig = {
         'respect-rules': true, // dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用
         listen: '0.0.0.0:1053', // 本地 DNS 监听端口，默认是 1053 端口
         ipv6: true, // 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
-        'default-nameserver': ['223.5.5.5', '8.8.8.8'],
+        'default-nameserver': ['223.5.5.5'],
         'enhanced-mode': 'normal', // 启用增强模式 normal or redir-host or fake-ip
         // 'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
         // 'fake-ip-range6': 'fdfe:dcba:9876::1/64'
         // 'fake-ip-filter-mode': 'blacklist',
         // 'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
         'nameserver-policy': {
-            'RULE-SET:private_domain,cn_domain': ['quic://dns.alidns.com#DIRECT'],
+            'RULE-SET:private_domain,cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
         },
         nameserver: [
             // 被墙的dns需指定代理
@@ -199,9 +199,9 @@ const clashConfig = {
         ],
         'proxy-server-nameserver': [
             // 代理节点域名解析服务器，仅用于解析代理节点的域名
-            'quic://dns.alidns.com#DIRECT',
+            'https://dns.alidns.com/dns-query#DIRECT',
         ],
-        'direct-nameserver': ['quic://dns.alidns.com#DIRECT'],
+        'direct-nameserver': ['https://dns.alidns.com/dns-query#DIRECT'],
     },
     'rule-providers': {
         cn_domain: {
