@@ -123,6 +123,8 @@ const Config113 = {
             },
             {
                 protocol: 'dns',
+                network: ['tcp', 'udp'],
+                port: [53],
                 action: 'hijack-dns',
             },
             {

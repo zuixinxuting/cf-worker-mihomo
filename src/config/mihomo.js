@@ -158,7 +158,8 @@ const clashConfig = {
         // 'auto-redirect': true, // 自动配置 iptables/nftables 以重定向 TCP 连接, 需要auto-route已启用, 需要root权限
         'auto-detect-interface': true, // 自动选择流量出口接口，多出口网卡同时连接的设备建议手动指定出口网卡
         'dns-hijack': [
-            'any:1053', // 劫持所有 1053 端口的 DNS 请求
+            'any:53', // 劫持所有 1053 端口的 DNS 请求
+            'tcp://any:53', // 劫持 TCP 53 端口的 DNS 请求
         ],
         device: 'mihomo', // 指定 TUN 设备名称，默认为 utun
         mtu: 1500, // 设置最大传输单元 (MTU)，提高网络吞吐量
