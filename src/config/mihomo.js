@@ -50,7 +50,7 @@ const clashConfig = {
     // info 输出一般运行的内容，以及 error 和 warning 级别的日志
     // debug 尽可能的输出运行中所有的信息
     'log-level': 'info', // 日志等级
-    ipv6: true, // 启用 IPv6
+    ipv6: false, // 启用 IPv6
     // tls: { // TLS 相关配置
     //   certificate: "string", // TLS 证书
     //   'private-key': "string", // TLS 私钥
@@ -185,10 +185,11 @@ const clashConfig = {
         listen: '0.0.0.0:1053', // 本地 DNS 监听端口，默认是 1053 端口
         ipv6: true, // 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
         'default-nameserver': ['223.5.5.5', '8.8.8.8'],
-        'enhanced-mode': 'redir-host', // 启用增强模式 normal or redir-host or fake-ip
-        'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
-        'fake-ip-filter-mode': 'blacklist',
-        'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
+        'enhanced-mode': 'normal', // 启用增强模式 normal or redir-host or fake-ip
+        // 'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
+        // 'fake-ip-range6': 'fdfe:dcba:9876::1/64'
+        // 'fake-ip-filter-mode': 'blacklist',
+        // 'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
         'nameserver-policy': {
             'RULE-SET:private_domain,cn_domain': ['quic://dns.alidns.com#DIRECT'],
         },
@@ -221,15 +222,15 @@ const clashConfig = {
             url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs',
             path: './ruleset/Private_Domain.mrs',
         },
-        fakeip_filter_domain: {
-            type: 'http',
-            interval: 86400,
-            behavior: 'domain',
-            format: 'mrs',
-            proxy: 'DIRECT',
-            url: 'https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs',
-            path: './ruleset/Fakeip_Filter_Domain.mrs',
-        },
+        // fakeip_filter_domain: {
+        //     type: 'http',
+        //     interval: 86400,
+        //     behavior: 'domain',
+        //     format: 'mrs',
+        //     proxy: 'DIRECT',
+        //     url: 'https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs',
+        //     path: './ruleset/Fakeip_Filter_Domain.mrs',
+        // },
     },
 };
 export default Object.freeze(clashConfig);

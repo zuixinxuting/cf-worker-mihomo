@@ -1,4 +1,4 @@
-import { splitUrlsAndProxies, backimg, subapi, beiantext, beiandizi } from './utils/index.js';
+import { splitUrlsAndProxies, backimg, subapi, beiantext, beiandizi } from './index.js';
 export function buildConfig(request, env, isNode = false) {
     const url = isNode ? new URL(request.url, `http://${request.headers.host}`) : new URL(request.url);
 

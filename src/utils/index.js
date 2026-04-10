@@ -37,14 +37,17 @@ export async function fetchResponse(url, userAgent) {
     } catch {
         return true;
     }
+    const rawHeaders = Object.fromEntries(response.headers.entries());
+    const hopByHopHeaders = ['transfer-encoding', 'content-length', 'content-encoding', 'connection'];
     const headers = {};
-    const subInfo = response.headers.get('subscription-userinfo');
-    if (subInfo) {
-        headers['subscription-userinfo'] = subInfo;
+    for (const [key, value] of Object.entries(rawHeaders)) {
+        if (!hopByHopHeaders.includes(key.toLowerCase())) {
+            headers[key] = value;
+        }
     }
-    const fixedCD = sanitizeContentDisposition(response.headers);
-    if (fixedCD) {
-        headers['content-disposition'] = fixedCD;
+    const sanitizedCD = sanitizeContentDisposition(headers);
+    if (sanitizedCD) {
+        headers['content-disposition'] = sanitizedCD;
     }
     const textData = await response.text();
     let data;
@@ -86,29 +89,17 @@ export function splitUrlsAndProxies(urls) {
 }
 
 function sanitizeContentDisposition(headers) {
-    const raw = headers.get('content-disposition');
-    if (!raw) return null;
-    let filename = null;
-    const filenameStarMatch = raw.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
-    if (filenameStarMatch) {
-        try {
-            filename = decodeURIComponent(filenameStarMatch[1]);
-        } catch {
-            filename = filenameStarMatch[1];
-        }
-    }
-    if (!filename) {
-        const filenameMatch = raw.match(/filename\s*=\s*"?([^"]+)"?/i);
-        if (filenameMatch) {
-            filename = filenameMatch[1];
-        }
-    }
-    if (!filename) return raw;
-    const isNonAscii = /[^\x00-\x7F]/.test(filename);
-    if (!isNonAscii) return raw;
-    const extMatch = filename.match(/\.[a-zA-Z0-9]+$/);
-    const fallback = `download${extMatch ? extMatch[0] : ''}`;
-    const encoded = encodeURIComponent(filename);
+    const contentDisposition = headers['content-disposition'];
+    if (!contentDisposition) return null;
+    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+    if (!filenameMatch) return null;
+    const originalFilename = filenameMatch[1];
+    // 检查是否含中文(或非 ASCII)
+    const isNonAscii = /[^\x00-\x7F]/.test(originalFilename);
+    if (!isNonAscii) return contentDisposition; // 不含中文，保持原样
+    // 使用 fallback ASCII 名 + filename*=UTF-8''xxx 形式替换
+    const fallback = 'download.json';
+    const encoded = encodeURIComponent(originalFilename);
     return `attachment; filename="${fallback}"; filename*=UTF-8''${encoded}`;
 }
 /**

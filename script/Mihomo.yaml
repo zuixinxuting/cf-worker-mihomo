@@ -119,7 +119,7 @@ etag-support: true # 外部资源下载的 ETag 支持
 # info 输出一般运行的内容，以及 error 和 warning 级别的日志
 # debug 尽可能的输出运行中所有的信息
 log-level: info # 日志等级
-ipv6: true # 启用 IPv6
+ipv6: false # 启用 IPv6
 #tls: # TLS 相关配置
 #  certificate: string # TLS 证书
 #  private-key: string # TLS 私钥
@@ -245,8 +245,7 @@ dns:
   ipv6: true # 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
   default-nameserver:
     - 223.5.5.5
-    - 8.8.8.8
-  enhanced-mode: redir-host # 启用增强模式 normal or redir-host or fake-ip
+  enhanced-mode: normal # 启用增强模式 normal or redir-host or fake-ip
   nameserver-policy:
     "RULE-SET:private_domain,cn_domain":
       - "https://dns.alidns.com/dns-query#🎯全球直连"
