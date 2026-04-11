@@ -12,9 +12,9 @@ const Config112Alpha = {
                 tag: 'hosts',
                 path: ['/etc/hosts', '$HOME/.hosts'],
                 predefined: {
-                    localhost: ['127.0.0.1', '::1'],
-                    'dns.alidns.com': ['223.5.5.5', '223.6.6.6', '2400:3200::1', '2400:3200:baba::1'],
-                    'dns.google': ['8.8.4.4', '8.8.8.8', '2001:4860:4860::8844', '2001:4860:4860::8888'],
+                    localhost: ['127.0.0.1'],
+                    'dns.alidns.com': ['223.5.5.5', '223.6.6.6'],
+                    'dns.google': ['8.8.4.4', '8.8.8.8'],
                 },
             },
             {
@@ -27,14 +27,14 @@ const Config112Alpha = {
                 tag: 'DIRECT-DNS',
                 detour: '🎯 全球直连',
                 server: 'dns.alidns.com',
-                domain_resolver: 'local',
+                domain_resolver: 'hosts',
             },
             {
                 type: 'https',
                 tag: 'PROXY-DNS',
                 detour: '🚀 节点选择',
                 server: 'dns.google',
-                domain_resolver: 'local',
+                domain_resolver: 'hosts',
             },
         ],
         rules: [
