@@ -1,4 +1,4 @@
-import { splitUrlsAndProxies, backimg, subapi, beiantext, beiandizi } from './utils/index.js';
+import { splitUrlsAndProxies, backimg, subapi, beiantext, beiandizi } from './index.js';
 export function buildConfig(request, env, isNode = false) {
     const url = isNode ? new URL(request.url, `http://${request.headers.host}`) : new URL(request.url);
 
@@ -42,7 +42,7 @@ export function buildConfig(request, env, isNode = false) {
     if (getParamBool('tun')) data.tun = true;
     if (getParamBool('ech')) data.ech = true;
     if (getParamBool('relay')) data.relay = true;
-    if (getParamBool('fallback')) data.relay = true;
+    if (getParamBool('fallback')) data.fallback = true;
 
     data.IMG = getEnv('IMG', backimg);
     data.sub = getEnv('SUB', subapi);

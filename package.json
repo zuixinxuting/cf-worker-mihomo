@@ -1,6 +1,6 @@
 {
 	"name": "cf-worker-mihomo",
-	"version": "1.3.17",
+	"version": "1.3.18",
 	"description": "Cloudflare Worker for Mihomo subscription service",
 	"private": true,
 	"license": "MIT",
@@ -9,7 +9,7 @@
 		"deploy:workers": "wrangler deploy",
 		"deploy": "vercel --prod",
 		"dev:workers": "wrangler dev src/_worker.js --live-reload",
-		"dev": "vercel dev",
+		"dev": "nodemon src/vercel.js",
 		"build": "node esbuild.js",
 		"start:workers": "wrangler dev",
 		"start": "vercel dev",
@@ -18,6 +18,7 @@
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.8.47",
 		"esbuild": "^0.25.8",
+		"nodemon": "^3.1.14",
 		"prettier": "^3.6.2",
 		"vercel": "^50.37.3",
 		"wrangler": "^4.22.0"

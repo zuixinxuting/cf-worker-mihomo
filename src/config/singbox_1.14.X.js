@@ -21,13 +21,11 @@ const Config114 = {
                 tag: 'local',
                 type: 'udp',
                 server: '223.5.5.5',
-                server_port: 53,
             },
             {
-                type: 'quic',
+                type: 'https',
                 tag: 'DIRECT-DNS',
                 detour: '🎯 全球直连',
-                server_port: 853,
                 server: 'dns.alidns.com',
                 domain_resolver: 'local',
             },
@@ -35,9 +33,7 @@ const Config114 = {
                 type: 'https',
                 tag: 'PROXY-DNS',
                 detour: '🚀 节点选择',
-                server_port: 443,
                 server: 'dns.google',
-                path: '/dns-query',
                 domain_resolver: 'local',
             },
         ],
@@ -127,6 +123,8 @@ const Config114 = {
             },
             {
                 protocol: 'dns',
+                network: ['tcp', 'udp'],
+                port: [53],
                 action: 'hijack-dns',
             },
             {

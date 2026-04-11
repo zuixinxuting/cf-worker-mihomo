@@ -50,7 +50,7 @@ const clashConfig = {
     // info 输出一般运行的内容，以及 error 和 warning 级别的日志
     // debug 尽可能的输出运行中所有的信息
     'log-level': 'info', // 日志等级
-    ipv6: true, // 启用 IPv6
+    ipv6: false, // 启用 IPv6
     // tls: { // TLS 相关配置
     //   certificate: "string", // TLS 证书
     //   'private-key': "string", // TLS 私钥
@@ -158,7 +158,8 @@ const clashConfig = {
         // 'auto-redirect': true, // 自动配置 iptables/nftables 以重定向 TCP 连接, 需要auto-route已启用, 需要root权限
         'auto-detect-interface': true, // 自动选择流量出口接口，多出口网卡同时连接的设备建议手动指定出口网卡
         'dns-hijack': [
-            'any:1053', // 劫持所有 1053 端口的 DNS 请求
+            'any:53', // 劫持所有 1053 端口的 DNS 请求
+            'tcp://any:53', // 劫持 TCP 53 端口的 DNS 请求
         ],
         device: 'mihomo', // 指定 TUN 设备名称，默认为 utun
         mtu: 1500, // 设置最大传输单元 (MTU)，提高网络吞吐量
@@ -184,13 +185,14 @@ const clashConfig = {
         'respect-rules': true, // dns 连接遵守路由规则，需配置 proxy-server-nameserver, 强烈不建议和 prefer-h3 一起使用
         listen: '0.0.0.0:1053', // 本地 DNS 监听端口，默认是 1053 端口
         ipv6: true, // 启用 IPv6 DNS 解析，避免 IPv6 地址的解析请求
-        'default-nameserver': ['223.5.5.5', '8.8.8.8'],
-        'enhanced-mode': 'redir-host', // 启用增强模式 normal or redir-host or fake-ip
-        'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
-        'fake-ip-filter-mode': 'blacklist',
-        'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
+        'default-nameserver': ['223.5.5.5'],
+        'enhanced-mode': 'normal', // 启用增强模式 normal or redir-host or fake-ip
+        // 'fake-ip-range': '198.18.0.1/16', // fake-ip 池设置
+        // 'fake-ip-range6': 'fdfe:dcba:9876::1/64'
+        // 'fake-ip-filter-mode': 'blacklist',
+        // 'fake-ip-filter': ['RULE-SET:private_domain,fakeip_filter_domain,cn_domain'],
         'nameserver-policy': {
-            'RULE-SET:private_domain,cn_domain': ['quic://dns.alidns.com#DIRECT'],
+            'RULE-SET:private_domain,cn_domain': ['https://dns.alidns.com/dns-query#DIRECT'],
         },
         nameserver: [
             // 被墙的dns需指定代理
@@ -198,9 +200,9 @@ const clashConfig = {
         ],
         'proxy-server-nameserver': [
             // 代理节点域名解析服务器，仅用于解析代理节点的域名
-            'quic://dns.alidns.com#DIRECT',
+            'https://dns.alidns.com/dns-query#DIRECT',
         ],
-        'direct-nameserver': ['quic://dns.alidns.com#DIRECT'],
+        'direct-nameserver': ['https://dns.alidns.com/dns-query#DIRECT'],
     },
     'rule-providers': {
         cn_domain: {
@@ -221,15 +223,15 @@ const clashConfig = {
             url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs',
             path: './ruleset/Private_Domain.mrs',
         },
-        fakeip_filter_domain: {
-            type: 'http',
-            interval: 86400,
-            behavior: 'domain',
-            format: 'mrs',
-            proxy: 'DIRECT',
-            url: 'https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs',
-            path: './ruleset/Fakeip_Filter_Domain.mrs',
-        },
+        // fakeip_filter_domain: {
+        //     type: 'http',
+        //     interval: 86400,
+        //     behavior: 'domain',
+        //     format: 'mrs',
+        //     proxy: 'DIRECT',
+        //     url: 'https://jsd.onmicrosoft.cn/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs',
+        //     path: './ruleset/Fakeip_Filter_Domain.mrs',
+        // },
     },
 };
 export default Object.freeze(clashConfig);
