@@ -4,7 +4,7 @@ import Config111 from '../../config/singbox_1.11.X.js';
 import Config112 from '../../config/singbox_1.12.X.js';
 import Config112Alpha from '../../config/singbox_1.12.X_alpha.js';
 import Config113 from '../../config/singbox_1.13.X.js';
-import Config114 from '../../config/singbox_1.14.X.js';
+import Config114Alpha from '../../config/singbox_1.14.X_alpha.js';
 export async function getsingbox_config(e) {
     const config = structuredClone(Verbose(e));
     // 获取订阅数据
@@ -38,61 +38,44 @@ export async function getsingbox_config(e) {
     };
 }
 export function Verbose(e) {
-    let top,
-        matched = false;
-    const v112alphaMatch = e.userAgent.match(/1\.12\.0\-alpha\.(\d{1,2})\b/);
-    const v112betaMatch = e.userAgent.match(/1\.12\.0\-beta\.(\d{1,2})\b/);
-    const v111Match = e.userAgent.match(/1\.11\.(\d+)/);
-    const v112Match = e.userAgent.match(/1\.12\.(\d+)/);
-    const v113Match = e.userAgent.match(/1\.13\.(\d+)/);
-    const v114Match = e.userAgent.match(/1\.14\.(\d+)/);
-    if (!/singbox|sing-box|sfa|sfm/i.test(e.userAgent)) throw new Error('不支持的客户端');
-    // 匹配 1.12 alpha 版本
-    if (v112alphaMatch && !matched) {
-        const num = parseInt(v112alphaMatch[1], 10);
-        if (num >= 0 && num <= 23) {
-            top = Config112Alpha;
-            matched = true;
-        }
+    const ua = e.userAgent;
+
+    if (!/singbox|sing-box|sfa|sfm/i.test(ua)) {
+        throw new Error('不支持的客户端');
     }
-    // 匹配 1.11 中的 1.12 beta 版本
-    if (v112betaMatch && !matched) {
-        const num = parseInt(v112betaMatch[1], 10);
-        if (num >= 0 && num <= 9) {
-            top = Config111;
-            e.tailscale = false;
-            e.tls_fragment = false;
-            matched = true;
-        }
+
+    const getNum = (re) => {
+        const m = ua.match(re);
+        return m ? Number(m[1]) : null;
+    };
+
+    const v112alpha = getNum(/1\.12\.0-alpha\.(\d{1,2})\b/);
+    if (v112alpha !== null && v112alpha <= 23) {
+        return Config112Alpha;
     }
-    // 匹配 1.11.x 版本
-    if (v111Match && !matched) {
-        top = Config111;
+
+    const v112beta = getNum(/1\.12\.0-beta\.(\d{1,2})\b/);
+    if (/1\.11\.\d{1,2}/.test(ua) || (v112beta !== null && v112beta <= 9)) {
         e.tailscale = false;
         e.tls_fragment = false;
-        matched = true;
+        return Config111;
     }
-    // 匹配 1.12.x 版本
-    if (v112Match && !matched) {
-        top = Config112;
-        matched = true;
-    }
-    // 匹配 1.13.x 版本
-    if (v113Match && !matched) {
-        top = Config113;
-        matched = true;
-    }
-    // 匹配 1.14.x 版本
-    if (v114Match && !matched) {
-        top = Config114;
-        matched = true;
-    }
-    if (!matched) {
-        throw new Error(`不支持的 Singbox 版本：${e.userAgent}`);
-    }
-    return top;
-}
 
+    if (/1\.12\.\d{1,2}/.test(ua)) {
+        return Config112;
+    }
+
+    const v114alpha = getNum(/1\.14\.0-alpha\.(\d{1,2})\b/);
+    if (/1\.13\.\d{1,2}/.test(ua) || (v114alpha !== null && v114alpha <= 9)) {
+        return Config113;
+    }
+
+    if (v114alpha !== null) {
+        return Config114Alpha;
+    }
+
+    throw new Error(`不支持的 Singbox 版本：${ua}`);
+}
 /**
  * 处理配置文件中的 outbounds 数组：
  * 1. 先排除特定类型（如 direct、dns 等）；
