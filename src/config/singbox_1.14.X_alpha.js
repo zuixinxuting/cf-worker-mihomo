@@ -43,6 +43,13 @@ const Config114 = {
                 server: 'PROXY-DNS',
             },
             {
+                match_response: true,
+                response_rcode: 'NOERROR',
+                ip_accept_any: true,
+                invert: true,
+                action: 'respond',
+            },
+            {
                 clash_mode: 'direct',
                 match_response: true,
                 server: 'DIRECT-DNS',
