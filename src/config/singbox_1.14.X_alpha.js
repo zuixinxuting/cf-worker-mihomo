@@ -3,7 +3,7 @@ const Config114 = {
         disabled: false,
         level: 'info',
         output: './singbox.log',
-        timestamp: false,
+        timestamp: true,
     },
     dns: {
         servers: [
@@ -39,6 +39,18 @@ const Config114 = {
         ],
         rules: [
             {
+                clash_mode: 'direct',
+                server: 'DIRECT-DNS',
+            },
+            {
+                clash_mode: 'global',
+                server: 'PROXY-DNS',
+            },
+            {
+                rule_set: ['cn_domain', 'private_domain'],
+                server: 'DIRECT-DNS',
+            },
+            {
                 action: 'evaluate',
                 server: 'PROXY-DNS',
             },
@@ -48,16 +60,6 @@ const Config114 = {
                 ip_accept_any: true,
                 invert: true,
                 action: 'respond',
-            },
-            {
-                clash_mode: 'direct',
-                match_response: true,
-                server: 'DIRECT-DNS',
-            },
-            {
-                clash_mode: 'global',
-                match_response: true,
-                server: 'PROXY-DNS',
             },
             {
                 type: 'logical',
@@ -75,10 +77,10 @@ const Config114 = {
                 server: 'DIRECT-DNS',
             },
         ],
-        disable_cache: true,
-        disable_expire: true,
         final: 'PROXY-DNS',
         strategy: 'prefer_ipv4',
+        optimistic: true,
+        cache_capacity: 1000,
     },
     inbounds: [
         {
@@ -167,6 +169,20 @@ const Config114 = {
                 tag: 'cn_ip',
                 type: 'remote',
                 url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs',
+                format: 'binary',
+                download_detour: '🎯 全球直连',
+            },
+            {
+                tag: 'private_domain',
+                type: 'remote',
+                url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs',
+                format: 'binary',
+                download_detour: '🎯 全球直连',
+            },
+            {
+                tag: 'cn_domain',
+                type: 'remote',
+                url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs',
                 format: 'binary',
                 download_detour: '🎯 全球直连',
             },

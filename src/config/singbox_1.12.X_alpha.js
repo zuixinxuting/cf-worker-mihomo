@@ -3,7 +3,7 @@ const Config112 = {
         disabled: false,
         level: 'info',
         output: './singbox.log',
-        timestamp: false,
+        timestamp: true,
     },
     dns: {
         servers: [
