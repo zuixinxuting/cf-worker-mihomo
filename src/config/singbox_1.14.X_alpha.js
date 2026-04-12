@@ -60,8 +60,18 @@ const Config114 = {
                 server: 'PROXY-DNS',
             },
             {
-                rule_set: ['cn_domain', 'private_domain'],
-                match_response: true,
+                type: 'logical',
+                mode: 'or',
+                rules: [
+                    {
+                        ip_is_private: true,
+                        match_response: true,
+                    },
+                    {
+                        rule_set: ['cn_ip'],
+                        match_response: true,
+                    },
+                ],
                 server: 'DIRECT-DNS',
             },
         ],
@@ -154,16 +164,9 @@ const Config114 = {
         ],
         rule_set: [
             {
-                tag: 'private_domain',
+                tag: 'cn_ip',
                 type: 'remote',
-                url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs',
-                format: 'binary',
-                download_detour: '🎯 全球直连',
-            },
-            {
-                tag: 'cn_domain',
-                type: 'remote',
-                url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs',
+                url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs',
                 format: 'binary',
                 download_detour: '🎯 全球直连',
             },
