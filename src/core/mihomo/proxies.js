@@ -1,31 +1,41 @@
 import { fetchWithFallback } from '../../utils/index.js';
 export default async function getProxies_Data(e) {
     const isSingle = e.urls.length === 1;
-    const data = { proxies: [], providers: {} };
 
-    const results = await Promise.allSettled(e.urls.map((url, index) => fetchWithFallback(url, e).then((res) => ({ res, index }))));
+    const results = await Promise.all(e.urls.map((url, index) => fetchWithFallback(url, e).then((res) => ({ res, index }))));
 
     const responses = [];
+    const proxies = [];
 
-    for (const result of results) {
-        if (result.status === 'rejected') continue;
-
-        const { res, index } = result.value;
-        if (res?.data?.proxies?.length) {
-            processProxies(res.data.proxies, e, e.urls.length > 1 ? index + 1 : undefined);
+    for (const { res, index } of results) {
+        if (Array.isArray(res?.data?.proxies) && res.data.proxies.length > 0) {
+            processProxies(res.data.proxies, e, isSingle ? 0 : index + 1);
             responses.push({ status: res.status, headers: res.headers });
-            data.proxies.push(...res.data.proxies);
+            proxies.push(res.data.proxies);
         }
     }
 
-    if (responses.length === 0) return null;
+    if (proxies.length === 0) {
+        throw new Error('未从任何 URL 找到有效的节点');
+    }
 
-    const selected = isSingle ? responses[0] : responses[Math.floor(Math.random() * responses.length)];
+    const flatProxies = proxies.flat();
+
+    if (isSingle) {
+        const response = responses[0];
+        return {
+            status: response.status,
+            headers: response.headers,
+            data: { proxies: flatProxies },
+        };
+    }
+
+    const selected = responses[Math.floor(Math.random() * responses.length)];
 
     return {
         status: selected.status,
         headers: selected.headers,
-        data,
+        data: { proxies: flatProxies },
     };
 }
 

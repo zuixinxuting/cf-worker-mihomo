@@ -138,10 +138,8 @@ export async function fetchpackExtract() {
         'https://cdn.jsdelivr.net/gh/mnixry/direct-android-ruleset@rules/@Merged/APP.mutated.yaml',
     ];
 
-    const results = await Promise.allSettled(urls.map(async (url) => await fetchResponse(url)));
-    for (const result of results) {
-        if (result.status === 'rejected') continue;
-        const res = result.value;
+    const results = await Promise.allSettled(urls.map((url) => fetchResponse(url)));
+    for (const res of results) {
         if (!res?.data?.payload?.length) continue;
         for (const line of res.data.payload) {
             const match = line.match(/PROCESS-NAME\s*,\s*([^\s,]+)/);
@@ -158,26 +156,24 @@ export async function fetchpackExtract() {
  * @returns {Promise<Object>} - 返回配置数据对象
  */
 export async function fetchipExtract() {
-    const urls = ['https://cdn.jsdelivr.net/gh/Kwisma/clash-rules@release/cncidr.yaml'];
+    const url = 'https://cdn.jsdelivr.net/gh/Kwisma/clash-rules@release/cncidr.yaml';
 
-    const ipcidrs = [];
-
-    for (const url of urls) {
-        const res = await fetchResponse(url);
-
-        if (!res || res.status !== 200) {
-            console.error(`❌ 请求失败: ${url} - ${res?.status}`);
-            continue;
-        }
-
-        const jsondata = res.data;
-
-        if (jsondata && Array.isArray(jsondata.payload)) {
-            ipcidrs.push(...jsondata.payload);
-        }
+    let res;
+    try {
+        res = await fetchResponse(url);
+    } catch (err) {
+        console.error(`❌ 请求异常: ${url}`, err);
+        return null;
     }
 
-    return ipcidrs;
+    const payload = res?.data?.payload;
+
+    if (!Array.isArray(payload) || payload.length === 0) {
+        console.error(`❌ 请求失败或数据为空: ${url} - ${res?.status}`);
+        return null;
+    }
+
+    return payload;
 }
 
 /**
