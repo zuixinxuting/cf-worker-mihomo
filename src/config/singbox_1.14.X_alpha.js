@@ -3,7 +3,7 @@ const Config114 = {
         disabled: false,
         level: 'info',
         output: './singbox.log',
-        timestamp: false,
+        timestamp: true,
     },
     dns: {
         servers: [
@@ -39,29 +39,48 @@ const Config114 = {
         ],
         rules: [
             {
-                action: 'evaluate',
-                server: 'PROXY-DNS',
-            },
-            {
                 clash_mode: 'direct',
-                match_response: true,
                 server: 'DIRECT-DNS',
             },
             {
                 clash_mode: 'global',
-                match_response: true,
                 server: 'PROXY-DNS',
             },
             {
                 rule_set: ['cn_domain', 'private_domain'],
+                server: 'DIRECT-DNS',
+            },
+            {
+                action: 'evaluate',
+                server: 'PROXY-DNS',
+            },
+            {
                 match_response: true,
+                response_rcode: 'NOERROR',
+                ip_accept_any: true,
+                invert: true,
+                action: 'respond',
+            },
+            {
+                type: 'logical',
+                mode: 'or',
+                rules: [
+                    {
+                        ip_is_private: true,
+                        match_response: true,
+                    },
+                    {
+                        rule_set: ['cn_ip'],
+                        match_response: true,
+                    },
+                ],
                 server: 'DIRECT-DNS',
             },
         ],
-        disable_cache: true,
-        disable_expire: true,
         final: 'PROXY-DNS',
         strategy: 'prefer_ipv4',
+        optimistic: true,
+        cache_capacity: 1000,
     },
     inbounds: [
         {
@@ -146,6 +165,13 @@ const Config114 = {
             },
         ],
         rule_set: [
+            {
+                tag: 'cn_ip',
+                type: 'remote',
+                url: 'https://jsd.onmicrosoft.cn/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs',
+                format: 'binary',
+                download_detour: '🎯 全球直连',
+            },
             {
                 tag: 'private_domain',
                 type: 'remote',

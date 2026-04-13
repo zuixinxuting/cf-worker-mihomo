@@ -11,20 +11,26 @@ export async function getmihomo_config(e) {
     if (!e.rule) {
         throw new Error('缺少规则模板');
     }
+    const alldata = await Promise.all([
+        getProxies_Data(e),
+        fetchResponse(e.rule),
+        e.exclude_package ? fetchpackExtract() : null,
+        e.exclude_address ? fetchipExtract() : null,
+    ]);
     // 获取订阅数据
-    const Proxies_Data = await getProxies_Data(e);
-    if (!Proxies_Data?.data?.proxies?.length === 0) {
+    const Proxies_Data = alldata[0];
+    if (Proxies_Data?.data?.proxies?.length === 0) {
         throw new Error('节点为空，请使用有效订阅');
     }
     // 获取规则数据
-    const Rule_Data = await fetchResponse(e.rule);
+    const Rule_Data = alldata[1];
     if (!Rule_Data?.data) {
         throw new Error('获取规则数据失败');
     }
 
     // 处理路由的排除配置
-    e.Package = e.exclude_package ? await fetchpackExtract() : null;
-    e.Address = e.exclude_address ? await fetchipExtract() : null;
+    e.Package = alldata[2];
+    e.Address = alldata[3];
 
     // 合并代理数据
     Rule_Data.data.proxies = [...(Rule_Data?.data?.proxies || []), ...Proxies_Data.data.proxies];

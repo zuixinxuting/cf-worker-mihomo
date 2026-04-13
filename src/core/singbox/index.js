@@ -7,19 +7,25 @@ import Config113 from '../../config/singbox_1.13.X.js';
 import Config114Alpha from '../../config/singbox_1.14.X_alpha.js';
 export async function getsingbox_config(e) {
     const config = structuredClone(Verbose(e));
+    const alldata = await Promise.all([
+        getOutbounds_Data(e),
+        fetchResponse(e.rule),
+        e.exclude_package ? fetchpackExtract() : null,
+        e.exclude_address ? fetchipExtract() : null,
+    ]);
     // 获取订阅数据
-    const Outbounds_Data = await getOutbounds_Data(e);
-    if (!Outbounds_Data?.data?.outbounds || Outbounds_Data?.data?.outbounds?.length === 0) {
+    const Outbounds_Data = alldata[0];
+    if (Outbounds_Data?.data?.outbounds?.length === 0) {
         throw new Error(`节点为空，请使用有效订阅`);
     }
     // 获取规则数据
-    const Rule_Data = await fetchResponse(e.rule);
+    const Rule_Data = alldata[1];
     if (!Rule_Data?.data) {
         throw new Error('获取规则数据失败');
     }
 
-    e.Package = e.exclude_package ? await fetchpackExtract() : null;
-    e.Address = e.exclude_address ? await fetchipExtract() : null;
+    e.Package = alldata[2];
+    e.Address = alldata[3];
 
     // 处理节点数据
     Outbounds_Data.data.outbounds = outboundArrs(Outbounds_Data.data);
