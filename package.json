@@ -1,6 +1,6 @@
 {
 	"name": "cf-worker-mihomo",
-	"version": "1.3.20",
+	"version": "1.3.21",
 	"description": "Cloudflare Worker for Mihomo subscription service",
 	"private": true,
 	"license": "MIT",
