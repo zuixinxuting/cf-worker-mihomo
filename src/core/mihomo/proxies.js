@@ -40,9 +40,9 @@ export default async function getProxies_Data(e) {
 }
 
 // 处理代理数组的辅助函数
-function processProxies(proxies, options, index = null) {
+function processProxies(proxies, options, index) {
     proxies.forEach((proxy) => {
-        if (index !== null) {
+        if (index > 0) {
             proxy.name = `${proxy.name} [${index}]`;
             if (options.relay) {
                 if (index === 1) {

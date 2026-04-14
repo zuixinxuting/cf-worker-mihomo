@@ -15,9 +15,6 @@ export function buildApiUrl(rawUrl, BASE_API, ua) {
     const params = new URLSearchParams({
         target: ua,
         url: rawUrl,
-        emoji: 'true',
-        list: 'true',
-        new_name: 'true',
     });
     return `${BASE_API}/sub?${params}`;
 }
@@ -44,10 +41,6 @@ export async function fetchResponse(url, userAgent) {
         if (!hopByHopHeaders.includes(key.toLowerCase())) {
             headers[key] = value;
         }
-    }
-    const sanitizedCD = sanitizeContentDisposition(headers);
-    if (sanitizedCD) {
-        headers['content-disposition'] = sanitizedCD;
     }
     const textData = await response.text();
     let data;
@@ -88,22 +81,6 @@ export function splitUrlsAndProxies(urls) {
     return result;
 }
 
-function sanitizeContentDisposition(headers) {
-    const contentDisposition = headers['content-disposition'];
-    if (!contentDisposition) return null;
-    let originalFilename = null;
-    let match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/);
-    if (match) {
-        originalFilename = decodeURIComponent(match[1]);
-    } else {
-        match = contentDisposition.match(/filename="?([^"]+)"?/);
-        if (match) originalFilename = match[1];
-    }
-    if (!originalFilename) return null;
-    const fallback = 'download.json';
-    const encoded = encodeURIComponent(originalFilename);
-    return `attachment; filename="${fallback}"; filename*=UTF-8''${encoded}`;
-}
 /**
  * 获取应用包名列表
  * @returns {Promise<Object>} - 返回配置数据对象

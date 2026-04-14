@@ -3,8 +3,9 @@ export default async function getOutbounds_Data(e) {
     const isSingle = e.urls.length === 1;
     const results = await Promise.all(e.urls.map((url, index) => fetchWithFallback(url, e).then((res) => ({ res, index }))));
 
-    const outboundsList = [];
     const responseList = [];
+    const outboundsList = [];
+
     for (const { res, index } of results) {
         if (Array.isArray(res?.data?.outbounds) && res?.data?.outbounds?.length > 0) {
             processOutbounds(res.data.outbounds, e, isSingle ? 0 : index + 1);
@@ -16,13 +17,13 @@ export default async function getOutbounds_Data(e) {
     if (responseList.length === 0) {
         throw new Error('未从任何 URL 找到有效的节点');
     }
-    const flatProxies = proxies.flat();
+    const flatoutbounds = outboundsList.flat();
     if (isSingle) {
         const response = responseList[0];
         return {
             status: response.status,
             headers: response.headers,
-            data: { outbounds: flatProxies },
+            data: { outbounds: flatoutbounds },
         };
     }
 
@@ -31,7 +32,7 @@ export default async function getOutbounds_Data(e) {
     return {
         status: randomResponse.status,
         headers: randomResponse.headers,
-        data: { outbounds: flatProxies },
+        data: { outbounds: flatoutbounds },
     };
 }
 
