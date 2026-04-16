@@ -66,7 +66,19 @@ export function Verbose(e) {
             domain_resolver: 'local',
         });
 
-        next.dns.rules = next.dns.rules.map((p) => (p.ip_accept_any && p.server ? { ...p, server: 'ECH-DNS' } : p));
+        next.dns.rules = next.dns.rules.map((p) => {
+            const rule = { ...p };
+
+            if (rule.action === 'evaluate') {
+                rule.server = 'ECH-DNS';
+            }
+
+            if (rule.ip_accept_any && rule.server) {
+                rule.server = 'ECH-DNS';
+            }
+
+            return rule;
+        });
 
         return next;
     };
