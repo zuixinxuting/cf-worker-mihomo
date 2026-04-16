@@ -40,7 +40,7 @@ const Config112Alpha = {
         rules: [
             {
                 ip_accept_any: true,
-                server: 'hosts',
+                server: 'DIRECT-DNS',
             },
             {
                 clash_mode: 'direct',
