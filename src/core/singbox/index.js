@@ -102,11 +102,11 @@ export function Verbose(e) {
 
     const v114alpha = getNum(/1\.14\.0-alpha\.(\d{1,2})\b/);
     if (/1\.13\.\d{1,2}/.test(ua) || (v114alpha !== null && v114alpha <= 9)) {
-        return Config113;
+        return injectECH(structuredClone(Config113));
     }
 
     if (v114alpha !== null) {
-        return Config114Alpha;
+        return injectECH(structuredClone(Config114Alpha));
     }
 
     throw new Error(`不支持的 Singbox 版本：${ua}`);
