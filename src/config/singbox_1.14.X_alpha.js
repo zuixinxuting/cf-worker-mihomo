@@ -56,6 +56,11 @@ const Config114 = {
             },
             {
                 match_response: true,
+                ip_accept_any: true,
+                server: 'DIRECT-DNS',
+            },
+            {
+                match_response: true,
                 response_rcode: 'NOERROR',
                 ip_accept_any: true,
                 invert: true,
