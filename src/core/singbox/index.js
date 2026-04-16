@@ -54,21 +54,50 @@ export function Verbose(e) {
         const m = ua.match(re);
         return m ? Number(m[1]) : null;
     };
+    // 通用：注入 ECH DNS（112+ 用）
+    const injectECH = (data) => {
+        data.dns.servers.push({
+            type: 'https',
+            tag: 'ECH-DNS',
+            detour: '🎯 全球直连',
+            server: 'doh.cmliussss.com',
+            path: '/CMLiussss',
+            domain_resolver: 'local',
+        });
+
+        data.dns.rules = data.dns.rules.map((p) => (p.ip_accept_any && p.server ? { ...p, server: 'ECH-DNS' } : p));
+
+        return data;
+    };
+
+    // 通用：旧版（111）ECH 注入
+    const injectECH111 = (data) => {
+        data.dns.servers.push({
+            tag: 'ECH-DNS',
+            address_resolver: 'local',
+            address: 'https://doh.cmliussss.com/CMLiussss',
+            detour: '🎯 全球直连',
+        });
+
+        data.dns.rules = data.dns.rules.map((p) => (p.outbound && p.server ? { ...p, server: 'ECH-DNS' } : p));
+
+        return data;
+    };
 
     const v112alpha = getNum(/1\.12\.0-alpha\.(\d{1,2})\b/);
     if (v112alpha !== null && v112alpha <= 23) {
-        return Config112Alpha;
+        return injectECH(structuredClone(Config112Alpha));
     }
 
     const v112beta = getNum(/1\.12\.0-beta\.(\d{1,2})\b/);
     if (/1\.11\.\d{1,2}/.test(ua) || (v112beta !== null && v112beta <= 9)) {
         e.tailscale = false;
         e.tls_fragment = false;
-        return Config111;
+        return injectECH111(structuredClone(Config111));
     }
 
     if (/1\.12\.\d{1,2}/.test(ua)) {
-        return Config112;
+        return injectECH(structuredClone(Config112));
     }
 
     const v114alpha = getNum(/1\.14\.0-alpha\.(\d{1,2})\b/);
