@@ -50,21 +50,10 @@ const Config114 = {
                 rule_set: ['cn_domain', 'private_domain'],
                 server: 'DIRECT-DNS',
             },
+            // evaluate 解析并储存ip > 如果等于 cnip 或 局域网 用 DIRECT-DNS 再次解析并覆盖结果 > 成功则拦截,失败则继续往下匹配 fallback
             {
                 action: 'evaluate',
                 server: 'PROXY-DNS',
-            },
-            {
-                match_response: true,
-                ip_accept_any: true,
-                server: 'PROXY-DNS',
-            },
-            {
-                match_response: true,
-                response_rcode: 'NOERROR',
-                ip_accept_any: true,
-                invert: true,
-                action: 'respond',
             },
             {
                 type: 'logical',
@@ -80,6 +69,12 @@ const Config114 = {
                     },
                 ],
                 server: 'DIRECT-DNS',
+            },
+            {
+                match_response: true,
+                response_rcode: 'NOERROR',
+                ip_accept_any: true,
+                action: 'respond',
             },
         ],
         final: 'PROXY-DNS',
