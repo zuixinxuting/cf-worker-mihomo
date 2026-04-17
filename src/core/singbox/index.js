@@ -410,16 +410,17 @@ export function applyTemplate(top, rule, e) {
                 detour: '🎯 全球直连',
             },
         ];
+        // 替换 download_detour
         top.route.rule_set = top.route.rule_set.map((p) => {
             if (p.download_detour) {
                 const { download_detour, ...rest } = p;
                 return {
                     ...rest,
-                    http_client: 'DIRECT-clients',
                 };
             }
             return p;
         });
+        top.route.default_http_client = 'DIRECT-clients';
     }
     return top;
 }
