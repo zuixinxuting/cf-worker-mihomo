@@ -343,7 +343,7 @@ export function applyTemplate(top, rule, e) {
         }
         return p;
     });
-    const isV112 = /1\.(1[2-9]|[2-9]\d)/i.test(e.userAgent);
+    const isV112 = /1\.(1[2-9]|[2-9]\d)\.\d+/i.test(e.userAgent);
     if (e.adgdns) {
         top.dns.servers = top.dns.servers.map((p) => {
             if (p.tag === 'DIRECT-DNS') {
@@ -379,6 +379,44 @@ export function applyTemplate(top, rule, e) {
                           address: 'https://dns.adguard-dns.com/dns-query',
                           detour: '🎯 全球直连',
                       };
+            }
+            return p;
+        });
+    }
+    // Singbox v1.14.0-alpha.13 引入了 http_clients 代替 download_detour 字段
+    function parse(v) {
+        const m = v.match(/1\.(\d+)\.(\d+)(?:-alpha\.(\d+))?/i);
+        if (!m) return null;
+        return {
+            minor: +m[1],
+            patch: +m[2],
+            alpha: m[3] !== undefined ? +m[3] : Infinity,
+        };
+    }
+    function gt(a, b) {
+        if (a.minor !== b.minor) return a.minor > b.minor;
+        if (a.patch !== b.patch) return a.patch > b.patch;
+        return a.alpha > b.alpha;
+    }
+    const v = parse(e.userAgent);
+    const isV114 = v && gt(v, { minor: 14, patch: 0, alpha: 12 });
+    if (isV114) {
+        top.http_clients = [
+            {
+                tag: 'DIRECT-clients',
+                engine: 'go',
+                version: 2,
+                disable_version_fallback: false,
+                detour: '🎯 全球直连',
+            },
+        ];
+        top.route.rule_set = top.route.rule_set.map((p) => {
+            if (p.download_detour) {
+                const { download_detour, ...rest } = p;
+                return {
+                    ...rest,
+                    http_client: 'DIRECT-clients',
+                };
             }
             return p;
         });
