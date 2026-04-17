@@ -39,10 +39,6 @@ const Config112 = {
         ],
         rules: [
             {
-                ip_accept_any: true,
-                server: 'hosts',
-            },
-            {
                 clash_mode: 'direct',
                 server: 'DIRECT-DNS',
             },
@@ -53,6 +49,10 @@ const Config112 = {
             {
                 rule_set: ['cn_domain', 'private_domain'],
                 server: 'DIRECT-DNS',
+            },
+            {
+                ip_accept_any: true,
+                server: 'PROXY-DNS',
             },
         ],
         disable_cache: true,

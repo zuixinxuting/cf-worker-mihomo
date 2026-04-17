@@ -31,10 +31,6 @@ const Config111 = {
         ],
         rules: [
             {
-                outbound: 'any',
-                server: 'DIRECT-DNS',
-            },
-            {
                 clash_mode: 'direct',
                 server: 'DIRECT-DNS',
             },
@@ -45,6 +41,10 @@ const Config111 = {
             {
                 rule_set: ['cn_domain', 'private_domain'],
                 server: 'DIRECT-DNS',
+            },
+            {
+                outbound: 'any',
+                server: 'PROXY-DNS',
             },
         ],
         disable_cache: true,
