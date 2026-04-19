@@ -593,12 +593,14 @@ export async function getFakePage(e) {
             const checkboxes = container.querySelectorAll('.proto-check');
             const protocolParams = {};
             checkboxes.forEach(cb => { protocolParams[cb.value] = cb.checked; });
-            // 获取 log select 的值
-            const logSelect = container.querySelector('.log-select');
-            let logValue = '';
-            if (logSelect && logSelect.value) {
-                logValue = logSelect.value;
-            }
+            // 获取所有下拉框的值（通用）
+            const selects = container.querySelectorAll('.proto-select');
+            selects.forEach(select => {
+                const protoName = select.getAttribute('data-proto');
+                if (select.value) {
+                    protocolParams[protoName] = select.value;
+                }
+            });
             if (links.length === 0 && !templateVal) {
                 alert('请至少填写一个订阅链接或选择一个模板');
                 return;
@@ -609,11 +611,13 @@ export async function getFakePage(e) {
             if (templateVal) params.set('template', templateVal);
             if (links.length) params.set('url', links.join(','));
             params.set('target', modeId);
-            for (const [key, enabled] of Object.entries(protocolParams)) {
-                if (enabled) params.set(key, 'true');
-            }
-            if (logValue) {
-                params.set('log', logValue);
+            // 统一设置参数
+            for (const [key, value] of Object.entries(protocolParams)) {
+                if (value === true) {
+                    params.set(key, 'true');
+                } else if (typeof value === 'string' && value) {
+                    params.set(key, value);
+                }
             }
             const fullUrl = \`\${origin}/?\${params.toString()}\`;
 
@@ -745,29 +749,29 @@ export async function getFakePage(e) {
             linksWrapper.appendChild(firstRow);
             linkCard.appendChild(linksWrapper);
             panel.appendChild(linkCard);
-
             if (meta.protocolList && meta.protocolList.length) {
                 const protoCard = document.createElement('div');
                 protoCard.className = 'form-card';
                 protoCard.innerHTML = \`<div class="section-title">⚙️ 附加参数</div><div class="checkbox-group" id="proto-group-\${modeId}"></div>\`;
                 const groupDiv = protoCard.querySelector(\`#proto-group-\${modeId}\`);
+    
                 meta.protocolList.forEach(proto => {
-                    if (proto === 'log' && meta.logOptions) {
-                        // log 特殊处理为下拉框
-                        const logContainer = document.createElement('div');
-                        logContainer.style.display = 'flex';
-                        logContainer.style.alignItems = 'center';
-                        logContainer.style.gap = '12px';
-                        logContainer.style.marginBottom = '8px';
-                        logContainer.style.flexWrap = 'wrap';
+                    const protoConfig = meta.protocolLabels[proto];
+        
+                    // 通用判断：如果是对象且有 levels 属性，则渲染为下拉框
+                    if (protoConfig && typeof protoConfig === 'object' && protoConfig.levels) {
+                        // 下拉框处理（通用）
+                        const selectContainer = document.createElement('div');
+                        selectContainer.style.display = 'flex';
+                        selectContainer.style.alignItems = 'center';
+                        selectContainer.style.gap = '12px';
+                        selectContainer.style.marginBottom = '8px';
+                        selectContainer.style.flexWrap = 'wrap';
 
-                        const logLabel = document.createElement('span');
-                        logLabel.style.fontSize = '0.85rem';
-                        logLabel.style.fontWeight = '500';
-
+                        const selectLabel = document.createElement('span');
                         const select = document.createElement('select');
-                        select.className = 'log-select';
-                        select.setAttribute('data-proto', 'log');
+                        select.className = 'proto-select';
+                        select.setAttribute('data-proto', proto);
                         select.style.padding = '6px 12px';
                         select.style.borderRadius = '30px';
                         select.style.border = '1.5px solid var(--border-light)';
@@ -778,23 +782,25 @@ export async function getFakePage(e) {
                         // 添加默认选项
                         const defaultOption = document.createElement('option');
                         defaultOption.value = '';
-                        defaultOption.innerText = '日志级别';
+                        defaultOption.innerText = \`请选择\${protoConfig.label || proto}\`;
                         select.appendChild(defaultOption);
-                
+    
                         // 添加各级别选项
-                        meta.logOptions.levels.forEach(level => {
+                        protoConfig.levels.forEach(level => {
                             const option = document.createElement('option');
                             option.value = level;
                             option.innerText = level;
                             select.appendChild(option);
                         });
 
-                        logContainer.appendChild(logLabel);
-                        logContainer.appendChild(select);
-                        groupDiv.appendChild(logContainer);
+                        selectContainer.appendChild(selectLabel);
+                        selectContainer.appendChild(select);
+                        groupDiv.appendChild(selectContainer);
                     } else {
+                        // 复选框处理（字符串或没有 levels 的对象）
                         const label = document.createElement('label');
-                        label.innerHTML = \`<input type="checkbox" class="proto-check" value="\${proto}"> <span>\${meta.protocolLabels[proto] || proto}</span>\`;
+                        const labelText = (typeof protoConfig === 'object' && protoConfig.label) ? protoConfig.label : (protoConfig || proto);
+                        label.innerHTML = \`<input type="checkbox" class="proto-check" value="\${proto}"> <span>\${labelText}</span>\`;
                         groupDiv.appendChild(label);
                     }
                 });
