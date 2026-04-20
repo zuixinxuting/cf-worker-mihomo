@@ -37,11 +37,10 @@ export default function configs() {
                 adgdns: '去广告DNS',
                 tun: '仅代理',
                 fallback: 'fallback',
-                log: '',
-            },
-            logOptions: {
-                levels: ['silent', 'error', 'warning', 'info', 'debug'],
-                default: '',
+                log: {
+                    label: '日志等级',
+                    levels: ['silent', 'error', 'warning', 'info', 'debug'],
+                },
             },
             templates: {
                 通用: [
@@ -167,11 +166,10 @@ export default function configs() {
                 adgdns: '去广告DNS',
                 tun: '仅代理',
                 fallback: 'fallback',
-                log: '',
-            },
-            logOptions: {
-                levels: ['trace', 'debug', 'info', 'warn', 'error', 'fatal', 'panic'],
-                default: '',
+                log: {
+                    label: '日志等级',
+                    levels: ['trace', 'debug', 'info', 'warn', 'error', 'fatal', 'panic'],
+                },
             },
             templates: {
                 通用: [
