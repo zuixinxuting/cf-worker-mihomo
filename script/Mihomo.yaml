@@ -221,6 +221,10 @@ tun:
   dns-hijack:
     - any:53 # 劫持所有 53 端口的 DNS 请求
     - tcp://any:53 # 劫持 TCP 53 端口的 DNS 请求
+  inet4-address:
+    - 198.18.0.1/30
+  inet6-address:
+    - fdfe:dcba:9876::1/126
   device: mihomo # 指定 TUN 设备名称，默认为 utun
   mtu: 1500 # 设置最大传输单元 (MTU)，提高网络吞吐量
   strict-route: true # 启用 auto-route 时执行严格的路由规则
