@@ -61,8 +61,8 @@ export function Verbose(e) {
             type: 'https',
             tag: 'ECH-DNS',
             detour: '🎯 全球直连',
-            server: 'doh.cmliussss.com',
-            path: '/CMLiussss',
+            server: 'google.88366388.xyz/',
+            path: '/marisa',
             domain_resolver: 'local',
         });
 
@@ -89,7 +89,7 @@ export function Verbose(e) {
         next.dns.servers.push({
             tag: 'ECH-DNS',
             address_resolver: 'local',
-            address: 'https://doh.cmliussss.com/CMLiussss',
+            address: 'https://google.88366388.xyz/marisa',
             detour: '🎯 全球直连',
         });
 
