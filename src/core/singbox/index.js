@@ -61,7 +61,7 @@ export function Verbose(e) {
             type: 'https',
             tag: 'ECH-DNS',
             detour: '🎯 全球直连',
-            server: 'google.88366388.xyz/',
+            server: 'google.88366388.xyz',
             path: '/marisa',
             domain_resolver: 'local',
         });
