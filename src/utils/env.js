@@ -49,9 +49,14 @@ export function buildConfig(request, env, isNode = false) {
     data.beian = getEnv('BEIAN', beiantext);
     data.beianurl = getEnv('BEIANURL', beiandizi);
 
+    const templateBaseUrl = getEnv('TEMPLATE_URL', '');
     const template = getParam('template');
     if (template) {
-        data.rule = `${url.origin}${isNode ? '/template' : ''}/${data.target}${getParam('template') ? getParam('template') : ''}`;
+        if (templateBaseUrl) {
+            data.rule = `${templateBaseUrl}/${data.target}${template}`;
+        } else {
+            data.rule = `${url.origin}${isNode ? '/template' : ''}/${data.target}${template}`;
+        }
     }
 
     return data;
