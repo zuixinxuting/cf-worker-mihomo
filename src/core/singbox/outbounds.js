@@ -56,7 +56,7 @@ function processOutbounds(outbounds, options, index) {
         if (options.udp_fragment) {
             outbound.udp_fragment = true;
         }
-        if (options.ech && outbound.tls) {
+        if (options.ech && outbound.tls && !outbound.tls?.reality) {
             outbound.tls = {
                 ...outbound.tls,
                 ech: {

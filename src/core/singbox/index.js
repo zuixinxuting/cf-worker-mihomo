@@ -127,8 +127,7 @@ export function Verbose(e) {
     }
     // 1.14.0-alpha.30+
     if (v114alpha !== null && v114alpha >= 30) {
-        const config = e.ech ? injectECH(Config114Alpha) : Config114Alpha;
-        config.services.push({
+        Config114Alpha.services.push({
             type: 'api',
             listen: '::',
             listen_port: 9091,
@@ -144,7 +143,7 @@ export function Verbose(e) {
             },
         });
 
-        return e.ech ? injectECH(config) : config;
+        return e.ech ? injectECH(Config114Alpha) : Config114Alpha;
     }
     throw new Error(`不支持的 Singbox 版本：${ua}`);
 }
@@ -372,36 +371,36 @@ export function applyTemplate(top, rule, e) {
             if (p.tag === 'DIRECT-DNS') {
                 return isV112
                     ? {
-                        type: 'https',
-                        tag: 'DIRECT-DNS',
-                        detour: '🎯 全球直连',
-                        server: 'doh.18bit.cn',
-                        domain_resolver: 'local',
-                    }
+                          type: 'https',
+                          tag: 'DIRECT-DNS',
+                          detour: '🎯 全球直连',
+                          server: 'doh.18bit.cn',
+                          domain_resolver: 'local',
+                      }
                     : {
-                        tag: 'DIRECT-DNS',
-                        address_resolver: 'local',
-                        address: 'https://doh.18bit.cn/dns-query',
-                        detour: '🎯 全球直连',
-                    };
+                          tag: 'DIRECT-DNS',
+                          address_resolver: 'local',
+                          address: 'https://doh.18bit.cn/dns-query',
+                          detour: '🎯 全球直连',
+                      };
             }
             if (p.tag === 'PROXY-DNS') {
                 return isV112
                     ? {
-                        type: 'https',
-                        tag: 'PROXY-DNS',
-                        detour: '🚀 节点选择',
-                        server_port: 443,
-                        server: 'dns.adguard-dns.com',
-                        path: '/dns-query',
-                        domain_resolver: 'local',
-                    }
+                          type: 'https',
+                          tag: 'PROXY-DNS',
+                          detour: '🚀 节点选择',
+                          server_port: 443,
+                          server: 'dns.adguard-dns.com',
+                          path: '/dns-query',
+                          domain_resolver: 'local',
+                      }
                     : {
-                        tag: 'DIRECT-DNS',
-                        address_resolver: 'local',
-                        address: 'https://dns.adguard-dns.com/dns-query',
-                        detour: '🎯 全球直连',
-                    };
+                          tag: 'DIRECT-DNS',
+                          address_resolver: 'local',
+                          address: 'https://dns.adguard-dns.com/dns-query',
+                          detour: '🎯 全球直连',
+                      };
             }
             return p;
         });
