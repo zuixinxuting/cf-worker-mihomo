@@ -127,7 +127,8 @@ export default function configs() {
             tipMarkdown: `
 ## sing-box 
 - 支持多链接合并
-- 面板: http://127.0.0.1:9090 
+- clash api 面板: http://127.0.0.1:9090 
+- singbox api 面板: http:// 127.0.0.1:9091
 - mixed(http+socks) 端口: 7890
 - **附加参数说明**  
 
