@@ -46,11 +46,7 @@ const Config114 = {
                 clash_mode: 'global',
                 server: 'PROXY-DNS',
             },
-            {
-                rule_set: ['cn_domain', 'private_domain'],
-                server: 'DIRECT-DNS',
-            },
-            // evaluate 解析并储存ip > 如果等于 cnip 或 局域网 用 DIRECT-DNS 再次解析并覆盖结果 > 成功则拦截,失败则继续往下匹配 fallback
+            // evaluate 解析并储存ip > 如果等于 cnip 或 cn域名 或 私有域名 用 DIRECT-DNS 再次解析并覆盖结果 > 成功则拦截,失败则继续往下匹配 fallback
             {
                 action: 'evaluate',
                 server: 'PROXY-DNS',
@@ -60,12 +56,11 @@ const Config114 = {
                 mode: 'or',
                 rules: [
                     {
-                        ip_is_private: true,
+                        rule_set: ['cn_ip'],
                         match_response: true,
                     },
                     {
-                        rule_set: ['cn_ip'],
-                        match_response: true,
+                        rule_set: ['cn_domain', 'private_domain'],
                     },
                 ],
                 server: 'DIRECT-DNS',

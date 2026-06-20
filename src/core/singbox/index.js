@@ -137,8 +137,8 @@ export function Verbose(e) {
             dashboard: {
                 enabled: true,
                 path: 'dashboard',
-                download_url: 'https://github.com/SagerNet/sing-box-dashboard/archive/refs/heads/gh-pages.zip',
-                http_client: 'PROXY-clients',
+                download_url: 'https://ghfast.top/github.com/SagerNet/sing-box-dashboard/archive/refs/heads/gh-pages.zip',
+                http_client: 'DIRECT-clients',
                 update_interval: '1d',
             },
         });
