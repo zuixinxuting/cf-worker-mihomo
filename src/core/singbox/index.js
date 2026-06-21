@@ -43,6 +43,7 @@ export async function getsingbox_config(e) {
         data: JSON.stringify(config, null, 4),
     };
 }
+
 export function Verbose(e) {
     const ua = e.userAgent;
 
@@ -97,32 +98,53 @@ export function Verbose(e) {
 
         return next;
     };
-
+    // sing-box 1.12.0-alpha.0 ~ 1.12.0-alpha.23
     const v112alpha = getNum(/1\.12\.0-alpha\.(\d{1,2})\b/);
     if (v112alpha !== null && v112alpha <= 23) {
         return e.ech ? injectECH(Config112Alpha) : Config112Alpha;
     }
-
+    // sing-box 1.11.x
+    // sing-box 1.12.0-beta.0 ~ 1.12.0-beta.9
     const v112beta = getNum(/1\.12\.0-beta\.(\d{1,2})\b/);
     if (/1\.11\.\d{1,2}/.test(ua) || (v112beta !== null && v112beta <= 9)) {
         e.tailscale = false;
         e.tls_fragment = false;
         return e.ech ? injectECH111(Config111) : Config111;
     }
-
+    // sing-box 1.12.x
     if (/1\.12\.\d{1,2}/.test(ua)) {
         return e.ech ? injectECH(Config112) : Config112;
     }
-
+    // sing-box 1.13.x
+    // sing-box 1.14.0-alpha.0 ~ 1.14.0-alpha.9
     const v114alpha = getNum(/1\.14\.0-alpha\.(\d{1,2})\b/);
     if (/1\.13\.\d{1,2}/.test(ua) || (v114alpha !== null && v114alpha <= 9)) {
         return e.ech ? injectECH(Config113) : Config113;
     }
-
-    if (v114alpha !== null) {
+    // 1.14.0-alpha.10 ~ 1.14.0-alpha.29
+    if (v114alpha !== null && v114alpha < 30) {
         return e.ech ? injectECH(Config114Alpha) : Config114Alpha;
     }
+    // 1.14.0-alpha.30+
+    if (v114alpha !== null && v114alpha >= 30) {
+        Config114Alpha.services.push({
+            type: 'api',
+            listen: '::',
+            listen_port: 9091,
+            secret: '',
+            access_control_allow_origin: ['*'],
+            access_control_allow_private_network: true,
+            dashboard: {
+                enabled: true,
+                path: 'dashboard',
+                download_url: 'https://ghfast.top/github.com/SagerNet/sing-box-dashboard/archive/refs/heads/gh-pages.zip',
+                http_client: 'DIRECT-clients',
+                update_interval: '1d',
+            },
+        });
 
+        return e.ech ? injectECH(Config114Alpha) : Config114Alpha;
+    }
     throw new Error(`不支持的 Singbox 版本：${ua}`);
 }
 /**
@@ -401,6 +423,7 @@ export function applyTemplate(top, rule, e) {
     const v = parse(e.userAgent);
     const isV114 = v && gt(v, { minor: 14, patch: 0, alpha: 12 });
     if (isV114) {
+        const proxyname = rule.outbounds[0].tag;
         top.http_clients = [
             {
                 tag: 'DIRECT-clients',
@@ -408,6 +431,13 @@ export function applyTemplate(top, rule, e) {
                 version: 2,
                 disable_version_fallback: false,
                 detour: '🎯 全球直连',
+            },
+            {
+                tag: 'PROXY-clients',
+                engine: 'go',
+                version: 2,
+                disable_version_fallback: false,
+                detour: proxyname,
             },
         ];
         // 替换 download_detour

@@ -20,14 +20,13 @@ export async function handleRequest(e) {
             default:
                 throw new Error('Invalid config type');
         }
+        const headers = new Headers(result.headers);
+        headers.set('Content-Type', 'application/json; charset=utf-8');
+        headers.set('Profile-web-page-url', e.url.origin);
 
         return {
             status: result.status || 200,
-            headers: {
-                ...result.headers,
-                'Content-Type': 'application/json; charset=utf-8',
-                'Profile-web-page-url': e.url.origin,
-            },
+            headers: headers,
             body: result.data,
         };
     }
